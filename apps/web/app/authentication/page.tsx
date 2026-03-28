@@ -33,20 +33,18 @@ export default function AuthenticationPage() {
                 </div>
 
 
-                <div className="flex flex-col items-center justify-center w-full">
-                    <FieldGroup className="mx-auto">
-                        <Field orientation="horizontal" data-invalid="false">
-                            <Checkbox
-                                id="terms-checkbox-invalid"
-                                name="terms-checkbox-invalid"
-                                aria-invalid="false"
-                            />
-                            <FieldLabel htmlFor="terms-checkbox-invalid" className="font-normal text-xs">
-                                I agree to the Terms of Service and Privacy Policy
-                            </FieldLabel>
-                        </Field>
-                    </FieldGroup>
-                </div>
+                <FieldGroup className="w-full items-center">
+                    <Field orientation="horizontal" data-invalid="false" className="w-auto">
+                        <Checkbox
+                            id="terms-checkbox-invalid"
+                            name="terms-checkbox-invalid"
+                            aria-invalid="false"
+                        />
+                        <FieldLabel htmlFor="terms-checkbox-invalid" className="font-normal text-xs">
+                            I agree to the Terms of Service and Privacy Policy
+                        </FieldLabel>
+                    </Field>
+                </FieldGroup>
             </div>
         </div>
     )
