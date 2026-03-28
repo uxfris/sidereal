@@ -1,15 +1,28 @@
 export async function loginWithGoogle() {
-    console.log("API: Google login")
+    try {
+        console.log("Logging in with Google...");
+
+        return { success: true }
+    } catch (error) {
+        throw new Error("Failed to login with Google")
+    }
 }
 
 export async function loginWithMicrosoft() {
-    console.log("API: Microsoft login")
+    try {
+        console.log("Logging in with Microsoft...");
+        return { success: true }
+    } catch (error) {
+        throw new Error("Failed to login with Microsoft")
+    }
 }
 
 export async function loginWithEmail(email: string) {
-    //simulate API call
-    console.log("API: email login", email)
+    try {
+        console.log("Logging in with Email:", email);
 
-    //example:
-    // return await fetch("/api/auth/email", {...})
+        return { success: true }
+    } catch (error) {
+        throw new Error("Failed to login with Email")
+    }
 }
