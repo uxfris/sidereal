@@ -3,7 +3,7 @@
 import LogoIcon from "@/assets/icons/logo-icon";
 import { Button } from "@workspace/ui/components/button";
 import { Checkbox } from "@workspace/ui/components/checkbox";
-import { FieldGroup, Field, FieldContent, FieldLabel, FieldDescription } from "@workspace/ui/components/field";
+import { FieldGroup, Field, FieldLabel } from "@workspace/ui/components/field";
 import Image from "next/image";
 import React from "react";
 
