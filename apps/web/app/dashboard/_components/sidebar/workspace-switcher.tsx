@@ -30,8 +30,8 @@ export function WorkspaceSwitcher() {
                             <div className="flex aspect-square size-8 items-center justify-center">
                                 <span className="flex items-center justify-center rounded-[4px] bg-primary text-primary-foreground size-6 text-center text-xs font-medium -ml-4" aria-hidden="true">F</span>
                             </div>
-                            <span className="flex-1 font-medium">Fris's Sidereal</span>
-                            <ChevronDown className="ml-auto" />
+                            <span className="flex-1 truncate font-medium group-data-[state=collapsed]:hidden">Fris's Sidereal</span>
+                            <ChevronDown className="ml-auto group-data-[state=collapsed]:hidden" />
                         </SidebarMenuButton>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent className="py-2 shadow-md ring-border w-[--radix-popper-anchor-width]" >

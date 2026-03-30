@@ -1,16 +1,18 @@
 import { Home, Inbox, Monitor, PaintRoller, Settings, Sun, User } from "@solar-icons/react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuPortal, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger } from "@workspace/ui/components/dropdown-menu";
-import { SidebarMenuButton, SidebarMenuItem } from "@workspace/ui/components/sidebar";
+import { SidebarMenuButton, SidebarMenuItem, useSidebar } from "@workspace/ui/components/sidebar";
 import { Avatar, AvatarImage, AvatarFallback } from "@workspace/ui/components/avatar";
 import Image from "next/image";
 import { Logout, Moon } from "@solar-icons/react/ssr";
+import { cn } from "@workspace/ui/lib/utils";
 
 export function NavUser() {
+    const { state } = useSidebar()
     return (
-        <SidebarMenuItem className="items-center justify-between flex">
+        <SidebarMenuItem className={cn("items-center justify-between flex", state === "collapsed" && "flex-col")}>
             <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                    <SidebarMenuButton className="w-auto">
+                    <SidebarMenuButton className="w-auto items-center justify-center">
                         <Avatar className="w-5 h-5">
                             <AvatarImage
                                 src={"https://assets.lummi.ai/assets/Qmeh9r8a3AE8dQyCTSLiqVKLgu6HKEvJWaEwxMUMyDqHn5?auto=format&w=150"}

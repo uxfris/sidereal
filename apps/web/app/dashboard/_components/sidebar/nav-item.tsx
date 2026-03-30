@@ -13,7 +13,7 @@ export function AppSidebarMenuButton({ item }: { item: NavItem }) {
         >
             <a href={url}>
                 <span className="size-3.5"><Icon /></span>
-                <span className="flex-1 text-sm">{label}</span>
+                <span className="flex-1 text-sm transition-all duration-200 ease-out group-data-[state=collapsed]:hidden"> {label}</span>
                 {badge}
             </a>
         </SidebarMenuButton>

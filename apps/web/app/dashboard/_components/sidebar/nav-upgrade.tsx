@@ -3,13 +3,13 @@ import { SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "@workspace/ui/c
 
 export default function NavUpgrade() {
     return (
-        <SidebarMenuItem>
+        <SidebarMenuItem className="transition-opacity duration-500 group-data-[state=collapsed]:opacity-0">
             <SidebarMenuButton className="justify-between border border-foreground/10 rounded-lg py-7 px-3 hover:bg-primary/10">
                 <div className="flex flex-col">
-                    <span className="text-sm font-semibold">Upgrade to Pro</span>
-                    <span className="text-xs text-muted-foreground">Unlock more benefits</span>
+                    <span className="truncate text-sm font-semibold">Upgrade to Pro</span>
+                    <span className=" truncate text-xs text-muted-foreground">Unlock more benefits</span>
                 </div>
-                <div className="w-8 h-8 bg-accent flex items-center justify-center rounded-full">
+                <div className="w-8 h-8 bg-accent flex items-center justify-center rounded-full truncate">
                     <Bolt size={5} weight="Bold" />
                 </div>
             </SidebarMenuButton>

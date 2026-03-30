@@ -26,7 +26,7 @@ export function NavSearch({ item }: { item: NavItem }) {
             <DialogTrigger className="w-full">
                 <AppSidebarMenuButton item={{
                     ...item,
-                    badge: <div className="text-xs gap-0.5 px-1 py-0.5 rounded-sm border border-foreground/10 bg-muted brightness-95">
+                    badge: <div className="text-xs gap-0.5 px-1 py-0.5 rounded-sm border border-foreground/10 bg-muted brightness-95 group-data-[state=collapsed]:hidden">
                         <SmartKbd action="search" />
                     </div>
                 }} />
