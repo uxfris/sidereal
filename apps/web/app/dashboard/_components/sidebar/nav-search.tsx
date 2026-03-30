@@ -7,7 +7,7 @@ import {
     DialogTrigger,
 } from "@workspace/ui/components/dialog"
 import { SmartKbd } from "@workspace/ui/components/smart-kbd"
-import { AppSidebarMenuButton } from "./app-sidebar-menu-button"
+import { AppSidebarMenuButton } from "./nav-item"
 
 export function NavSearchMenu({ item }: { item: { label: string, url: string, icon: React.ReactNode } }) {
     return (

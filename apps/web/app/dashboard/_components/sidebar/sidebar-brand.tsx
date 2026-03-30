@@ -5,7 +5,7 @@ import { SmartKbd } from "@workspace/ui/components/smart-kbd";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@workspace/ui/components/tooltip";
 import Link from "next/link";
 
-export function AppSidebarHeader() {
+export function SidebarBrand() {
     return (
         <div className="flex items-center justify-between mb-3">
             <Link href="https://sidereal.ai" className="size-7 ml-1"><LogoIcon /></Link>

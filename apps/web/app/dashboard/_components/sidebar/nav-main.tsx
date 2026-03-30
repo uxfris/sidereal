@@ -1,5 +1,5 @@
 import { SidebarGroup, SidebarMenu, SidebarMenuItem } from "@workspace/ui/components/sidebar";
-import { AppSidebarMenuButton } from "./app-sidebar-menu-button";
+import { AppSidebarMenuButton } from "./nav-item";
 import { NavSearchMenu } from "./nav-search";
 
 

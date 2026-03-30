@@ -18,7 +18,7 @@ import { ChevronRight, MoreHorizontal, Plus } from "lucide-react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@workspace/ui/components/dropdown-menu";
 import { MoveToFolder } from "@solar-icons/react/ssr";
 
-export function SidebarCollapsibleMeetings({ item }: { item: { label: string, url: string, icon: React.ReactNode } }) {
+export function NavCollapsibleMeetings({ item }: { item: { label: string, url: string, icon: React.ReactNode } }) {
     return (
         <Collapsible
             asChild
