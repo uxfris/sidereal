@@ -7,12 +7,14 @@ import {
     SidebarContent,
     SidebarFooter,
     SidebarHeader,
+    SidebarMenu,
 } from "@workspace/ui/components/sidebar"
 
 import { SidebarBrand } from "./sidebar-brand";
 import { navIntegrations, navMain, navMeetings, navUploads } from "../../_lib/data";
 import { NavItem } from "../../_types";
 import { SidebarGroupItem } from "./sidebar-group-item";
+import NavUpgrade from "./nav-upgrade";
 
 
 
@@ -42,7 +44,12 @@ export function AppSidebar() {
                 <SidebarGroupItem groupLabel="Uploads" items={withState(navUploads)} />
                 <SidebarGroupItem groupLabel="Integrations" items={withState(navIntegrations)} />
             </SidebarContent>
-            <SidebarFooter />
+            <SidebarFooter >
+                <SidebarMenu className="gap-8">
+                    <NavUpgrade />
+                    {/* <NavUser/>                 */}
+                </SidebarMenu>
+            </SidebarFooter>
         </Sidebar>
     )
 }
