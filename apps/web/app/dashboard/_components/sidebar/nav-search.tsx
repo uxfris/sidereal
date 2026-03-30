@@ -8,14 +8,14 @@ import {
 } from "@workspace/ui/components/dialog"
 import { SmartKbd } from "@workspace/ui/components/smart-kbd"
 import { AppSidebarMenuButton } from "./nav-item"
+import { Icon } from "@solar-icons/react/lib/types"
 
-export function NavSearchMenu({ item }: { item: { label: string, url: string, icon: React.ReactNode } }) {
+export function NavSearchMenu({ item }: { item: { label: string, url: string, icon: Icon } }) {
     return (
         <Dialog>
             <DialogTrigger className="w-full">
                 <AppSidebarMenuButton
-                    href={item.url} label={item.label} icon={item.icon} badge={<div className="text-xs gap-0.5 px-1 py-0.5 rounded-sm border border-foreground/10 bg-muted brightness-95"><SmartKbd keys={["K"]} /></div>}
-                />
+                    href={item.url} label={item.label} icon={item.icon} badge={<div className="text-xs gap-0.5 px-1 py-0.5 rounded-sm border border-foreground/10 bg-muted brightness-95"><SmartKbd keys={["K"]} /></div>} isActive={false} />
             </DialogTrigger>
             <DialogContent>
                 <DialogHeader>

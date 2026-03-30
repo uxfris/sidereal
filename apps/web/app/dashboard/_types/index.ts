@@ -1,3 +1,13 @@
+import { Icon } from "@solar-icons/react/lib/types"
+
+export type NavItem = {
+    label: string,
+    url: string,
+    icon: Icon,
+    active?: boolean
+}
+
+
 export type MeetingStatus = "analyzing" | "processing" | "generating"
 
 export interface Meeting {

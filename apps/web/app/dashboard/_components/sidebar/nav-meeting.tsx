@@ -1,8 +1,9 @@
 import { SidebarGroup, SidebarGroupLabel, SidebarMenu, SidebarMenuItem } from "@workspace/ui/components/sidebar";
 import { NavCollapsibleMeetings } from "./nav-collapsible-meetings";
 import { AppSidebarMenuButton } from "./nav-item";
+import { NavItem } from "../../_types";
 
-export function NavMeeting({ items }: { items: { label: string, url: string, icon: React.ReactNode }[] }) {
+export function NavMeeting({ items }: { items: NavItem[] }) {
     return (
         <SidebarGroup>
             <SidebarGroupLabel>Meetings</SidebarGroupLabel>
@@ -17,8 +18,7 @@ export function NavMeeting({ items }: { items: { label: string, url: string, ico
                         }} /> :
                         <SidebarMenuItem key={item.url}>
                             <AppSidebarMenuButton
-                                href={item.url} label={item.label} icon={item.icon}
-                            />
+                                href={item.url} label={item.label} icon={item.icon} isActive={item.active} />
                         </SidebarMenuItem>
                 ))}
             </SidebarMenu>

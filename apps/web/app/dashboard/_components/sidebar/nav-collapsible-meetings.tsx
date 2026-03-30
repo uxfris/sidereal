@@ -17,8 +17,10 @@ import {
 import { ChevronRight, MoreHorizontal, Plus } from "lucide-react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@workspace/ui/components/dropdown-menu";
 import { MoveToFolder } from "@solar-icons/react/ssr";
+import { Icon } from "@solar-icons/react/lib/types";
 
-export function NavCollapsibleMeetings({ item }: { item: { label: string, url: string, icon: React.ReactNode } }) {
+export function NavCollapsibleMeetings({ item }: { item: { label: string, url: string, icon: Icon } }) {
+    const Icon = item.icon;
     return (
         <Collapsible
             asChild
@@ -28,7 +30,7 @@ export function NavCollapsibleMeetings({ item }: { item: { label: string, url: s
             <SidebarMenuItem>
                 <CollapsibleTrigger asChild>
                     <SidebarMenuButton tooltip="Meetings" className="py-5">
-                        {item.icon}
+                        {<Icon />}
                         <span>{item.label}</span>
                         <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
                     </SidebarMenuButton>

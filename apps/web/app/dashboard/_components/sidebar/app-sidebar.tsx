@@ -1,9 +1,7 @@
 "use client"
 
-import { ChecklistMinimalistic, Home, MinimalisticMagnifier, Star, User, UsersGroupRounded, Widget } from "@solar-icons/react";
 import { usePathname } from "next/navigation";
 import { WorkspaceSwitcher } from "./workspace-switcher";
-
 import {
     Sidebar,
     SidebarContent,
@@ -13,51 +11,28 @@ import {
 import { SidebarBrand } from "./sidebar-brand";
 import { NavMain } from "./nav-main";
 import { NavMeeting } from "./nav-meeting";
+import { navMain, navMeeting } from "../../_lib/data";
 
 
-const navMain = [
-    {
-        label: "Home",
-        url: "/dashboard",
-        icon: <Home />
-    },
-    {
-        label: "Search",
-        url: "#",
-        icon: <MinimalisticMagnifier />
-    },
-    {
-        label: "Tasks",
-        url: "/dashboard/tasks",
-        icon: <ChecklistMinimalistic />
-    },
-]
 
-const navMeeting = [
-    {
-        label: "Meetings",
-        url: "/dashboard/meetings",
-        icon: <Widget />
-    },
-    {
-        label: "Starred",
-        url: "/dashboard/starred",
-        icon: <Star />
-    },
-    {
-        label: "Created by me",
-        url: "/dashboard/created",
-        icon: <User />
-    },
-    {
-        label: "Shared with me",
-        url: "/dashboard/shared",
-        icon: <UsersGroupRounded />
-    }
-]
 
 export function AppSidebar() {
     const pathname = usePathname()
+
+    const isActive = (url: string) => {
+        if (url === "#") return false
+        return pathname === url
+    }
+
+    const navMainWithState = navMain.map((item => ({
+        ...item,
+        active: isActive(item.url)
+    })))
+
+    const navMeetingWithState = navMeeting.map((item => ({
+        ...item,
+        active: isActive(item.url)
+    })))
 
     return (
         <Sidebar collapsible="icon" variant="inset">
@@ -66,8 +41,8 @@ export function AppSidebar() {
                 <WorkspaceSwitcher />
             </SidebarHeader>
             <SidebarContent>
-                <NavMain items={navMain} />
-                <NavMeeting items={navMeeting} />
+                <NavMain items={navMainWithState} />
+                <NavMeeting items={navMeetingWithState} />
             </SidebarContent>
             <SidebarFooter />
         </Sidebar>
