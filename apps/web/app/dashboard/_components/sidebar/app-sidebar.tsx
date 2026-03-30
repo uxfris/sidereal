@@ -6,12 +6,18 @@ import {
     Sidebar,
     SidebarContent,
     SidebarFooter,
+    SidebarGroup,
+    SidebarGroupLabel,
     SidebarHeader,
+    SidebarMenu,
+    SidebarMenuItem,
 } from "@workspace/ui/components/sidebar"
 import { SidebarBrand } from "./sidebar-brand";
 import { NavMain } from "./nav-main";
 import { NavMeeting } from "./nav-meeting";
 import { navMain, navMeeting } from "../../_lib/data";
+import { AppSidebarMenuButton } from "./nav-item";
+import { Upload } from "@solar-icons/react";
 
 
 
@@ -43,6 +49,14 @@ export function AppSidebar() {
             <SidebarContent>
                 <NavMain items={navMainWithState} />
                 <NavMeeting items={navMeetingWithState} />
+                <SidebarGroup>
+                    <SidebarGroupLabel>Uploads</SidebarGroupLabel>
+                    <SidebarMenu>
+                        <SidebarMenuItem>
+                            <AppSidebarMenuButton url={"/dashboard/uploads"} label={"Uploads"} icon={Upload} />
+                        </SidebarMenuItem>
+                    </SidebarMenu>
+                </SidebarGroup>
             </SidebarContent>
             <SidebarFooter />
         </Sidebar>
