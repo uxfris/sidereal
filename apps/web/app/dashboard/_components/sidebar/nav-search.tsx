@@ -17,7 +17,7 @@ export function NavSearch({ item }: { item: NavItem }) {
     const { register } = useShortcutRegister()
 
     useEffect(() => {
-        register("search", () => console.log("SEARCH!"))
+        register("search", () => setOpen((prev) => !prev))
     }, [])
 
 
