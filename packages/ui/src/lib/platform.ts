@@ -5,6 +5,7 @@ export async function getPlatform(): Promise<"mac" | "windows" | "linux" | "unkn
     const h = await headers()
     const ua = h.get("user-agent") || ""
 
+
     if (/Mac|iPhone|iPad|iPod/i.test(ua)) return "mac"
     if (/Win/i.test(ua)) return "windows"
     if (/Linux/i.test(ua)) return "linux"
