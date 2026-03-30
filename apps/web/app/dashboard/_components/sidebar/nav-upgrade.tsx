@@ -4,7 +4,7 @@ import { SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "@workspace/ui/c
 export default function NavUpgrade() {
     return (
         <SidebarMenuItem>
-            <SidebarMenuButton className="justify-between border border-foreground/10 rounded-lg py-8 px-4 hover:bg-primary/10">
+            <SidebarMenuButton className="justify-between border border-foreground/10 rounded-lg py-7 px-3 hover:bg-primary/10">
                 <div className="flex flex-col">
                     <span className="text-sm font-semibold">Upgrade to Pro</span>
                     <span className="text-xs text-muted-foreground">Unlock more benefits</span>
