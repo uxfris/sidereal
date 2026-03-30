@@ -1,5 +1,6 @@
 import { ChecklistMinimalistic, Home, LayersMinimalistic, MinimalisticMagnifier, Star, User, UsersGroupRounded, Widget } from "@solar-icons/react"
 import { NavItem } from "../_types"
+import { SmartKbd } from "@workspace/ui/components/smart-kbd"
 
 const navMain: NavItem[] = [
     {
@@ -11,6 +12,8 @@ const navMain: NavItem[] = [
         label: "Search",
         url: "#",
         icon: MinimalisticMagnifier,
+        type: 'dialog',
+        isSearch: true
     },
     {
         label: "Tasks",
@@ -19,11 +22,12 @@ const navMain: NavItem[] = [
     },
 ]
 
-const navMeeting: NavItem[] = [
+const navMeetings: NavItem[] = [
     {
         label: "Meetings",
         url: "/dashboard/meetings",
         icon: Widget,
+        type: 'collapsible'
     },
     {
         label: "Starred",
@@ -42,16 +46,16 @@ const navMeeting: NavItem[] = [
     }
 ]
 
-const navUploads: NavItem = {
+const navUploads: NavItem[] = [{
     label: "Uploads",
     url: "/dashboard/uploads",
     icon: ChecklistMinimalistic,
-}
+}]
 
-const navIntegrations: NavItem = {
+const navIntegrations: NavItem[] = [{
     label: "Integrations",
     url: "/dashboard/integrations",
     icon: LayersMinimalistic,
-}
+}]
 
-export { navMain, navMeeting, navUploads, navIntegrations };
+export { navMain, navMeetings, navUploads, navIntegrations };

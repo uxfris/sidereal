@@ -6,18 +6,13 @@ import {
     Sidebar,
     SidebarContent,
     SidebarFooter,
-    SidebarGroup,
-    SidebarGroupLabel,
     SidebarHeader,
-    SidebarMenu,
-    SidebarMenuItem,
 } from "@workspace/ui/components/sidebar"
+
 import { SidebarBrand } from "./sidebar-brand";
-import { NavMain } from "./nav-main";
-import { NavMeeting } from "./nav-meeting";
-import { navIntegrations, navMain, navMeeting, navUploads } from "../../_lib/data";
-import { AppSidebarMenuButton } from "./nav-item";
+import { navIntegrations, navMain, navMeetings, navUploads } from "../../_lib/data";
 import { NavItem } from "../../_types";
+import { SidebarGroupItem } from "./sidebar-group-item";
 
 
 
@@ -30,12 +25,7 @@ export function AppSidebar() {
         return pathname === url
     }
 
-    const navMainWithState = navMain.map((item => ({
-        ...item,
-        active: isActive(item.url)
-    })))
-
-    const navMeetingWithState = navMeeting.map((item => ({
+    const withState = (items: NavItem[]) => items.map((item => ({
         ...item,
         active: isActive(item.url)
     })))
@@ -47,25 +37,14 @@ export function AppSidebar() {
                 <WorkspaceSwitcher />
             </SidebarHeader>
             <SidebarContent>
-                <NavMain items={navMainWithState} />
-                <NavMeeting items={navMeetingWithState} />
-                <SidebarGroupItem item={navUploads} />
-                <SidebarGroupItem item={navIntegrations} />
+                <SidebarGroupItem items={withState(navMain)} />
+                <SidebarGroupItem groupLabel="Meetings" items={withState(navMeetings)} />
+                <SidebarGroupItem groupLabel="Uploads" items={withState(navUploads)} />
+                <SidebarGroupItem groupLabel="Integrations" items={withState(navIntegrations)} />
             </SidebarContent>
             <SidebarFooter />
         </Sidebar>
     )
 }
 
-function SidebarGroupItem({ item }: { item: NavItem }) {
-    return (
-        <SidebarGroup>
-            <SidebarGroupLabel>{item.label}</SidebarGroupLabel>
-            <SidebarMenu>
-                <SidebarMenuItem>
-                    <AppSidebarMenuButton url={item.url} label={item.label} icon={item.icon} active={item.active} />
-                </SidebarMenuItem>
-            </SidebarMenu>
-        </SidebarGroup>
-    )
-}
+

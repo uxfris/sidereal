@@ -5,7 +5,11 @@ export type NavItem = {
     url: string,
     icon: Icon,
     active?: boolean,
-    badge?: React.ReactNode
+    badge?: React.ReactNode,
+    type?: 'link' | 'dialog' | 'collapsible',
+    isSearch?: boolean,
+    dialogContent?: React.ReactNode,
+    collapsibleContent?: React.ReactNode
 }
 
 
