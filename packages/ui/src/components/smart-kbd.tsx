@@ -1,6 +1,6 @@
 "use client"
 
-import { usePlatform } from "../hooks/use-platform.js"
+import { usePlatform } from "../hooks/use-platform"
 
 
 export function SmartKbd({ keys }: { keys: string[] }) {
