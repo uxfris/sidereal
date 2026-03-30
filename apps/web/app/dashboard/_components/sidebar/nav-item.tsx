@@ -9,7 +9,7 @@ export function AppSidebarMenuButton({ item }: { item: NavItem }) {
             asChild
             isActive={active}
             tooltip={label}
-            className="py-5"
+            className="py-3"
         >
             <a href={url}>
                 <span className="size-3.5"><Icon /></span>

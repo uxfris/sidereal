@@ -32,7 +32,7 @@ export function AppSidebar() {
 
     return (
         <Sidebar collapsible="icon" variant="inset">
-            <SidebarHeader className="mt-2">
+            <SidebarHeader>
                 <SidebarBrand />
                 <WorkspaceSwitcher />
             </SidebarHeader>

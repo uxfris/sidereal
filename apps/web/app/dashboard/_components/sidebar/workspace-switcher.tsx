@@ -26,7 +26,7 @@ export function WorkspaceSwitcher() {
             <SidebarMenuItem>
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                        <SidebarMenuButton className="bg-background py-5">
+                        <SidebarMenuButton className="bg-background py-3">
                             <div className="flex aspect-square size-8 items-center justify-center">
                                 <span className="flex items-center justify-center rounded-[4px] bg-primary text-primary-foreground size-6 text-center text-xs font-medium -ml-4" aria-hidden="true">F</span>
                             </div>

@@ -12,7 +12,7 @@ export function SidebarBrand() {
             {/* Layout toggle */}
             <Tooltip>
                 <TooltipTrigger asChild>
-                    <Button size="icon-sm" variant="ghost"><SidebarMinimalistic className="size-5" /></Button>
+                    <Button size="icon-xs" variant="ghost"><SidebarMinimalistic className="size-4" /></Button>
                 </TooltipTrigger>
                 <TooltipContent side="right">
                     <p>Close Sidebar</p>

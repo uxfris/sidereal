@@ -12,7 +12,7 @@ import { NavSearch } from "./nav-search";
 
 export function SidebarGroupItem({ groupLabel, items }: { groupLabel?: string, items: NavItem[] }) {
     return (
-        <SidebarGroup>
+        <SidebarGroup className="gap-2">
             {groupLabel && <SidebarGroupLabel>{groupLabel}</SidebarGroupLabel>}
             {items.map((item) => {
                 if (item.isSearch) {
