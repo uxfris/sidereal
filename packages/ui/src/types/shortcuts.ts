@@ -1,7 +1,5 @@
 // types/shortcuts.ts
 
-export type Platform = "mac" | "windows" | "linux"
-
 export type ShortcutAction =
     | "sidebar"
     | "search"
