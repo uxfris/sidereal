@@ -1,24 +1,28 @@
-import { Platform, ShortcutMap } from "../types/shortcuts";
+import { Platform, ShortcutMap } from "@worksapce/ui/types/shortcuts";
 
 const macShortcuts: ShortcutMap = {
     sidebar: {
         display: ["⌘", "."],
-        event: ["meta", "."]
+        key: ".",
+        meta: true,
     },
     search: {
         display: ["⌘", "K"],
-        event: ["meta", "k"]
+        key: "k",
+        meta: true,
     }
 }
 
 const windowsShortcuts: ShortcutMap = {
     sidebar: {
         display: ["Ctrl", "."],
-        event: ["ctrl", "."]
+        key: ".",
+        ctrl: true,
     },
     search: {
         display: ["Ctrl", "K"],
-        event: ["ctrl", "k"]
+        key: "k",
+        ctrl: true,
     }
 }
 

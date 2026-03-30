@@ -2,9 +2,9 @@
 "use client"
 
 import { createContext, useContext, useEffect, useRef } from "react"
-import { ShortcutAction } from "../types/shortcuts"
-import { usePlatform } from "./platform-provider"
-import { getShortcutMap } from "../lib/shortcut-maps"
+import { usePlatform } from "@workspace/ui/components/platform-provider"
+import { getShortcutMap } from "@workspace/ui/lib/shortcut-maps"
+import { ShortcutAction } from "@workspace/ui/types/shortcuts"
 
 type HandlerMap = Partial<Record<ShortcutAction, () => void>>
 
@@ -25,15 +25,17 @@ export function ShortcutProvider({ children }: { children: React.ReactNode }) {
     }
 
     useEffect(() => {
+
         const handleKeyDown = (e: KeyboardEvent) => {
+            console.log("keydown", e.key, e.metaKey, e.ctrlKey)
+
             for (const action in shortcutMap) {
                 const combo = shortcutMap[action as ShortcutAction]
 
-                const match = combo.event.every((key) => {
-                    if (key === "meta") return e.metaKey
-                    if (key === "ctrl") return e.ctrlKey
-                    return e.key.toLowerCase() === key
-                })
+                const match =
+                    e.key.toLowerCase() === combo.key &&
+                    (!!combo.meta === e.metaKey) &&
+                    (!!combo.ctrl === e.ctrlKey)
 
                 if (match) {
                     e.preventDefault()

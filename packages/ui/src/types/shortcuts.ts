@@ -1,4 +1,4 @@
-// lib/types/shortcuts.ts
+// types/shortcuts.ts
 
 export type Platform = "mac" | "windows" | "linux"
 
@@ -7,8 +7,12 @@ export type ShortcutAction =
     | "search"
 
 export type KeyCombo = {
-    display: string[]   // What user sees (⌘ K)
-    event: string[]     // What we listen for (meta + k)
+    display: string[]
+    key: string
+    meta?: boolean
+    ctrl?: boolean
+    shift?: boolean
+    alt?: boolean
 }
 
 export type ShortcutMap = Record<ShortcutAction, KeyCombo>
