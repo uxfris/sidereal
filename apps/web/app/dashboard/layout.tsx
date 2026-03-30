@@ -1,7 +1,7 @@
 import { SidebarInset, SidebarProvider } from "@workspace/ui/components/sidebar";
 import { AppSidebar } from "./_components/sidebar/app-sidebar";
-import { PlatformProvider } from "@workspace/ui/hooks/use-platform";
 import { getPlatform } from "@workspace/ui/lib/platform";
+import { PlatformProvider } from "@workspace/ui/components/platform-provider";
 
 export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
     const platform = await getPlatform();

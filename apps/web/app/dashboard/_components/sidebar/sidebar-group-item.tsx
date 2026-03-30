@@ -5,15 +5,9 @@ import {
     SidebarGroupLabel,
     SidebarMenuItem,
 } from "@workspace/ui/components/sidebar"
-import {
-    Dialog,
-    DialogContent,
-    DialogTrigger,
-} from "@workspace/ui/components/dialog"
 import { AppSidebarMenuButton } from "./nav-item";
 import { NavItem } from "../../_types";
-import { NavSearchDialog } from "./nav-search-dialog";
-import { SearchBadge } from "./nav-search-badge";
+import { NavSearch } from "./nav-search";
 
 
 export function SidebarGroupItem({ groupLabel, items }: { groupLabel?: string, items: NavItem[] }) {
@@ -21,22 +15,10 @@ export function SidebarGroupItem({ groupLabel, items }: { groupLabel?: string, i
         <SidebarGroup>
             {groupLabel && <SidebarGroupLabel>{groupLabel}</SidebarGroupLabel>}
             {items.map((item) => {
-                if (item.type === 'dialog') {
-                    return (
-                        <Dialog key={item.label}>
-                            <DialogTrigger className="w-full">
-                                <AppSidebarMenuButton item={{
-                                    ...item,
-                                    badge: item.isSearch ? <SearchBadge /> : undefined
-                                }} />
-                            </DialogTrigger>
-                            <DialogContent>
-                                {item.isSearch && <NavSearchDialog />}
-                            </DialogContent>
-                        </Dialog>
-                    )
+                if (item.isSearch) {
+                    return <NavSearch key={item.label} item={item} />
                 }
-                return (<SidebarMenuItem key={item.url}>
+                return (<SidebarMenuItem key={item.label}>
                     <AppSidebarMenuButton item={item} />
                 </SidebarMenuItem>)
             })}

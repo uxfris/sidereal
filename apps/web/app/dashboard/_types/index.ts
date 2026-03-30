@@ -6,7 +6,6 @@ export type NavItem = {
     icon: Icon,
     active?: boolean,
     badge?: React.ReactNode,
-    type?: 'link' | 'dialog' | 'collapsible',
     isSearch?: boolean,
     dialogContent?: React.ReactNode,
     collapsibleContent?: React.ReactNode

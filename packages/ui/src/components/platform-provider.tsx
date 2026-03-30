@@ -1,10 +1,11 @@
 "use client"
 
-import React, { createContext, useContext, useState } from "react"
+import { createContext, useContext, useState } from "react"
 
 export type Platform = "mac" | "windows" | "linux" | "unknown"
 
 export const PlatformContext = createContext<Platform>("unknown")
+
 
 export function PlatformProvider({
     children,

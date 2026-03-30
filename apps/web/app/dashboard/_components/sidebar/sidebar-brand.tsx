@@ -16,7 +16,7 @@ export function SidebarBrand() {
                 </TooltipTrigger>
                 <TooltipContent side="right">
                     <p>Close Sidebar</p>
-                    <p className="text-muted-foreground-2"><SmartKbd keys={["."]} /></p>
+                    <p className="text-muted-foreground-2"><SmartKbd action="sidebar" /></p>
                 </TooltipContent>
             </Tooltip>
         </div>
