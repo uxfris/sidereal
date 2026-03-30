@@ -3,6 +3,7 @@
 import {
     SidebarGroup,
     SidebarGroupLabel,
+    SidebarMenu,
     SidebarMenuItem,
 } from "@workspace/ui/components/sidebar"
 import { AppSidebarMenuButton } from "./nav-item";
@@ -12,16 +13,18 @@ import { NavSearch } from "./nav-search";
 
 export function SidebarGroupItem({ groupLabel, items }: { groupLabel?: string, items: NavItem[] }) {
     return (
-        <SidebarGroup className="gap-2">
+        <SidebarGroup>
             {groupLabel && <SidebarGroupLabel>{groupLabel}</SidebarGroupLabel>}
-            {items.map((item) => {
-                if (item.isSearch) {
-                    return <NavSearch key={item.label} item={item} />
-                }
-                return (<SidebarMenuItem key={item.label}>
-                    <AppSidebarMenuButton item={item} />
-                </SidebarMenuItem>)
-            })}
+            <SidebarMenu className="gap-2">
+                {items.map((item) => {
+                    if (item.isSearch) {
+                        return <NavSearch key={item.label} item={item} />
+                    }
+                    return (<SidebarMenuItem key={item.label}>
+                        <AppSidebarMenuButton item={item} />
+                    </SidebarMenuItem>)
+                })}
+            </SidebarMenu>
         </SidebarGroup>
     )
 }
