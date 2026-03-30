@@ -21,7 +21,7 @@ const windowsShortcuts: ShortcutMap = {
         ctrl: true,
     },
     search: {
-        display: ["Ctrl", "K"],
+        display: ["Ctrl", "k"],
         key: "k",
         ctrl: true,
     }
