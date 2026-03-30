@@ -18,7 +18,7 @@ export function NavMeeting({ items }: { items: NavItem[] }) {
                         }} /> :
                         <SidebarMenuItem key={item.url}>
                             <AppSidebarMenuButton
-                                href={item.url} label={item.label} icon={item.icon} isActive={item.active} />
+                                url={item.url} label={item.label} icon={item.icon} active={item.active} />
                         </SidebarMenuItem>
                 ))}
             </SidebarMenu>

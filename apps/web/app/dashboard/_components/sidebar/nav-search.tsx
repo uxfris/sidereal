@@ -15,7 +15,7 @@ export function NavSearchMenu({ item }: { item: { label: string, url: string, ic
         <Dialog>
             <DialogTrigger className="w-full">
                 <AppSidebarMenuButton
-                    href={item.url} label={item.label} icon={item.icon} badge={<div className="text-xs gap-0.5 px-1 py-0.5 rounded-sm border border-foreground/10 bg-muted brightness-95"><SmartKbd keys={["K"]} /></div>} isActive={false} />
+                    url={item.url} label={item.label} icon={item.icon} badge={<div className="text-xs gap-0.5 px-1 py-0.5 rounded-sm border border-foreground/10 bg-muted brightness-95"><SmartKbd keys={["K"]} /></div>} active={false} />
             </DialogTrigger>
             <DialogContent>
                 <DialogHeader>
