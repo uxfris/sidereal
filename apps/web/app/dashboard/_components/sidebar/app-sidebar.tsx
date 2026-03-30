@@ -15,6 +15,7 @@ import { navIntegrations, navMain, navMeetings, navUploads } from "../../_lib/da
 import { NavItem } from "../../_types";
 import { SidebarGroupItem } from "./sidebar-group-item";
 import NavUpgrade from "./nav-upgrade";
+import { NavUser } from "./nav-user";
 
 
 
@@ -45,9 +46,9 @@ export function AppSidebar() {
                 <SidebarGroupItem groupLabel="Integrations" items={withState(navIntegrations)} />
             </SidebarContent>
             <SidebarFooter >
-                <SidebarMenu className="gap-8">
+                <SidebarMenu className="gap-2">
                     <NavUpgrade />
-                    {/* <NavUser/>                 */}
+                    <NavUser />
                 </SidebarMenu>
             </SidebarFooter>
         </Sidebar>
