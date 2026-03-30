@@ -15,9 +15,9 @@ import {
 import { SidebarBrand } from "./sidebar-brand";
 import { NavMain } from "./nav-main";
 import { NavMeeting } from "./nav-meeting";
-import { navMain, navMeeting } from "../../_lib/data";
+import { navIntegrations, navMain, navMeeting, navUploads } from "../../_lib/data";
 import { AppSidebarMenuButton } from "./nav-item";
-import { Upload } from "@solar-icons/react";
+import { NavItem } from "../../_types";
 
 
 
@@ -49,16 +49,23 @@ export function AppSidebar() {
             <SidebarContent>
                 <NavMain items={navMainWithState} />
                 <NavMeeting items={navMeetingWithState} />
-                <SidebarGroup>
-                    <SidebarGroupLabel>Uploads</SidebarGroupLabel>
-                    <SidebarMenu>
-                        <SidebarMenuItem>
-                            <AppSidebarMenuButton url={"/dashboard/uploads"} label={"Uploads"} icon={Upload} />
-                        </SidebarMenuItem>
-                    </SidebarMenu>
-                </SidebarGroup>
+                <SidebarGroupItem item={navUploads} />
+                <SidebarGroupItem item={navIntegrations} />
             </SidebarContent>
             <SidebarFooter />
         </Sidebar>
+    )
+}
+
+function SidebarGroupItem({ item }: { item: NavItem }) {
+    return (
+        <SidebarGroup>
+            <SidebarGroupLabel>{item.label}</SidebarGroupLabel>
+            <SidebarMenu>
+                <SidebarMenuItem>
+                    <AppSidebarMenuButton url={item.url} label={item.label} icon={item.icon} active={item.active} />
+                </SidebarMenuItem>
+            </SidebarMenu>
+        </SidebarGroup>
     )
 }

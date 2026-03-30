@@ -1,7 +1,7 @@
-import { ChecklistMinimalistic, Home, MinimalisticMagnifier, Star, User, UsersGroupRounded, Widget } from "@solar-icons/react"
+import { ChecklistMinimalistic, Home, LayersMinimalistic, MinimalisticMagnifier, Star, User, UsersGroupRounded, Widget } from "@solar-icons/react"
 import { NavItem } from "../_types"
 
-export const navMain: NavItem[] = [
+const navMain: NavItem[] = [
     {
         label: "Home",
         url: "/dashboard",
@@ -19,7 +19,7 @@ export const navMain: NavItem[] = [
     },
 ]
 
-export const navMeeting: NavItem[] = [
+const navMeeting: NavItem[] = [
     {
         label: "Meetings",
         url: "/dashboard/meetings",
@@ -41,3 +41,17 @@ export const navMeeting: NavItem[] = [
         icon: UsersGroupRounded,
     }
 ]
+
+const navUploads: NavItem = {
+    label: "Uploads",
+    url: "/dashboard/uploads",
+    icon: ChecklistMinimalistic,
+}
+
+const navIntegrations: NavItem = {
+    label: "Integrations",
+    url: "/dashboard/integrations",
+    icon: LayersMinimalistic,
+}
+
+export { navMain, navMeeting, navUploads, navIntegrations };
