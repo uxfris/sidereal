@@ -1,5 +1,5 @@
-
 "use client"
+
 
 export function SmartKbd({ keys }: { keys: string[] }) {
     const platform = usePlatform()
