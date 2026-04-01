@@ -1,3 +1,9 @@
+import { UpcomingMeetingGroup } from "../../_types/meetings"
+
+
+
 export function RecentMeetings() {
-    return <div className="text-muted-foreground text-sm">RecentMeetings placeholder</div>
+    return (
+        <div></div>
+    )
 }
