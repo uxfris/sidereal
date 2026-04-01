@@ -16,7 +16,7 @@ export function LiveSyncCard() {
         if (!url.trim()) return
         console.log("Joining:", url)
     }
-    return <Card className="w-full rounded-lg ring-0 p-0">
+    return <Card className="w-full p-0">
         <CardContent className="p-8 space-y-6">
             {/* Header */}
             <div className="space-y-1">
