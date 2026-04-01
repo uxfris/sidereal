@@ -6,7 +6,8 @@ export type NavItem = {
     icon: Icon,
     active?: boolean,
     badge?: React.ReactNode,
-    isSearch?: boolean
+    isSearch?: boolean,
+    isMeetings?: boolean,
 }
 
 

@@ -9,6 +9,7 @@ import {
 import { AppSidebarMenuButton } from "./nav-item";
 import { NavItem } from "../../_types";
 import { NavSearch } from "./nav-search";
+import { NavMeetings } from "./nav-meetings";
 
 
 export function SidebarGroupItem({ groupLabel, items }: { groupLabel?: string, items: NavItem[] }) {
@@ -19,6 +20,9 @@ export function SidebarGroupItem({ groupLabel, items }: { groupLabel?: string, i
                 {items.map((item) => {
                     if (item.isSearch) {
                         return <NavSearch key={item.label} item={item} />
+                    }
+                    if (item.isMeetings) {
+                        return <NavMeetings key={item.label} item={item} />
                     }
                     return (<SidebarMenuItem key={item.label}>
                         <AppSidebarMenuButton item={item} />
