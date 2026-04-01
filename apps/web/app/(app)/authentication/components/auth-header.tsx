@@ -7,7 +7,7 @@ export function AuthHeader() {
                 <LogoIcon color="#2B3437" />
             </div>
             <h1 className="text-2xl md:text-4xl font-medium text-center">
-                Welcome to Sidereal
+                Welcome to Lume
             </h1>
             <p className="text-sm md:text-base text-muted-foreground text-center">
                 We recommend using your work email <br />

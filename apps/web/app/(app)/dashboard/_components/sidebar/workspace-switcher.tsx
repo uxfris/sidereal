@@ -19,7 +19,7 @@ import { SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "@workspace/ui/c
 
 export function WorkspaceSwitcher() {
 
-    const [workspace, setWorkspace] = React.useState("Fris's Sidereal")
+    const [workspace, setWorkspace] = React.useState("Fris's Lume")
 
     return (
         <SidebarMenu>
@@ -30,7 +30,7 @@ export function WorkspaceSwitcher() {
                             <div className="flex aspect-square size-8 items-center justify-center">
                                 <span className="flex items-center justify-center rounded-[4px] bg-primary text-primary-foreground size-6 text-center text-xs font-medium -ml-4" aria-hidden="true">F</span>
                             </div>
-                            <span className="flex-1 truncate font-medium group-data-[state=collapsed]:hidden">Fris's Sidereal</span>
+                            <span className="flex-1 truncate font-medium group-data-[state=collapsed]:hidden">Fris's Lume</span>
                             <ChevronDown className="ml-auto group-data-[state=collapsed]:hidden" />
                         </SidebarMenuButton>
                     </DropdownMenuTrigger>
@@ -42,7 +42,7 @@ export function WorkspaceSwitcher() {
                                 <div className="flex items-center justify-center rounded-[4px] bg-primary text-primary-foreground w-9 h-9 text-center font-medium" aria-hidden="true">F</div>
                                 {/* Workspace name */}
                                 <div className="flex flex-col gap-0.5">
-                                    <span className="text-sm font-medium">Fris's Sidereal</span>
+                                    <span className="text-sm font-medium">Fris's Lume</span>
                                     <div className="flex items-center justify-center gap-1">
                                         <span className="text-xs text-muted-foreground">Free Plan</span>
                                         <span className="w-1 h-1 bg-muted-foreground rounded-full"></span>
@@ -99,10 +99,10 @@ export function WorkspaceSwitcher() {
                         <div className="flex flex-col gap-3 py-2">
                             <DropdownMenuLabel className="px-4">All workspace</DropdownMenuLabel>
                             <DropdownMenuRadioGroup value={workspace} onValueChange={setWorkspace}>
-                                <DropdownMenuRadioItem value={"Fris's Sidereal"} className="mx-1 px-2 py-2">
+                                <DropdownMenuRadioItem value={"Fris's Lume"} className="mx-1 px-2 py-2">
                                     <div className="flex items-center gap-2">
                                         <span className="flex items-center justify-center rounded-[4px] bg-primary text-primary-foreground! w-6 h-6 text-center text-xs font-medium" aria-hidden="true">F</span>
-                                        <span className="text-xs">Fris's Sidereal</span>
+                                        <span className="text-xs">Fris's Lume</span>
                                         <Badge variant="secondary">Free</Badge>
                                     </div>
                                 </DropdownMenuRadioItem>

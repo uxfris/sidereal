@@ -21,7 +21,7 @@ export function LiveSyncCard() {
             {/* Header */}
             <div className="space-y-1">
                 <h2 className="text-lg font-semibold">Live Sync</h2>
-                <p className="text-sm text-muted-foreground">Add the Sidereal assistant to your current active meeting.</p>
+                <p className="text-sm text-muted-foreground">Add the Lume assistant to your current active meeting.</p>
             </div>
             {/* Input */}
             <div className="flex gap-3">
