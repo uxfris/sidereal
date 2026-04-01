@@ -7,7 +7,7 @@ import {
     SidebarMenuItem,
 } from "@workspace/ui/components/sidebar"
 import { AppSidebarMenuButton } from "./nav-item";
-import { NavItem } from "../../_types";
+import { NavItem } from "../../_types/nav-item";
 import { NavSearch } from "./nav-search";
 import { NavMeetings } from "./nav-meetings";
 

@@ -1,6 +1,6 @@
 import { Icon } from "@solar-icons/react/lib/types"
 import { SidebarMenuButton } from "@workspace/ui/components/sidebar"
-import { NavItem } from "../../_types"
+import { NavItem } from "../../_types/nav-item";
 
 export function AppSidebarMenuButton({ item }: { item: NavItem }) {
     const { url, label, icon: Icon, active, badge } = item;

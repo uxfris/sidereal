@@ -16,7 +16,7 @@ import {
     SidebarMenuSubButton,
     SidebarMenuSubItem,
 } from "@workspace/ui/components/sidebar"
-import { NavItem } from "../../_types"
+import { NavItem } from "../../_types/nav-item"
 import { ChevronRight } from "lucide-react"
 import { AppSidebarMenuButton } from "./nav-item"
 import { Button } from "@workspace/ui/components/button"

@@ -7,7 +7,7 @@ import {
     DialogTrigger,
 } from "@workspace/ui/components/dialog"
 import { AppSidebarMenuButton } from "./nav-item"
-import { NavItem } from "../../_types"
+import { NavItem } from "../../_types/nav-item"
 import { SmartKbd } from "@workspace/ui/components/smart-kbd"
 import { useEffect, useState } from "react"
 import { useShortcutRegister } from "@workspace/ui/components/shortcut-provider"

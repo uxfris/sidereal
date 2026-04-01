@@ -12,10 +12,10 @@ import {
 
 import { SidebarBrand } from "./sidebar-brand";
 import { navIntegrations, navMain, navMeetings, navUploads } from "../../_lib/data";
-import { NavItem } from "../../_types";
 import { SidebarGroupItem } from "./sidebar-group-item";
 import NavUpgrade from "./nav-upgrade";
 import { NavUser } from "./nav-user";
+import { NavItem } from "../../_types/nav-item";
 
 
 

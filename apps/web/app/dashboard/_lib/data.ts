@@ -1,5 +1,5 @@
 import { ChecklistMinimalistic, Home, LayersMinimalistic, MinimalisticMagnifier, Star, User, UsersGroupRounded, Widget } from "@solar-icons/react"
-import { NavItem } from "../_types"
+import { NavItem } from "../_types/meetings"
 
 const navMain: NavItem[] = [
     {
