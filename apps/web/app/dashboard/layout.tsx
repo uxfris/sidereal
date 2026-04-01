@@ -11,11 +11,9 @@ export default async function DashboardLayout({ children }: { children: React.Re
             <ShortcutProvider>
                 <SidebarProvider>
                     <AppSidebar />
-                    <SidebarInset>
-                        <main className="flex flex-1 flex-col overflow-hidden">
-                            {children}
-                        </main>
-                    </SidebarInset>
+                    <main className="flex flex-1 flex-col overflow-hidden">
+                        {children}
+                    </main>
                 </SidebarProvider>
             </ShortcutProvider>
         </PlatformProvider>
