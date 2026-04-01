@@ -21,7 +21,7 @@ export default function DashboardPage() {
             </div>
 
             {/* Right Panel */}
-            <div className="hidden lg:flex w-[288px] shrink-0 overflow-y-auto">
+            <div className="hidden lg:flex w-[300px] shrink-0 overflow-y-auto">
                 <UpcomingMeetings />
             </div>
         </div>
