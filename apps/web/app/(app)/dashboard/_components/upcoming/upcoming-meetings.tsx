@@ -73,7 +73,7 @@ export function UpcomingMeetings() {
             <div className="flex-1 overflow-y-auto space-y-8">
                 {groups.map((group) => (
                     <div key={group.label} className="space-y-4">
-                        <h3 className="uppercase text-[11px] font-semibold text-muted-foreground">{group.label}</h3>
+                        <h3 className="uppercase text-[11px] font-semibold text-muted-foreground tracking-widest">{group.label}</h3>
                         {group.meetings.map((meeting) => (
                             <MeetingItem key={meeting.id} meeting={meeting} isTomorrow={group.label.toLowerCase() === "tomorrow"} />
                         ))}
