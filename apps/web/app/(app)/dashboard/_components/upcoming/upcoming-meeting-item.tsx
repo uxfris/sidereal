@@ -14,8 +14,8 @@ export function MeetingItem({ meeting, isTomorrow }: { meeting: UpcomingMeeting,
         <Card className={cn(isTomorrow && "bg-gray-100 dark:bg-card border border-dashed border-gray-200 dark:border-gray-800")}>
             <CardContent className="space-y-6">
                 <div className="space-y-1">
-                    <div className="flex justify-between">
-                        <h4 className="font-semibold text-base">{meeting.title}</h4>
+                    <div className="flex justify-between gap-1">
+                        <h4 className="flex-1 min-w-0 font-semibold text-base line-clamp-2 overflow-hidden">{meeting.title}</h4>
                         <Button size="xs" variant={isJoin ? "default" : "outline"} className={cn("uppercase text-[10px]", !isJoin && isTomorrow && "border-gray-200 dark:border-gray-800")}>{meeting.action}</Button>
                     </div>
                     <div className="flex gap-1.5 items-center font-medium text-xs">
