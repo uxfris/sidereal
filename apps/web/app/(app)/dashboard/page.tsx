@@ -15,13 +15,13 @@ export default function DashboardPage() {
             {/* For test only */}
             {/* <Button onClick={() => setTheme("light")}>Set Theme</Button> */}
             {/* ── Main scrollable content ── */}
-            <div className="hidden flex-1 overflow-y-auto space-y-10">
+            <div className="flex-1 overflow-y-auto space-y-10">
                 <LiveSyncCard />
                 <RecentMeetings />
             </div>
 
             {/* Right Panel */}
-            <div className="w-[288px] shrink-0 overflow-y-auto">
+            <div className="hidden lg:flex w-[288px] shrink-0 overflow-y-auto">
                 <UpcomingMeetings />
             </div>
         </div>
