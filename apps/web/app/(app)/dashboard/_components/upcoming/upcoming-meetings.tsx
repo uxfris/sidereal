@@ -3,7 +3,7 @@
 import { Button } from "@workspace/ui/components/button"
 import { UpcomingMeetingGroup } from "../../_types/meetings"
 import { ArrowRight, SettingsMinimalistic } from "@solar-icons/react"
-import { MeetingItem } from "./upcoming-meeting-item"
+import { UpcomingMeetingItem } from "./upcoming-meeting-item"
 
 // ── Mock data ──────────────────────────────────────────
 const groups: UpcomingMeetingGroup[] = [
@@ -75,7 +75,7 @@ export function UpcomingMeetings() {
                     <div key={group.label} className="space-y-4">
                         <h3 className="uppercase text-[11px] font-semibold text-muted-foreground tracking-widest">{group.label}</h3>
                         {group.meetings.map((meeting) => (
-                            <MeetingItem key={meeting.id} meeting={meeting} isTomorrow={group.label.toLowerCase() === "tomorrow"} />
+                            <UpcomingMeetingItem key={meeting.id} meeting={meeting} isTomorrow={group.label.toLowerCase() === "tomorrow"} />
                         ))}
                     </div>
                 ))}

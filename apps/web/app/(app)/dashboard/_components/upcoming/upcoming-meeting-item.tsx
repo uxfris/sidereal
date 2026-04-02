@@ -8,7 +8,7 @@ import { ClockCircle } from "@solar-icons/react/ssr"
 import { cn } from "@workspace/ui/lib/utils"
 
 
-export function MeetingItem({ meeting, isTomorrow }: { meeting: UpcomingMeeting, isTomorrow: boolean }) {
+export function UpcomingMeetingItem({ meeting, isTomorrow }: { meeting: UpcomingMeeting, isTomorrow: boolean }) {
     const isJoin = meeting.action === "join";
     return (
         <Card className={cn(isTomorrow && "bg-gray-100 dark:bg-card border border-dashed border-gray-200 dark:border-gray-800")}>
