@@ -13,7 +13,7 @@ const groups: UpcomingMeetingGroup[] = [
             {
                 id: "1",
                 title: "Design Review: V2 Specs",
-                time: "2:30 PM",
+                timestamp: "2:30 PM",
                 duration: "60m",
                 platform: "Google Meet",
                 action: "join",
@@ -26,7 +26,7 @@ const groups: UpcomingMeetingGroup[] = [
             {
                 id: "2",
                 title: "Product Sync",
-                time: "4:00 PM",
+                timestamp: "4:00 PM",
                 duration: "30m",
                 platform: "Zoom",
                 action: "prepare",
@@ -41,7 +41,7 @@ const groups: UpcomingMeetingGroup[] = [
             {
                 id: "3",
                 title: "Weekly Engineering Huddle",
-                time: "9:30 AM",
+                timestamp: "9:30 AM",
                 duration: "45m",
                 platform: "Google Meet",
                 action: "prepare",

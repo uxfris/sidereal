@@ -20,7 +20,7 @@ export function MeetingItem({ meeting, isTomorrow }: { meeting: UpcomingMeeting,
                     </div>
                     <div className="flex gap-1.5 items-center font-medium text-xs">
                         <ClockCircle />
-                        <span>{meeting.time} • {meeting.duration}</span>
+                        <span>{meeting.timestamp} • {meeting.duration}</span>
                     </div>
                 </div>
                 <div className={cn("flex items-center justify-between pt-4 border-t border-gray-50: dark:border-gray-800", isTomorrow && "border-gray-200")}>
