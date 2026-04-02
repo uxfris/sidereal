@@ -66,7 +66,7 @@ export function RecentMeetings() {
             </div>
             {
                 meetings.map((meeting, index) => (
-                    <MeetingItem meeting={meeting} />
+                    <MeetingItem key={index} meeting={meeting} />
                 ))
             }
         </div>
