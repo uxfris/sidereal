@@ -16,8 +16,8 @@ export default function MeetingItem({ meeting }: { meeting: RecentMeeting }) {
                     <span className="text-xs font-medium text-muted-foreground">{meeting.timestamp} • {meeting.duration}</span>
                 </div>
                 <div className="space-y-2">
-                    <h3 className="text-base font-semibold">{meeting.title}</h3>
-                    <p className="text-xs text-muted-foreground">{meeting.summary}</p>
+                    <h3 className="text-base font-semibold line-clamp-1">{meeting.title}</h3>
+                    <p className="text-sm text-muted-foreground line-clamp-2">{meeting.summary}</p>
                 </div>
                 <AvatarGroup>
                     {meeting.attendees.map((attendee) => (
