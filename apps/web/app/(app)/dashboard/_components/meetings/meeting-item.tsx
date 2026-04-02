@@ -15,7 +15,7 @@ export default function MeetingItem({ meeting }: { meeting: RecentMeeting }) {
         <Link
             href={isAnalyzing ? "#" : `/meeting/${meeting.id}`}
             className={cn("h-full", isAnalyzing ? "cursor-not-allowed" : "cursor-pointer")}>
-            <Card className={cn("h-full p-0", !isAnalyzing && "hover:bg-secondary")}>
+            <Card className="h-full p-0 hover:bg-secondary">
                 <CardContent className="h-full flex flex-col gap-6 p-6">
                     <div className="flex items-center justify-between">
                         <Badge className={cn(isAnalyzing ? "bg-accent-2" : "bg-accent-3", "text-primary text-[10px] rounded-[2px] px-2 pb-3 pt-3.5 font-semibold uppercase")}>{meeting.status}</Badge>
