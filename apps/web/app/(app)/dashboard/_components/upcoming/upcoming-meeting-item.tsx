@@ -6,6 +6,7 @@ import { Card, CardContent } from "@workspace/ui/components/card"
 import { Avatar, AvatarFallback, AvatarGroup, AvatarGroupCount, AvatarImage } from "@workspace/ui/components/avatar"
 import { ClockCircle } from "@solar-icons/react/ssr"
 import { cn } from "@workspace/ui/lib/utils"
+import { AttendeeAvatar } from "@/components/attendee-avatar"
 
 
 export function UpcomingMeetingItem({ meeting, isTomorrow }: { meeting: UpcomingMeeting, isTomorrow: boolean }) {
@@ -24,15 +25,8 @@ export function UpcomingMeetingItem({ meeting, isTomorrow }: { meeting: Upcoming
                     </div>
                 </div>
                 <div className={cn("flex items-center justify-between pt-4 border-t border-gray-50: dark:border-gray-800", isTomorrow && "border-gray-200")}>
-                    <AvatarGroup>
-                        {meeting.attendees.map((attendee) => (
-                            <Avatar key={attendee.id} size="sm">
-                                <AvatarImage src={attendee.avatarUrl} />
-                                <AvatarFallback className="text-xs font-medium">{attendee.initials}</AvatarFallback>
-                            </Avatar>
-                        ))}
-                        <AvatarGroupCount className="text-xs font-medium">+{meeting.extraAttendees}</AvatarGroupCount>
-                    </AvatarGroup>
+                    <AttendeeAvatar attendees={meeting.attendees} extra={meeting.extraAttendees} />
+
                     <span className="text-muted-foreground text-xs font-medium">{meeting.platform}</span>
                 </div>
 

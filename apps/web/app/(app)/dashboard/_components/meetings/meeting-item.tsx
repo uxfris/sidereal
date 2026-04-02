@@ -3,8 +3,8 @@
 import { RecentMeeting } from "../../_types/meetings"
 import { Card, CardContent } from "@workspace/ui/components/card"
 import { Badge } from "@workspace/ui/components/badge"
-import { Avatar, AvatarFallback, AvatarGroup, AvatarGroupCount, AvatarImage } from "@workspace/ui/components/avatar"
 import { cn } from "@workspace/ui/lib/utils"
+import { AttendeeAvatar } from "@/components/attendee-avatar"
 
 
 export default function MeetingItem({ meeting }: { meeting: RecentMeeting }) {
@@ -19,15 +19,7 @@ export default function MeetingItem({ meeting }: { meeting: RecentMeeting }) {
                     <h3 className="text-base font-semibold line-clamp-1">{meeting.title}</h3>
                     <p className="text-sm text-muted-foreground line-clamp-2">{meeting.summary}</p>
                 </div>
-                <AvatarGroup>
-                    {meeting.attendees.map((attendee) => (
-                        <Avatar key={attendee.id} size="sm">
-                            <AvatarImage src={attendee.avatarUrl} />
-                            <AvatarFallback className="text-xs font-medium">{attendee.initials}</AvatarFallback>
-                        </Avatar>
-                    ))}
-                    {meeting.extraAttendees && <AvatarGroupCount className="text-xs font-medium">+{meeting.extraAttendees}</AvatarGroupCount>}
-                </AvatarGroup>
+                <AttendeeAvatar attendees={meeting.attendees} extra={meeting.extraAttendees} />
             </CardContent>
         </Card>
     )
