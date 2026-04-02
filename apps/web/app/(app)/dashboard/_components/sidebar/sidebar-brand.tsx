@@ -11,7 +11,7 @@ export function SidebarBrand() {
     return (
         <div className="flex items-center justify-between mb-3">
             <div className="relative group/logo flex items-center justify-center">
-                <Link href="https://lume.vercel.app" className="size-7 ml-1 transition-opacity duration-200 group-data-[state=collapsed]:group-hover/logo:opacity-0"><LogoIcon /></Link>
+                <Link href="/" className="size-7 ml-1 transition-opacity duration-200 group-data-[state=collapsed]:group-hover/logo:opacity-0"><LogoIcon /></Link>
                 <Button onClick={toggleSidebar} size="icon-xs" variant="ghost" className="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-200 group-data-[state=collapsed]:group-hover/logo:opacity-100"><SidebarMinimalistic className="size-4" /></Button>
             </div>
             {/* Layout toggle */}
