@@ -3,7 +3,6 @@
 import { Button } from "@workspace/ui/components/button"
 import { UpcomingMeeting } from "../../_types/meetings"
 import { Card, CardContent } from "@workspace/ui/components/card"
-import { Avatar, AvatarFallback, AvatarGroup, AvatarGroupCount, AvatarImage } from "@workspace/ui/components/avatar"
 import { ClockCircle } from "@solar-icons/react/ssr"
 import { cn } from "@workspace/ui/lib/utils"
 import { AttendeeAvatar } from "@/components/attendee-avatar"
