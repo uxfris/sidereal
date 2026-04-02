@@ -11,7 +11,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
             <ShortcutProvider>
                 <SidebarProvider>
                     <AppSidebar />
-                    <main className="flex flex-1 flex-col overflow-hidden">
+                    <main className="flex flex-1 flex-col h-screen overflow-hidden">
                         {children}
                     </main>
                 </SidebarProvider>

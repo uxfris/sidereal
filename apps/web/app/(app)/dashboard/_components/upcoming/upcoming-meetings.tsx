@@ -33,6 +33,26 @@ const groups: UpcomingMeetingGroup[] = [
                 attendees: [{ id: "c", initials: "C" }],
                 extraAttendees: 5,
             },
+            {
+                id: "3",
+                title: "Product Sync",
+                timestamp: "4:00 PM",
+                duration: "30m",
+                platform: "Zoom",
+                action: "prepare",
+                attendees: [{ id: "c", initials: "C" }],
+                extraAttendees: 5,
+            },
+            {
+                id: "4",
+                title: "Product Sync",
+                timestamp: "4:00 PM",
+                duration: "30m",
+                platform: "Zoom",
+                action: "prepare",
+                attendees: [{ id: "c", initials: "C" }],
+                extraAttendees: 5,
+            },
         ],
     },
     {
@@ -58,7 +78,7 @@ export function UpcomingMeetings() {
     const total = groups.reduce((acc, g) => acc + g.meetings.length, 0)
 
     return (
-        <div className="flex flex-col gap-8">
+        <div className="w-full flex flex-col gap-8">
             <div>
                 <div className="flex items-center justify-between">
                     <h2 className="text-xl font-semibold">{total} Upcoming Meetings</h2>
@@ -70,7 +90,7 @@ export function UpcomingMeetings() {
                 </Button>
             </div>
             {/* Groups */}
-            <div className="flex-1 overflow-y-auto space-y-8">
+            <div className="flex-1 no-scrollbar overflow-y-auto space-y-8">
                 {groups.map((group) => (
                     <div key={group.label} className="space-y-4">
                         <h3 className="uppercase text-[11px] font-semibold text-muted-foreground tracking-widest">{group.label}</h3>
