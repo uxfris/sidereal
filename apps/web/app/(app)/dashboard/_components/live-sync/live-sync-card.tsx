@@ -28,7 +28,7 @@ export function LiveSyncCard() {
                 <Input
                     value={url}
                     onChange={(e) => setUrl(e.target.value)}
-                    placeholder="Paste meeting URL (Zoom, Google Meet, Teams)"
+                    placeholder="Paste meeting URL (Google Meet, Teams)"
                     className="flex-1"
                     onKeyDown={(e) => e.key === "Enter" && handleJoin()} />
                 <Button size="xl" className="shrink-0 gap-2">
