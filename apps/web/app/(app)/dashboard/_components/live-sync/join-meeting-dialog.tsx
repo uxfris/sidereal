@@ -1,4 +1,3 @@
-import { Bolt } from "@solar-icons/react"
 import { Button } from "@workspace/ui/components/button"
 import {
     Dialog,
@@ -20,6 +19,7 @@ import {
 import { Input } from "@workspace/ui/components/input"
 import { Separator } from "@workspace/ui/components/separator"
 import { Field, FieldLabel } from "@workspace/ui/components/field"
+import { SelectInput } from "@/components/select-input"
 
 type JoinMeetingDialogProps = {
     open: boolean
@@ -59,18 +59,15 @@ export function JoinMeetingDialog({ open, onOpenChange, onSuccess, url }: JoinMe
                         <FieldLabel htmlFor="meeting-language">
                             Meeting Language
                         </FieldLabel>
-                        <Select defaultValue="english">
-                            <SelectTrigger id="meeting-language" className="w-full bg-input">
-                                <SelectValue placeholder={"English"} />
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectGroup>
-                                    <SelectItem value="english">English</SelectItem>
-                                    <SelectItem value="deutch">Deutch</SelectItem>
-                                    <SelectItem value="spain">Spain</SelectItem>
-                                </SelectGroup>
-                            </SelectContent>
-                        </Select>
+                        <SelectInput defaultValue="en" id="meeting-language" items={
+                            [
+                                { label: "Auto-detect", value: "auto" },
+                                { label: "English (Global)", value: "en" },
+                                { label: "Deutch", value: "de" },
+                                { label: "Spanish", value: "es" }
+                            ]
+                        } />
+
                     </Field>
                 </div>
                 <DialogFooter>

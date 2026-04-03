@@ -4,6 +4,7 @@ import { Button } from "@workspace/ui/components/button"
 import { UpcomingMeetingGroup } from "../../_types/meetings"
 import { ArrowRight, SettingsMinimalistic } from "@solar-icons/react"
 import { UpcomingMeetingItem } from "./upcoming-meeting-item"
+import { UpcomingMeetingSettingDialog } from "./upcoming-meeting-setting-dialog"
 
 // ── Mock data ──────────────────────────────────────────
 const groups: UpcomingMeetingGroup[] = [
@@ -82,7 +83,7 @@ export function UpcomingMeetings() {
             <div>
                 <div className="flex items-center justify-between">
                     <h2 className="text-xl font-semibold">{total} Upcoming Meetings</h2>
-                    <Button variant="ghost"><SettingsMinimalistic /></Button>
+                    <UpcomingMeetingSettingDialog />
                 </div>
                 <Button variant="ghost" size="xs" className="text-primary hover:bg-transparent p-0">
                     Schedule new meeting
