@@ -11,11 +11,11 @@ export default function DashboardPage() {
     //Remove this later
     // const { setTheme } = useTheme()
     return (
-        <div className="flex overflow-hidden gap-10">
+        <div className="flex overflow-hidden">
             {/* For test only */}
             {/* <Button onClick={() => setTheme("light")}>Set Theme</Button> */}
             {/* ── Main scrollable content ── */}
-            <div className="flex-1 no-scrollbar overflow-y-auto space-y-10 py-8 pl-10">
+            <div className="flex-1 no-scrollbar overflow-y-auto space-y-10 py-8 px-6 md:px-10">
                 <LiveSyncCard />
                 <RecentMeetings />
             </div>
