@@ -4,6 +4,7 @@ import { Button } from "@workspace/ui/components/button"
 import { RecentMeeting } from "../../_types/meetings"
 import MeetingItem from "./meeting-item"
 import { cn } from "@workspace/ui/lib/utils"
+import { RecentMeetingsEmpty } from "./recent-meetings-empty"
 
 // ── Mock data ──────────────────────────────────────────
 const meetings: RecentMeeting[] = [
@@ -69,18 +70,21 @@ export function RecentMeetings() {
                 <h2 className="text-2xl font-semibold">Recent Meetings</h2>
                 <Button variant="ghost" size="xs" className="uppercase text-primary font-semibold">View Archive</Button>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch">
-                {
-                    meetings.map((meeting, index) => {
-                        const isFullWidth = index >= 2 //first 2 = half, result full
-                        return (
-                            <div key={index} className={cn(isFullWidth && "md:col-span-2")}>
-                                <MeetingItem key={index} meeting={meeting} />
-                            </div>
-                        )
-                    })
-                }
-            </div>
+            {meetings.length !== 0 ? <RecentMeetingsEmpty /> :
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch">
+                    {
+                        meetings.map((meeting, index) => {
+                            const isFullWidth = index >= 2 //first 2 = half, rest full
+                            return (
+                                <div key={meeting.id} className={cn(isFullWidth && "md:col-span-2")}>
+                                    <MeetingItem meeting={meeting} />
+                                </div>
+                            )
+                        })
+                    }
+                </div>
+            }
+
         </div>
     )
 }
