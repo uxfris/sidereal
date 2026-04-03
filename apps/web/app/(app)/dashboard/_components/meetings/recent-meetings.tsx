@@ -70,7 +70,7 @@ export function RecentMeetings() {
                 <h2 className="text-2xl font-semibold">Recent Meetings</h2>
                 <Button variant="ghost" size="xs" className="uppercase text-primary font-semibold">View Archive</Button>
             </div>
-            {meetings.length !== 0 ? <RecentMeetingsEmpty /> :
+            {meetings.length === 0 ? <RecentMeetingsEmpty /> :
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch">
                     {
                         meetings.map((meeting, index) => {
