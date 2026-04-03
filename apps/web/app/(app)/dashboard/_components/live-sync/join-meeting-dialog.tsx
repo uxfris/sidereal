@@ -18,18 +18,29 @@ import {
     SelectValue,
 } from "@workspace/ui/components/select"
 import { Input } from "@workspace/ui/components/input"
-import { Label } from "@workspace/ui/components/label"
 import { Separator } from "@workspace/ui/components/separator"
 import { Field, FieldLabel } from "@workspace/ui/components/field"
 
-export function JoinMeetingDialog() {
+type JoinMeetingDialogProps = {
+    open: boolean
+    onOpenChange: (open: boolean) => void
+    onSuccess: () => void,
+    url: string
+
+}
+
+export function JoinMeetingDialog({ open, onOpenChange, onSuccess, url }: JoinMeetingDialogProps) {
+    const handleSubmit = async () => {
+        if (!url.trim()) return
+        console.log("Joining:", url)
+        await new Promise((res) => setTimeout(res, 500))
+
+        // Trigger success flow
+        onSuccess()
+    }
+
     return (
-        <Dialog>
-            <DialogTrigger asChild>
-                <Button size="xl" className="shrink-0 gap-2">
-                    <Bolt />
-                    Join Now</Button>
-            </DialogTrigger>
+        <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent className="sm:max-w-md gap-4">
                 <DialogHeader>
                     <DialogTitle>Join Meeting</DialogTitle>
@@ -69,7 +80,7 @@ export function JoinMeetingDialog() {
                         <DialogClose asChild>
                             <Button variant="ghost" type="button">Close</Button>
                         </DialogClose>
-                        <Button type="submit">Join Now</Button>
+                        <Button onClick={handleSubmit}>Join Now</Button>
                     </div>
                 </DialogFooter>
             </DialogContent>
