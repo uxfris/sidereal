@@ -5,6 +5,8 @@ import { UpcomingMeetingGroup } from "../../_types/meetings"
 import { ArrowRight, SettingsMinimalistic } from "@solar-icons/react"
 import { UpcomingMeetingItem } from "./upcoming-meeting-item"
 import { UpcomingMeetingSettingDialog } from "./upcoming-meeting-setting-dialog"
+import { UpcomingMeetingsEmpty } from "./upcoming-meetings-empty"
+import { ScheduleNewMeetingButton } from "./schedule-new-meeting-button"
 
 // ── Mock data ──────────────────────────────────────────
 const groups: UpcomingMeetingGroup[] = [
@@ -85,22 +87,22 @@ export function UpcomingMeetings() {
                     <h2 className="text-xl font-semibold">{total} Upcoming Meetings</h2>
                     <UpcomingMeetingSettingDialog />
                 </div>
-                <Button variant="ghost" size="xs" className="text-primary hover:bg-transparent p-0">
-                    Schedule new meeting
-                    <ArrowRight />
-                </Button>
+                <ScheduleNewMeetingButton />
             </div>
             {/* Groups */}
-            <div className="flex-1 no-scrollbar overflow-y-auto space-y-8">
-                {groups.map((group) => (
-                    <div key={group.label} className="space-y-4">
-                        <h3 className="uppercase text-[11px] font-semibold text-muted-foreground tracking-widest">{group.label}</h3>
-                        {group.meetings.map((meeting) => (
-                            <UpcomingMeetingItem key={meeting.id} meeting={meeting} isTomorrow={group.label.toLowerCase() === "tomorrow"} />
-                        ))}
-                    </div>
-                ))}
-            </div>
+            {groups.length !== 0 ? <UpcomingMeetingsEmpty /> :
+                <div className="flex-1 no-scrollbar overflow-y-auto space-y-8">
+                    {groups.map((group) => (
+                        <div key={group.label} className="space-y-4">
+                            <h3 className="uppercase text-[11px] font-semibold text-muted-foreground tracking-widest">{group.label}</h3>
+                            {group.meetings.map((meeting) => (
+                                <UpcomingMeetingItem key={meeting.id} meeting={meeting} isTomorrow={group.label.toLowerCase() === "tomorrow"} />
+                            ))}
+                        </div>
+                    ))}
+                </div>
+            }
+
         </div>
     )
 }
