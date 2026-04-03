@@ -74,7 +74,7 @@ export function RecentMeetings() {
                     meetings.map((meeting, index) => {
                         const isFullWidth = index >= 2 //first 2 = half, result full
                         return (
-                            <div key={index} className={cn(isFullWidth && "col-span-2")}>
+                            <div key={index} className={cn(isFullWidth && "md:col-span-2")}>
                                 <MeetingItem key={index} meeting={meeting} />
                             </div>
                         )
