@@ -31,7 +31,6 @@ type JoinMeetingDialogProps = {
 
 export function JoinMeetingDialog({ open, onOpenChange, onSuccess, url }: JoinMeetingDialogProps) {
     const handleSubmit = async () => {
-        if (!url.trim()) return
         console.log("Joining:", url)
         await new Promise((res) => setTimeout(res, 500))
 
@@ -54,7 +53,6 @@ export function JoinMeetingDialog({ open, onOpenChange, onSuccess, url }: JoinMe
                         <Input
                             id="meeting-name"
                             placeholder="e.g., Weekly Sync"
-                            readOnly
                         />
                     </Field>
                     <Field className="gap-3">
