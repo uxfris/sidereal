@@ -90,7 +90,7 @@ export function UpcomingMeetings() {
                 <ScheduleNewMeetingButton />
             </div>
             {/* Groups */}
-            {groups.length !== 0 ? <UpcomingMeetingsEmpty /> :
+            {groups.length === 0 ? <UpcomingMeetingsEmpty /> :
                 <div className="flex-1 no-scrollbar overflow-y-auto space-y-8">
                     {groups.map((group) => (
                         <div key={group.label} className="space-y-4">
