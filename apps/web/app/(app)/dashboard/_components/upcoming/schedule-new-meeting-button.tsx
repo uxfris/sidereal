@@ -7,7 +7,7 @@ import Image from "next/image";
 export function ScheduleNewMeetingButton() {
     return (
         <Dialog>
-            <DialogTrigger>
+            <DialogTrigger asChild>
                 <Button variant="ghost" size="xs" className="text-primary">
                     Schedule new meeting
                     <ArrowRight />
