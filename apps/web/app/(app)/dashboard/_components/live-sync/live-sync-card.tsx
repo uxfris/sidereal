@@ -8,6 +8,7 @@ import {
 } from "@workspace/ui/components/card"
 import { Input } from "@workspace/ui/components/input"
 import { useState } from "react"
+import { JoinMeetingDialog } from "./join-meeting-dialog"
 
 export function LiveSyncCard() {
     const [url, setUrl] = useState("")
@@ -29,11 +30,9 @@ export function LiveSyncCard() {
                     value={url}
                     onChange={(e) => setUrl(e.target.value)}
                     placeholder="Paste meeting URL (Google Meet, Teams)"
-                    className="flex-1"
+                    className="h-12 flex-1"
                     onKeyDown={(e) => e.key === "Enter" && handleJoin()} />
-                <Button size="xl" className="shrink-0 gap-2">
-                    <Bolt />
-                    Join Now</Button>
+                <JoinMeetingDialog />
             </div>
         </CardContent>
     </Card>
