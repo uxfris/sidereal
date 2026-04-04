@@ -67,7 +67,7 @@ export function RecentMeetings() {
     return (
         <div className="space-y-6">
             <div className="flex items-center justify-between">
-                <h2 className="text-2xl font-semibold">Recent Meetings</h2>
+                <h2 className="text-2xl font-semibold tracking-[-0.4px]">Recent Meetings</h2>
                 <Button variant="ghost" size="xs" className="uppercase text-primary font-semibold">View Archive</Button>
             </div>
             {meetings.length === 0 ? <RecentMeetingsEmpty /> :
