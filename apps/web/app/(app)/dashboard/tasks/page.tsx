@@ -19,7 +19,7 @@ export default function Tasks() {
                         <TaskList />
                         <TaskList />
                     </div>
-                    <div className="w-[288px] shrink-0 md:no-scrollbar overflow-y-auto pt-7 pb-36 space-y-8">
+                    <div className="hidden lg:block w-[288px] shrink-0 md:no-scrollbar overflow-y-auto pt-7 pb-36 space-y-8">
                         <TaskAIInsight />
                         <TaskProductivityStats />
                     </div>
