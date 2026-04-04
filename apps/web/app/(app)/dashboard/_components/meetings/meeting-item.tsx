@@ -6,7 +6,7 @@ import { Badge } from "@workspace/ui/components/badge"
 import { cn } from "@workspace/ui/lib/utils"
 import { AttendeeAvatar } from "@/components/attendee-avatar"
 import Link from "next/link"
-import { HighlightText } from "@/lib/search/highlight-text"
+import { SanitizedHtml } from "@/lib/sanitized-html"
 
 type MeetingItemProps = {
     meeting: RecentMeeting,
@@ -25,16 +25,16 @@ export default function MeetingItem({ meeting, query }: MeetingItemProps) {
                 <CardContent className="h-full flex flex-col gap-6 p-6">
                     <div className="flex items-center justify-between">
                         <Badge className={cn(isAnalyzing ? "bg-accent-2" : "bg-accent-3", "text-primary dark:text-slate-200 text-[10px] rounded-[2px] px-2 pb-3 pt-3.5 font-semibold uppercase")}>
-                            <HighlightText html={meeting.status} />
+                            <SanitizedHtml html={meeting.status} />
                         </Badge>
                         <span className="text-xs font-medium text-muted-foreground">
-                            <HighlightText html={`${meeting.timestamp} • ${meeting.duration}`}
+                            <SanitizedHtml html={`${meeting.timestamp} • ${meeting.duration}`}
                             />
                         </span>
                     </div>
                     <div className={cn("flex-1", isAnalyzing ? "space-y-4" : "space-y-2")}>
                         <h3 className="text-base font-semibold line-clamp-1">
-                            <HighlightText html={meeting.title} />
+                            <SanitizedHtml html={meeting.title} />
                         </h3>
                         {
                             isAnalyzing ?
@@ -49,7 +49,7 @@ export default function MeetingItem({ meeting, query }: MeetingItemProps) {
                                 </div>
                                 :
                                 <p className="text-sm text-muted-foreground line-clamp-2">
-                                    <HighlightText html={meeting.summary} />
+                                    <SanitizedHtml html={meeting.summary} />
                                 </p>}
                     </div>
                     <AttendeeAvatar attendees={meeting.attendees} extra={meeting.extraAttendees} />
