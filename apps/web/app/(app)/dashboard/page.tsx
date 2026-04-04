@@ -17,7 +17,7 @@ export default function DashboardPage() {
             </div>
 
             {/* Sidebar - desktop only */}
-            <div className="hidden lg:flex w-[300px] shrink-0 py-8 pr-10">
+            <div className="hidden lg:flex w-[350px] shrink-0 py-8 pr-10">
                 <UpcomingMeetings />
             </div>
         </div>
