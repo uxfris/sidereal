@@ -68,7 +68,7 @@ export const mockActionItems: ActionItem[] = [
 
 export function TaskList() {
     return (
-        <div className=" space-y-4">
+        <div className="space-y-4">
             {/* Header */}
             <div className="w-full flex items-center">
                 <div className="bg-primary self-stretch w-1 rounded-full" aria-hidden={true} />
@@ -97,7 +97,7 @@ export function TaskList() {
             </Card>
             <div className="flex items-center gap-2">
                 <AltArrowDown />
-                <span className="text-xs font-medium to-muted-foreground">1 Completed</span>
+                <span className="text-sm font-medium text-muted-foreground">1 Completed</span>
             </div>
             <Card>
                 <CardContent>

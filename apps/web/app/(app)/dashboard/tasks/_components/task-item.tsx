@@ -6,7 +6,7 @@ import { TrashBin2 } from "@solar-icons/react"
 export function TaskItem() {
     return (
         <div className="flex items-start gap-3 py-3">
-            <Checkbox className="w-6 h-6 border-2" />
+            <Checkbox className="w-5 h-5 border-2" />
             <p className="flex-1 line-clamp-2">
                 Refine the Q3 product roadmap based on Marcus's
                 feedback
