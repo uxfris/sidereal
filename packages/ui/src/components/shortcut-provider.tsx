@@ -33,7 +33,7 @@ export function ShortcutProvider({ children }: { children: React.ReactNode }) {
                 const combo = shortcutMap[action as ShortcutAction]
 
                 const match =
-                    e.key.toLowerCase() === combo.key &&
+                    e.key?.toLowerCase() === combo.key &&
                     (!!combo.meta === e.metaKey) &&
                     (!!combo.ctrl === e.ctrlKey)
 
