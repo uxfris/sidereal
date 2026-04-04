@@ -6,16 +6,15 @@ import { Badge } from "@workspace/ui/components/badge"
 import { cn } from "@workspace/ui/lib/utils"
 import { AttendeeAvatar } from "@/components/attendee-avatar"
 import Link from "next/link"
-import { FuseResultMatch } from "fuse.js"
-import { highlightWithMatches } from "@/lib/search/highlight-with-matches"
+import { HighlightText } from "@/lib/search/highlight-text"
 
 type MeetingItemProps = {
     meeting: RecentMeeting,
-    matches: FuseResultMatch[] | readonly FuseResultMatch[] | undefined
+    query: string
 }
 
 
-export default function MeetingItem({ meeting, matches }: MeetingItemProps) {
+export default function MeetingItem({ meeting, query }: MeetingItemProps) {
     const isAnalyzing = meeting.status === "analyzing"
 
     return (
@@ -26,16 +25,16 @@ export default function MeetingItem({ meeting, matches }: MeetingItemProps) {
                 <CardContent className="h-full flex flex-col gap-6 p-6">
                     <div className="flex items-center justify-between">
                         <Badge className={cn(isAnalyzing ? "bg-accent-2" : "bg-accent-3", "text-primary dark:text-slate-200 text-[10px] rounded-[2px] px-2 pb-3 pt-3.5 font-semibold uppercase")}>
-                            {highlightWithMatches(String(meeting.status), matches, "status")}
+                            <HighlightText html={meeting.status} />
                         </Badge>
                         <span className="text-xs font-medium text-muted-foreground">
-                            {highlightWithMatches(meeting.timestamp, matches, "timestamp")}
-                            • {highlightWithMatches(meeting.duration, matches, "duration")}
+                            <HighlightText html={`${meeting.timestamp} • ${meeting.duration}`}
+                            />
                         </span>
                     </div>
                     <div className={cn("flex-1", isAnalyzing ? "space-y-4" : "space-y-2")}>
                         <h3 className="text-base font-semibold line-clamp-1">
-                            {highlightWithMatches(meeting.title, matches, "title")}
+                            <HighlightText html={meeting.title} />
                         </h3>
                         {
                             isAnalyzing ?
@@ -50,10 +49,10 @@ export default function MeetingItem({ meeting, matches }: MeetingItemProps) {
                                 </div>
                                 :
                                 <p className="text-sm text-muted-foreground line-clamp-2">
-                                    {highlightWithMatches(meeting.summary, matches, "summary")}
+                                    <HighlightText html={meeting.summary} />
                                 </p>}
                     </div>
-                    <AttendeeAvatar attendees={meeting.attendees} extra={meeting.extraAttendees} matches={matches} />
+                    <AttendeeAvatar attendees={meeting.attendees} extra={meeting.extraAttendees} />
                 </CardContent>
             </Card>
         </Link>
