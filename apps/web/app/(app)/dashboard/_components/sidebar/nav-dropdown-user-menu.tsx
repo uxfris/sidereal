@@ -3,9 +3,11 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem,
 import { SidebarMenuButton, } from "@workspace/ui/components/sidebar";
 import { Avatar, AvatarImage, AvatarFallback } from "@workspace/ui/components/avatar";
 import { cn } from "@workspace/ui/lib/utils";
+import { useTheme } from "next-themes";
 
 
 export function DropdownUserMenu({ className }: { className?: string }) {
+    const { theme, setTheme } = useTheme()
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -56,8 +58,8 @@ export function DropdownUserMenu({ className }: { className?: string }) {
                                 <DropdownMenuGroup>
                                     <DropdownMenuLabel>Appearance</DropdownMenuLabel>
                                     <DropdownMenuRadioGroup
-                                        value={"light"}
-                                        onValueChange={(value) => { }}
+                                        value={theme}
+                                        onValueChange={(value) => { setTheme(value) }}
                                     >
                                         <DropdownMenuRadioItem value="light">
                                             <Sun />
