@@ -9,12 +9,11 @@ import Link from "next/link"
 import { SanitizedHtml } from "@/lib/sanitized-html"
 
 type MeetingItemProps = {
-    meeting: RecentMeeting,
-    query: string
+    meeting: RecentMeeting
 }
 
 
-export default function MeetingItem({ meeting, query }: MeetingItemProps) {
+export default function MeetingItem({ meeting }: MeetingItemProps) {
     const isAnalyzing = meeting.status === "analyzing"
 
     return (
