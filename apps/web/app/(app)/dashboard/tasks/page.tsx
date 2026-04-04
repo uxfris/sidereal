@@ -1,5 +1,7 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@workspace/ui/components/tabs"
 import { TaskList } from "./_components/task-list"
+import { TaskAIInsight } from "./_components/task-ai-insight"
+import { TaskProductivityStats } from "./_components/task-productivity"
 
 export default function Tasks() {
     return (
@@ -17,7 +19,10 @@ export default function Tasks() {
                         <TaskList />
                         <TaskList />
                     </div>
-                    <div className="w-[288px] shrink-0">AI Insight placeholder</div>
+                    <div className="w-[288px] shrink-0 md:no-scrollbar overflow-y-auto pb-36 space-y-8">
+                        <TaskAIInsight />
+                        <TaskProductivityStats />
+                    </div>
                 </TabsContent>
             </Tabs>
         </div>
