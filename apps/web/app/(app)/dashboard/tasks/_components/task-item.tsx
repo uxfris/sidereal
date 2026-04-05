@@ -4,13 +4,13 @@ import { Checkbox } from "@workspace/ui/components/checkbox"
 import { TrashBin2 } from "@solar-icons/react"
 import { Tooltip, TooltipContent, TooltipTrigger } from "@workspace/ui/components/tooltip"
 import { UserPlus } from "@solar-icons/react/ssr"
-import type { TaskItem } from "../_types/task"
+import { ActionItem } from "../_types/task"
 import { cn } from "@workspace/ui/lib/utils"
 
-export function TaskItem({ item }: { item: TaskItem }) {
+export function TaskItem({ item, onToggle }: { item: ActionItem, onToggle: () => void }) {
     return (
         <div className="flex items-start gap-3 py-1 group/item">
-            <Checkbox className="w-5 h-5 border-2" checked={item.isCompleted} />
+            <Checkbox className="w-5 h-5 border-2" checked={item.isCompleted} onCheckedChange={onToggle} />
             <p className={cn("flex-1 line-clamp-2", item.isCompleted && "line-through text-muted-foreground")}>
                 {item.title}
             </p>

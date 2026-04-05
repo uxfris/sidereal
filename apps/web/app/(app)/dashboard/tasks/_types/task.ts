@@ -5,7 +5,7 @@ export interface UserSummary {
     avatarUrl?: string
 }
 
-export interface TaskItem {
+export interface ActionItem {
     id: string
     title: string
     isCompleted: boolean
@@ -16,5 +16,5 @@ export interface TaskGroup {
     id: string
     title: string
     timestamp: string // ISO 8601
-    tasks: TaskItem[]
+    tasks: ActionItem[]
 }
