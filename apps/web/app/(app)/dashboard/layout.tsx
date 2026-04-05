@@ -4,6 +4,7 @@ import { getPlatform } from "@workspace/ui/lib/platform";
 import { PlatformProvider } from "@workspace/ui/components/platform-provider";
 import { ShortcutProvider } from "@workspace/ui/components/shortcut-provider";
 import { MobileHeader } from "./_components/sidebar/mobile-sidebar-header";
+import { Toaster } from "@workspace/ui/components/sonner"
 
 export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
     const platform = await getPlatform();
@@ -18,6 +19,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
                     </main>
                 </SidebarProvider>
             </ShortcutProvider>
+            <Toaster />
         </PlatformProvider>
     )
 }

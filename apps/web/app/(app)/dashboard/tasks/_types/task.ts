@@ -1,13 +1,20 @@
+export interface UserSummary {
+    id: string
+    name: string
+    initials: string
+    avatarUrl?: string
+}
 
-export interface ActionItem {
+export interface TaskItem {
     id: string
     title: string
-    description?: string
     isCompleted: boolean
-    assignee: {
-        id: string
-        name: string
-        initials: string
-        avatarUrl?: string
-    } | null
+    assignee: UserSummary | null
+}
+
+export interface TaskGroup {
+    id: string
+    title: string
+    timestamp: string // ISO 8601
+    tasks: TaskItem[]
 }
