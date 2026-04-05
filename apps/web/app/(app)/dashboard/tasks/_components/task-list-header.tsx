@@ -8,7 +8,7 @@ import { cn } from "@workspace/ui/lib/utils"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger } from "@workspace/ui/components/dropdown-menu"
 import Image from "next/image"
 import { useState } from "react"
-import { TaskGroup } from "../_types/task"
+import { ActionItem, TaskGroup } from "../_types/task"
 
 //Mock data
 
@@ -67,11 +67,11 @@ const MockIntegrationList = [
 
 
 
-export function TaskListHeader({ tasksGroup }: { tasksGroup: TaskGroup }) {
+export function TaskListHeader({ title, timestamp, tasks }: { title: string, timestamp: string, tasks: ActionItem[] }) {
     const [copied, setCopied] = useState(false)
 
     const handleCopy = async () => {
-        const text = tasksGroup.tasks.map(task => task.title).join("\n")
+        const text = tasks.map(task => task.title).join("\n")
         await navigator.clipboard.writeText(text)
 
         setCopied(true)
@@ -88,9 +88,9 @@ export function TaskListHeader({ tasksGroup }: { tasksGroup: TaskGroup }) {
             <div className="w-full pl-4">
                 <div className="w-full flex items-center justify-between">
                     <div className="flex items-center gap-2">
-                        <h2 className="text-xl font-semibold truncate">{tasksGroup.title}</h2>
-                        <Badge variant="secondary" className="text-muted-foreground">{tasksGroup.tasks.length} items</Badge>
-                        <Tooltip>
+                        <h2 className="text-xl font-semibold truncate">{title}</h2>
+                        <Badge variant="secondary" className="text-muted-foreground">{tasks.length} items</Badge>
+                        {tasks.length > 0 && <Tooltip>
                             <TooltipTrigger asChild>
                                 <Button
                                     variant="ghost"
@@ -105,9 +105,9 @@ export function TaskListHeader({ tasksGroup }: { tasksGroup: TaskGroup }) {
                                 </Button>
                             </TooltipTrigger>
                             <TooltipContent>
-                                <p>Copy {tasksGroup.tasks.length} items</p>
+                                <p>Copy {tasks.length} items</p>
                             </TooltipContent>
-                        </Tooltip>
+                        </Tooltip>}
                     </div>
                     <DropdownMenu>
                         <DropdownMenuTrigger asChild>
@@ -161,7 +161,7 @@ export function TaskListHeader({ tasksGroup }: { tasksGroup: TaskGroup }) {
                         </DropdownMenuContent>
                     </DropdownMenu>
                 </div>
-                <time dateTime={tasksGroup.timestamp} className="text-xs text-muted-foreground">{formatDate(tasksGroup.timestamp)}</time>
+                <time dateTime={timestamp} className="text-xs text-muted-foreground">{formatDate(timestamp)}</time>
             </div>
         </div>
     )

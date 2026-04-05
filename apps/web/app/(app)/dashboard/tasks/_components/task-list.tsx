@@ -63,6 +63,14 @@ export function TaskList({ tasksGroup }: { tasksGroup: TaskGroup }) {
             e.preventDefault()
             addTask()
         }
+        if (e.key === "Escape") {
+            e.preventDefault()
+            setIsAdding(false)
+            setTemporaryChecked(false)
+            setNewTaskTitle("")
+            setTemporaryAssignee(null)
+
+        }
     }
 
     useEffect(() => {
@@ -103,16 +111,21 @@ export function TaskList({ tasksGroup }: { tasksGroup: TaskGroup }) {
         })
     }
 
+    const updateTaskTitle = (id: string, title: string) => {
+        setTasks(prev => prev.map(task => task.id === id ? { ...task, title } : task))
+
+    }
+
 
     return (
         <div className="space-y-4 group/task">
             {/* Header */}
-            <TaskListHeader tasksGroup={tasksGroup} />
+            <TaskListHeader title={tasksGroup.title} timestamp={tasksGroup.timestamp} tasks={tasks} />
             {/* Item Action Card */}
-            <Card>
+            {(tasks.length > 0 || isAdding) && <Card>
                 <CardContent>
                     {
-                        tasks.filter((item => !item.isCompleted)).map((item) => (<TaskItem key={item.id} item={item} onToggle={() => toggleTasks(item.id)} onDelete={() => deleteTask(item.id)} />))
+                        tasks.filter((item => !item.isCompleted)).map((item) => (<TaskItem key={item.id} item={item} onToggle={() => toggleTasks(item.id)} onDelete={() => deleteTask(item.id)} onUpdateTitle={(title) => updateTaskTitle(item.id, title)} />))
                     }
 
                     {isAdding && (
@@ -152,13 +165,13 @@ export function TaskList({ tasksGroup }: { tasksGroup: TaskGroup }) {
                                 {/* Item Actions List*/}
                                 {
                                     tasks.filter((item => item.isCompleted)).map((item) =>
-                                        (<TaskItem key={item.id} item={item} onToggle={() => toggleTasks(item.id)} onDelete={() => deleteTask(item.id)} />))
+                                        (<TaskItem key={item.id} item={item} onToggle={() => toggleTasks(item.id)} onDelete={() => deleteTask(item.id)} onUpdateTitle={(title) => updateTaskTitle(item.id, title)} />))
                                 }
                             </CollapsibleContent>
                         </Collapsible>
                     }
                 </CardContent>
-            </Card>
+            </Card>}
             <Button variant="ghost" onClick={() => setIsAdding(true)}><Plus /> New Task</Button>
         </div>
     )
