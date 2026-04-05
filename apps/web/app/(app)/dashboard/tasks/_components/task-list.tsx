@@ -82,27 +82,24 @@ export function TaskList({ tasksGroup }: { tasksGroup: TaskGroup }) {
 
 
     const deleteTask = (id: string) => {
-        setTasks(prev => {
-            const index = prev.findIndex(t => t.id === id)
-            const taskToDelete = prev[index]
-            if (!taskToDelete) return prev
+        const index = tasks.findIndex(t => t.id === id)
+        const taskToDelete = tasks[index]
+        if (!taskToDelete) return
 
-            const newTasks = prev.filter(t => t.id !== id)
+        setTasks(prev => prev.filter(t => t.id != id))
 
-            toast("Task deleted", {
-                action: {
-                    label: "Undo",
-                    onClick: () => {
-                        setTasks(current => {
-                            const restored = [...current]
-                            restored.splice(index, 0, taskToDelete)
-                            return restored
-                        })
-                    },
+        toast("Task deleted", {
+            position: "bottom-center",
+            action: {
+                label: "Undo",
+                onClick: () => {
+                    setTasks(current => {
+                        const restored = [...current]
+                        restored.splice(index, 0, taskToDelete)
+                        return restored
+                    })
                 },
-            })
-
-            return newTasks
+            },
         })
     }
 
