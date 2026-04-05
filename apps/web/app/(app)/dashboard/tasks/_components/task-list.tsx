@@ -4,7 +4,7 @@ import { Badge } from "@workspace/ui/components/badge"
 import { Button } from "@workspace/ui/components/button"
 import { Card, CardContent } from "@workspace/ui/components/card"
 import { ArrowRightLeft, Check, ChevronRight, Copy, Plus } from "lucide-react"
-import { AddCircle, AltArrowDown, CheckCircle } from "@solar-icons/react"
+import { AddCircle, AltArrowDown, CheckCircle, Link, LinkMinimalistic } from "@solar-icons/react"
 import { TaskItem } from "./task-item"
 import { TaskGroup } from "../_types/task"
 import { formatDate } from "@workspace/ui/lib/date-format"
@@ -17,46 +17,56 @@ import Image from "next/image"
 
 //Mock data
 
-const integrationList = [
+const MockIntegrationList = [
     {
         id: "1",
-        icon: "/slack.svg",
-        label: "Slack",
+        icon: "/vectors/asana.svg",
+        label: "Asana",
         isConnected: false,
     },
     {
         id: "2",
-        icon: "/hubspot.svg",
-        label: "Hubspot",
+        icon: "/vectors/clickup.svg",
+        label: "ClickUp",
         isConnected: false,
     },
     {
         id: "3",
-        icon: "/trello.svg",
-        label: "Trello",
-        isConnected: true,
-        feature: "Send tasks",
-        menu: [
-            {
-                id: "1",
-                name: "Send my tasks",
-            },
-            {
-                id: "2",
-                name: "Send all taks",
-            },
-            {
-                id: "3",
-                name: "Select tasks",
-            },
-        ]
+        icon: "/vectors/googletasks.svg",
+        label: "Google Tasks",
+        isConnected: false,
     },
     {
         id: "4",
-        icon: "/notion.svg",
-        label: "Notion",
+        icon: "/vectors/jira.svg",
+        label: "Jira Projects",
         isConnected: false,
     },
+    {
+        id: "5",
+        icon: "/vectors/linear-app.svg",
+        label: "Linear App",
+        isConnected: false,
+    },
+    {
+        id: "6",
+        icon: "/vectors/ms-planner.svg",
+        label: "Microsoft Planner",
+        isConnected: false,
+    },
+    {
+        id: "7",
+        icon: "/vectors/ms-todo.svg",
+        label: "Microsoft To Do",
+        isConnected: false,
+    },
+    {
+        id: "8",
+        icon: "/vectors/trello.svg",
+        label: "Trello",
+        isConnected: true,
+        feature: "Send tasks",
+    }
 ]
 
 
@@ -112,22 +122,25 @@ export function TaskList({ tasksGroup }: { tasksGroup: TaskGroup }) {
                                     Sync to
                                 </Button>
                             </DropdownMenuTrigger>
-                            <DropdownMenuContent className="sm:min-w-48">
+                            <DropdownMenuContent className="sm:min-w-52">
                                 <DropdownMenuGroup className="space-y-2">
                                     <DropdownMenuLabel>Project Destination</DropdownMenuLabel>
                                     <DropdownMenuSeparator />
-                                    {integrationList.map((item) =>
+                                    {MockIntegrationList.map((item) =>
                                         !item.isConnected ?
                                             (<DropdownMenuItem key={item.id} className="gap-3" onSelect={() => console.log("menu is clicked", item.label)}>
-                                                <Image src={`/vectors/${item.icon}`} alt={item.label} width={14} height={14} />
-                                                <h5 className="text-sm font-medium">{item.label}</h5>
-                                                <AddCircle />
+                                                <Image src={item.icon} alt={item.label} width={14} height={14} />
+                                                <div className="flex-1">
+                                                    <h5 className="text-sm font-medium">{item.label}</h5>
+                                                    <p className="text-xs text-muted-foreground">Connect</p>
+                                                </div>
+                                                <LinkMinimalistic />
                                             </DropdownMenuItem>)
                                             :
                                             (
                                                 <DropdownMenuSub key={item.id}>
                                                     <DropdownMenuSubTrigger className="gap-3">
-                                                        <Image src={`/vectors/${item.icon}`} alt={item.label} width={14} height={14} />
+                                                        <Image src={item.icon} alt={item.label} width={14} height={14} />
                                                         <div>
                                                             <div className="flex items-center gap-1">
                                                                 <h5 className="text-sm font-medium">{item.label}</h5>
@@ -137,15 +150,18 @@ export function TaskList({ tasksGroup }: { tasksGroup: TaskGroup }) {
                                                         </div>
                                                     </DropdownMenuSubTrigger>
                                                     <DropdownMenuSubContent>
-                                                        {item.menu?.map((menu) => (
-                                                            <DropdownMenuItem key={menu.id} onSelect={() => console.log("menu is clicked", menu.name)}>
-                                                                {menu.name}
-                                                            </DropdownMenuItem>
-                                                        ))}
+                                                        <DropdownMenuItem onSelect={() => { }}>
+                                                            Send my taks
+                                                        </DropdownMenuItem>
+                                                        <DropdownMenuItem onSelect={() => { }}>
+                                                            Send all taks
+                                                        </DropdownMenuItem>
+                                                        <DropdownMenuItem onSelect={() => { }}>
+                                                            Select tasks
+                                                        </DropdownMenuItem>
                                                     </DropdownMenuSubContent>
                                                 </DropdownMenuSub>
                                             )
-
                                     )}
                                 </DropdownMenuGroup>
                             </DropdownMenuContent>
