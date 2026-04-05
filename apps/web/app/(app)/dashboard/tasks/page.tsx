@@ -3,6 +3,7 @@ import { TaskList } from "./_components/task-list"
 import { TaskAIInsight } from "./_components/task-ai-insight"
 import { TaskProductivityStats } from "./_components/task-productivity"
 import { TaskGroup } from "./_types/task";
+import { EmptyState } from "@/components/empty-state";
 
 export const mockTaskGroups: TaskGroup[] = [
     {
@@ -120,6 +121,12 @@ export default function Tasks() {
                 </TabsList>
                 <TabsContent value="all" className="flex flex-col lg:flex-row overflow-hidden gap-10">
                     <div className="flex-1 min-w-0 md:no-scrollbar overflow-y-auto pt-7 pb-36 space-y-10">
+                        {mockTaskGroups.length === 0 &&
+                            <EmptyState
+                                title="No task yet"
+                                description="Lume is waiting for your first meeting to begin automatically capturing action items and strategic takeaways."
+                                className="h-full" />}
+
                         {
                             mockTaskGroups.map((taskGroup) => <TaskList key={taskGroup.id} tasksGroup={taskGroup} />)
                         }

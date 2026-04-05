@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@workspace/ui/componen
 import { Separator } from "@workspace/ui/components/separator";
 
 export function TaskProductivityStats() {
+    const isEmpty = true;
     return (
         <Card className="px-5 py-8 bg-secondary/40 border border-border">
             <CardHeader >
@@ -22,16 +23,23 @@ export function TaskProductivityStats() {
                         <h4 className="text-xs font-semibold uppercase">
                             Overdue
                         </h4>
-                        <data className="text-2xl text-destructive font-semibold">14</data>
+                        <data className="text-2xl text-destructive font-semibold">0</data>
                     </div>
                 </div>
                 <div className="space-y-4">
                     <Separator className="border-muted brightness-95" />
-                    <p className="text-muted-foreground">
-                        You're completing tasks{" "}
-                        <span className="text-primary font-semibold" >15% faster</span>
-                        {" "} than last week. Keep it up!
-                    </p>
+                    {isEmpty ?
+                        <p className="text-muted-foreground">
+                            No task data available yet. Your
+                            momentum starts with your first
+                            meeting.
+                        </p>
+                        :
+                        <p className="text-muted-foreground">
+                            You're completing tasks{" "}
+                            <span className="text-primary font-semibold" >15% faster</span>
+                            {" "} than last week. Keep it up!
+                        </p>}
                 </div>
             </CardContent>
         </Card>

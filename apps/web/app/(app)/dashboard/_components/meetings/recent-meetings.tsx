@@ -4,7 +4,8 @@ import { Button } from "@workspace/ui/components/button"
 import { RecentMeeting } from "../../_types/meetings"
 import MeetingItem from "./meeting-item"
 import { cn } from "@workspace/ui/lib/utils"
-import { RecentMeetingsEmpty } from "./recent-meetings-empty"
+import { EmptyState } from "@/components/empty-state"
+
 
 // ── Mock data ──────────────────────────────────────────
 const meetings: RecentMeeting[] = [
@@ -70,7 +71,9 @@ export function RecentMeetings() {
                 <h2 className="text-2xl font-semibold tracking-[-0.4px]">Recent Meetings</h2>
                 <Button variant="ghost" size="xs" className="uppercase text-primary font-semibold">View Archive</Button>
             </div>
-            {meetings.length === 0 ? <RecentMeetingsEmpty /> :
+            {meetings.length === 0 ?
+                <EmptyState title="No recent activity yet" description="Your meeting summaries and section items will appear here once your first session is processed." />
+                :
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch">
                     {
                         meetings.map((meeting, index) => {
