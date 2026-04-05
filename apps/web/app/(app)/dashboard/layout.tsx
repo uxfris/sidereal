@@ -5,13 +5,17 @@ import { PlatformProvider } from "@workspace/ui/components/platform-provider";
 import { ShortcutProvider } from "@workspace/ui/components/shortcut-provider";
 import { MobileHeader } from "./_components/sidebar/mobile-sidebar-header";
 import { Toaster } from "@workspace/ui/components/sonner"
+import { cookies } from "next/headers";
 
 export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
     const platform = await getPlatform();
+    const cookieStore = await cookies();
+    const isSidebarOpen = cookieStore.get("sidebar_state")?.value === "true" || !cookieStore.has("sidebar_state");
+
     return (
         <PlatformProvider initialPlatform={platform}>
             <ShortcutProvider>
-                <SidebarProvider>
+                <SidebarProvider defaultOpen={isSidebarOpen}>
                     <AppSidebar />
                     <main className="flex flex-1 flex-col h-screen overflow-hidden">
                         <MobileHeader />
