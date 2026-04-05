@@ -3,8 +3,8 @@
 import { Badge } from "@workspace/ui/components/badge"
 import { Button } from "@workspace/ui/components/button"
 import { Card, CardContent } from "@workspace/ui/components/card"
-import { ArrowRightLeft, Check, Copy, Plus } from "lucide-react"
-import { AltArrowDown } from "@solar-icons/react"
+import { ArrowRightLeft, Check, ChevronRight, Copy, Plus } from "lucide-react"
+import { AddCircle, AltArrowDown, CheckCircle } from "@solar-icons/react"
 import { TaskItem } from "./task-item"
 import { TaskGroup } from "../_types/task"
 import { formatDate } from "@workspace/ui/lib/date-format"
@@ -12,6 +12,52 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "@workspace/ui/component
 import { useState } from "react"
 import { cn } from "@workspace/ui/lib/utils"
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@workspace/ui/components/collapsible"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger } from "@workspace/ui/components/dropdown-menu"
+import Image from "next/image"
+
+//Mock data
+
+const integrationList = [
+    {
+        id: "1",
+        icon: "/slack.svg",
+        label: "Slack",
+        isConnected: false,
+    },
+    {
+        id: "2",
+        icon: "/hubspot.svg",
+        label: "Hubspot",
+        isConnected: false,
+    },
+    {
+        id: "3",
+        icon: "/trello.svg",
+        label: "Trello",
+        isConnected: true,
+        feature: "Send tasks",
+        menu: [
+            {
+                id: "1",
+                name: "Send my tasks",
+            },
+            {
+                id: "2",
+                name: "Send all taks",
+            },
+            {
+                id: "3",
+                name: "Select tasks",
+            },
+        ]
+    },
+    {
+        id: "4",
+        icon: "/notion.svg",
+        label: "Notion",
+        isConnected: false,
+    },
+]
 
 
 
@@ -59,10 +105,51 @@ export function TaskList({ tasksGroup }: { tasksGroup: TaskGroup }) {
                                 </TooltipContent>
                             </Tooltip>
                         </div>
-                        <Button variant="secondary" className="hidden md:flex">
-                            <ArrowRightLeft />
-                            Sync to
-                        </Button>
+                        <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                                <Button variant="secondary" className="hidden md:flex">
+                                    <ArrowRightLeft />
+                                    Sync to
+                                </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent className="sm:min-w-48">
+                                <DropdownMenuGroup className="space-y-2">
+                                    <DropdownMenuLabel>Project Destination</DropdownMenuLabel>
+                                    <DropdownMenuSeparator />
+                                    {integrationList.map((item) =>
+                                        !item.isConnected ?
+                                            (<DropdownMenuItem key={item.id} className="gap-3" onSelect={() => console.log("menu is clicked", item.label)}>
+                                                <Image src={`/vectors/${item.icon}`} alt={item.label} width={14} height={14} />
+                                                <h5 className="text-sm font-medium">{item.label}</h5>
+                                                <AddCircle />
+                                            </DropdownMenuItem>)
+                                            :
+                                            (
+                                                <DropdownMenuSub key={item.id}>
+                                                    <DropdownMenuSubTrigger className="gap-3">
+                                                        <Image src={`/vectors/${item.icon}`} alt={item.label} width={14} height={14} />
+                                                        <div>
+                                                            <div className="flex items-center gap-1">
+                                                                <h5 className="text-sm font-medium">{item.label}</h5>
+                                                                <CheckCircle weight="Bold" className="text-green-300 dark:text-green-600" />
+                                                            </div>
+                                                            <p className="text-xs text-muted-foreground">{item.feature}</p>
+                                                        </div>
+                                                    </DropdownMenuSubTrigger>
+                                                    <DropdownMenuSubContent>
+                                                        {item.menu?.map((menu) => (
+                                                            <DropdownMenuItem key={menu.id} onSelect={() => console.log("menu is clicked", menu.name)}>
+                                                                {menu.name}
+                                                            </DropdownMenuItem>
+                                                        ))}
+                                                    </DropdownMenuSubContent>
+                                                </DropdownMenuSub>
+                                            )
+
+                                    )}
+                                </DropdownMenuGroup>
+                            </DropdownMenuContent>
+                        </DropdownMenu>
                     </div>
                     <time dateTime={tasksGroup.timestamp} className="text-xs text-muted-foreground">{formatDate(tasksGroup.timestamp)}</time>
                 </div>
