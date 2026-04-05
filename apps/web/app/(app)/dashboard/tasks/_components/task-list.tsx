@@ -2,63 +2,38 @@
 
 import { Button } from "@workspace/ui/components/button"
 import { Card, CardContent } from "@workspace/ui/components/card"
-import { Plus } from "lucide-react"
-import { AltArrowDown, UserPlus } from "@solar-icons/react"
-import { TaskItem } from "./task-item"
-import type { TaskGroup, ActionItem, UserSummary } from "../_types/task"
-import { useEffect, useRef, useState } from "react"
-import { cn } from "@workspace/ui/lib/utils"
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@workspace/ui/components/collapsible"
+import { Plus } from "lucide-react"
+import { AltArrowDown } from "@solar-icons/react"
+import { cn } from "@workspace/ui/lib/utils"
+
 import { TaskListHeader } from "./task-list-header"
-import { Tooltip, TooltipContent, TooltipTrigger } from "@workspace/ui/components/tooltip"
-import { Input } from "@workspace/ui/components/input"
-import { Checkbox } from "@workspace/ui/components/checkbox"
-import { toast } from "sonner"
+import { TaskItem } from "./task-item"
+import { NewTaskRow } from "./new-task-row"
+import { useTaskList } from "../_hooks/use-task-list"
+import type { TasksGroup } from "../_types/task"
 
+export function TaskList({ tasksGroup }: { tasksGroup: TasksGroup }) {
+    const {
+        tasks,
+        isAdding,
+        setIsAdding,
+        newTaskTitle,
+        setNewTaskTitle,
+        temporaryChecked,
+        setTemporaryChecked,
+        collapsibleOpen,
+        setCollapsibleOpen,
+        newTaskRowRef,
+        incompleteTasks,
+        completedTasks,
+        toggleTask,
+        addTask,
+        deleteTask,
+        updateTaskTitle,
+    } = useTaskList(tasksGroup)
 
-
-export function TaskList({ tasksGroup }: { tasksGroup: TaskGroup }) {
-    const [tasks, setTasks] = useState(tasksGroup.tasks)
-
-    const [isAdding, setIsAdding] = useState(false)
-    const [newTaskTitle, setNewTaskTitle] = useState("")
-    const [temporaryAssignee, setTemporaryAssignee] = useState<UserSummary | null>(null)
-    const [temporaryChecked, setTemporaryChecked] = useState(false)
-    const [collapsibleOpen, setCollapsibleOpen] = useState(false)
-
-    const newTaskRowRef = useRef<HTMLDivElement>(null)
-
-    const toggleTasks = (id: string) => {
-        setTasks(prev => prev.map(task => task.id === id
-            ? { ...task, isCompleted: !task.isCompleted } : task
-        ))
-    }
-
-    const addTask = () => {
-        const trimmed = newTaskTitle.trim()
-        if (!trimmed) {
-            setIsAdding(false)
-            setTemporaryChecked(false)
-            setNewTaskTitle("")
-            setTemporaryAssignee(null)
-            return
-        }
-
-        const newTask: ActionItem = {
-            id: crypto.randomUUID(),
-            title: trimmed,
-            isCompleted: temporaryChecked,
-            assignee: temporaryAssignee
-        }
-
-        setTasks(prev => [...prev, newTask])
-        setTemporaryChecked(false)
-        setNewTaskTitle("")
-        setTemporaryAssignee(null)
-        setIsAdding(false)
-    }
-
-    const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
         if (e.key === "Enter") {
             e.preventDefault()
             addTask()
@@ -66,114 +41,86 @@ export function TaskList({ tasksGroup }: { tasksGroup: TaskGroup }) {
         if (e.key === "Escape") {
             e.preventDefault()
             setIsAdding(false)
-            setTemporaryChecked(false)
             setNewTaskTitle("")
-            setTemporaryAssignee(null)
-
+            setTemporaryChecked(false)
         }
     }
 
-    useEffect(() => {
-        const handleClickOutside = (e: MouseEvent) => {
-            if (!newTaskRowRef.current) return
-            if (!newTaskRowRef.current.contains(e.target as Node)) {
-                addTask()
-            }
-        }
-        if (isAdding) {
-            document.addEventListener("mousedown", handleClickOutside)
-        }
-
-        return () => document.removeEventListener("mousedown", handleClickOutside)
-    }, [isAdding, newTaskTitle, temporaryChecked, temporaryAssignee])
-
-
-
-    const deleteTask = (id: string) => {
-        const index = tasks.findIndex(t => t.id === id)
-        const taskToDelete = tasks[index]
-        if (!taskToDelete) return
-
-        setTasks(prev => prev.filter(t => t.id != id))
-
-        toast("Task deleted", {
-            position: "bottom-center",
-            action: {
-                label: "Undo",
-                onClick: () => {
-                    setTasks(current => {
-                        const restored = [...current]
-                        restored.splice(index, 0, taskToDelete)
-                        return restored
-                    })
-                },
-            },
-        })
-    }
-
-    const updateTaskTitle = (id: string, title: string) => {
-        setTasks(prev => prev.map(task => task.id === id ? { ...task, title } : task))
-
-    }
-
+    const showCard = tasks.length > 0 || isAdding
 
     return (
         <div className="space-y-4 group/task">
-            {/* Header */}
-            <TaskListHeader title={tasksGroup.title} timestamp={tasksGroup.timestamp} tasks={tasks} />
-            {/* Item Action Card */}
-            {(tasks.length > 0 || isAdding) && <Card>
-                <CardContent>
-                    {
-                        tasks.filter((item => !item.isCompleted)).map((item) => (<TaskItem key={item.id} item={item} onToggle={() => toggleTasks(item.id)} onDelete={() => deleteTask(item.id)} onUpdateTitle={(title) => updateTaskTitle(item.id, title)} />))
-                    }
+            <TaskListHeader
+                title={tasksGroup.title}
+                timestamp={tasksGroup.timestamp}
+                tasks={tasks}
+            />
 
-                    {isAdding && (
-                        <div
-                            ref={newTaskRowRef}
-                            className="flex items-start gap-3 py-1 group/item">
-                            <Checkbox className="w-5 h-5 border-2" checked={temporaryChecked} onCheckedChange={() => setTemporaryChecked(!temporaryChecked)} />
-                            <Input
-                                autoFocus
-                                value={newTaskTitle}
-                                onChange={(e) => setNewTaskTitle(e.target.value)}
+            {showCard && (
+                <Card>
+                    <CardContent>
+                        {incompleteTasks.map((item) => (
+                            <TaskItem
+                                key={item.id}
+                                item={item}
+                                onToggle={() => toggleTask(item.id)}
+                                onDelete={() => deleteTask(item.id)}
+                                onUpdateTitle={(title) => updateTaskTitle(item.id, title)}
+                            />
+                        ))}
+
+                        {isAdding && (
+                            <NewTaskRow
+                                rowRef={newTaskRowRef}
+                                title={newTaskTitle}
+                                checked={temporaryChecked}
+                                onTitleChange={setNewTaskTitle}
+                                onCheckedChange={setTemporaryChecked}
                                 onKeyDown={handleKeyDown}
-                                placeholder="Enter task"
-                                className="p-0 h-fit bg-transparent" />
-                            <Tooltip>
-                                <TooltipTrigger asChild>
-                                    <Button variant="secondary" size="icon-xs" className="rounded-full">
-                                        <UserPlus />
-                                    </Button>
-                                </TooltipTrigger>
-                                <TooltipContent side="right">
-                                    <p>Add assignee</p>
-                                </TooltipContent>
-                            </Tooltip>
-                        </div>
-                    )}
+                            />
+                        )}
 
-                    {
-                        tasks.filter((item => item.isCompleted)).length > 0 && <Collapsible open={collapsibleOpen} onOpenChange={setCollapsibleOpen} className="space-y-1">
-                            <CollapsibleTrigger asChild>
-                                <Button variant="ghost" size="xs" className="bg-transparent aria-expanded:bg-transparent">
-                                    <AltArrowDown className={cn("transition-all duration-200 rotate-0", collapsibleOpen && "rotate-180")} />
-                                    <span >{tasks.filter(t => t.isCompleted).length} Completed</span>
-                                </Button>
-                            </CollapsibleTrigger>
-                            <CollapsibleContent>
-                                {/* Item Actions List*/}
-                                {
-                                    tasks.filter((item => item.isCompleted)).map((item) =>
-                                        (<TaskItem key={item.id} item={item} onToggle={() => toggleTasks(item.id)} onDelete={() => deleteTask(item.id)} onUpdateTitle={(title) => updateTaskTitle(item.id, title)} />))
-                                }
-                            </CollapsibleContent>
-                        </Collapsible>
-                    }
-                </CardContent>
-            </Card>}
-            <Button variant="ghost" onClick={() => setIsAdding(true)}><Plus /> New Task</Button>
+                        {completedTasks.length > 0 && (
+                            <Collapsible
+                                open={collapsibleOpen}
+                                onOpenChange={setCollapsibleOpen}
+                                className="space-y-1"
+                            >
+                                <CollapsibleTrigger asChild>
+                                    <Button
+                                        variant="ghost"
+                                        size="xs"
+                                        className="bg-transparent aria-expanded:bg-transparent"
+                                    >
+                                        <AltArrowDown
+                                            className={cn(
+                                                "transition-all duration-200 rotate-0",
+                                                collapsibleOpen && "rotate-180"
+                                            )}
+                                        />
+                                        <span>{completedTasks.length} Completed</span>
+                                    </Button>
+                                </CollapsibleTrigger>
+                                <CollapsibleContent>
+                                    {completedTasks.map((item) => (
+                                        <TaskItem
+                                            key={item.id}
+                                            item={item}
+                                            onToggle={() => toggleTask(item.id)}
+                                            onDelete={() => deleteTask(item.id)}
+                                            onUpdateTitle={(title) => updateTaskTitle(item.id, title)}
+                                        />
+                                    ))}
+                                </CollapsibleContent>
+                            </Collapsible>
+                        )}
+                    </CardContent>
+                </Card>
+            )}
+
+            <Button variant="ghost" onClick={() => setIsAdding(true)}>
+                <Plus /> New Task
+            </Button>
         </div>
     )
 }
-

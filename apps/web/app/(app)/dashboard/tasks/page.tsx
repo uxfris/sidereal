@@ -2,10 +2,10 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@workspace/ui/componen
 import { TaskList } from "./_components/task-list"
 import { TaskAIInsight } from "./_components/task-ai-insight"
 import { TaskProductivityStats } from "./_components/task-productivity"
-import { TaskGroup } from "./_types/task";
+import { TasksGroup } from "./_types/task";
 import { EmptyState } from "@/components/empty-state";
 
-export const mockTaskGroups: TaskGroup[] = [
+export const mockTaskGroups: TasksGroup[] = [
     {
         id: "group-1",
         title: "Website Redesign",
@@ -14,7 +14,7 @@ export const mockTaskGroups: TaskGroup[] = [
             {
                 id: "task-1",
                 title: "Create wireframes",
-                isCompleted: false,
+                isCompleted: true,
                 assignee: {
                     id: "user-1",
                     name: "Alice Johnson",

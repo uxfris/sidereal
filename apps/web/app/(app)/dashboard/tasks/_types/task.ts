@@ -12,7 +12,7 @@ export interface ActionItem {
     assignee: UserSummary | null
 }
 
-export interface TaskGroup {
+export interface TasksGroup {
     id: string
     title: string
     timestamp: string // ISO 8601
