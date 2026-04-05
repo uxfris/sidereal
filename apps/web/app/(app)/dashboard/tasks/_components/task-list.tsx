@@ -13,6 +13,7 @@ import { TaskListHeader } from "./task-list-header"
 import { Tooltip, TooltipContent, TooltipTrigger } from "@workspace/ui/components/tooltip"
 import { Input } from "@workspace/ui/components/input"
 import { Checkbox } from "@workspace/ui/components/checkbox"
+import { toast } from "sonner"
 
 
 
@@ -80,6 +81,31 @@ export function TaskList({ tasksGroup }: { tasksGroup: TaskGroup }) {
 
 
 
+    const deleteTask = (id: string) => {
+        setTasks(prev => {
+            const index = prev.findIndex(t => t.id === id)
+            const taskToDelete = prev[index]
+            if (!taskToDelete) return prev
+
+            const newTasks = prev.filter(t => t.id !== id)
+
+            toast("Task deleted", {
+                action: {
+                    label: "Undo",
+                    onClick: () => {
+                        setTasks(current => {
+                            const restored = [...current]
+                            restored.splice(index, 0, taskToDelete)
+                            return restored
+                        })
+                    },
+                },
+            })
+
+            return newTasks
+        })
+    }
+
 
     return (
         <div className="space-y-4 group/task">
@@ -89,7 +115,7 @@ export function TaskList({ tasksGroup }: { tasksGroup: TaskGroup }) {
             <Card>
                 <CardContent>
                     {
-                        tasks.filter((item => !item.isCompleted)).map((item) => (<TaskItem key={item.id} item={item} onToggle={() => toggleTasks(item.id)} />))
+                        tasks.filter((item => !item.isCompleted)).map((item) => (<TaskItem key={item.id} item={item} onToggle={() => toggleTasks(item.id)} onDelete={() => deleteTask(item.id)} />))
                     }
 
                     {isAdding && (
@@ -129,7 +155,7 @@ export function TaskList({ tasksGroup }: { tasksGroup: TaskGroup }) {
                                 {/* Item Actions List*/}
                                 {
                                     tasks.filter((item => item.isCompleted)).map((item) =>
-                                        (<TaskItem key={item.id} item={item} onToggle={() => toggleTasks(item.id)} />))
+                                        (<TaskItem key={item.id} item={item} onToggle={() => toggleTasks(item.id)} onDelete={() => deleteTask(item.id)} />))
                                 }
                             </CollapsibleContent>
                         </Collapsible>
