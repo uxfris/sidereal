@@ -15,7 +15,7 @@ type TaskAssigneeMenuProps = {
     assigneeId?: string
     assignees: UserSummary[]
     tooltip: string
-    onUpdateAssignee: (assignee?: UserSummary) => void
+    onUpdateAssignee: (assignee: UserSummary | null) => void
 }
 
 export function TaskAssigneeMenu({ children, tooltip, onUpdateAssignee, assigneeId, assignees }: TaskAssigneeMenuProps) {
@@ -36,7 +36,7 @@ export function TaskAssigneeMenu({ children, tooltip, onUpdateAssignee, assignee
             <DropdownMenuContent side="right" className="sm:min-w-52 space-y-2 p-2">
                 <Input
                     placeholder="Name or Email" />
-                <DropdownMenuItem className="py-2" onSelect={() => onUpdateAssignee()}>
+                <DropdownMenuItem className="py-2" onSelect={() => onUpdateAssignee(null)}>
                     <div className="w-6 h-6 bg-muted rounded-full flex items-center justify-center">
                         <UserPlus />
                     </div>

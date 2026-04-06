@@ -126,12 +126,12 @@ export function useTaskList(tasksGroup: TasksGroup) {
         }
     }
 
-    async function updateAssignee(id: string, assignee?: UserSummary) {
+    async function updateAssignee(id: string, assignee: UserSummary | null) {
         const prev = tasks.find((t) => t.id === id)
         if (!prev) return
 
         //Optimistic update
-        setTasks((curr) => curr.map((t) => (t.id === id) ? { ...t, assignee: assignee ? assignee : null } : t))
+        setTasks((curr) => curr.map((t) => (t.id === id) ? { ...t, assignee: assignee } : t))
 
         try {
             await taskApi.updateAssignee(id, assignee)
@@ -149,7 +149,16 @@ export function useTaskList(tasksGroup: TasksGroup) {
         if (!isAdding) return
 
         function handleClickOutside(e: MouseEvent) {
-            if (newTaskRowRef.current?.contains(e.target as Node)) return
+            const target = e.target as HTMLElement
+
+            const clickedInsideRow = newTaskRowRef.current?.contains(target)
+            const clickedInsideOverlay = target.closest(
+                "[data-radix-popper-content-wrapper], [role='menu'], [role='dialog']"
+            )
+
+            if (clickedInsideRow || clickedInsideOverlay) return
+
+
             addTask()
         }
 

@@ -154,7 +154,7 @@ export const taskApi = {
         //PATCH /api/tasks/:id
     },
 
-    async updateAssignee(id: string, assignee?: UserSummary): Promise<void> {
+    async updateAssignee(id: string, assignee: UserSummary | null): Promise<void> {
         await new Promise((r) => setTimeout(r, 300))
         //PATH /api/tasks/:id
     },

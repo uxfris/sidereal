@@ -16,7 +16,7 @@ type TaskItemProps = {
     onToggle: () => void
     onDelete: () => void
     onUpdateTitle: (title: string) => void
-    onUpdateAssignee: (assignee?: UserSummary) => void
+    onUpdateAssignee: (assignee: UserSummary | null) => void
 
 }
 

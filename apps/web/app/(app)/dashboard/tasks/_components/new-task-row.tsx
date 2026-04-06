@@ -3,26 +3,35 @@
 import { Checkbox } from "@workspace/ui/components/checkbox"
 import { Input } from "@workspace/ui/components/input"
 import { Button } from "@workspace/ui/components/button"
-import { Tooltip, TooltipContent, TooltipTrigger } from "@workspace/ui/components/tooltip"
 import { UserPlus } from "@solar-icons/react"
 import type { RefObject } from "react"
+import { UserSummary } from "@workspace/types/task"
+import { TaskAssigneeMenu } from "./task-assignee-menu"
+import { Avatar, AvatarFallback, AvatarImage } from "@workspace/ui/components/avatar"
 
 type NewTaskRowProps = {
     rowRef: RefObject<HTMLDivElement | null>
     title: string
     checked: boolean
-    onTitleChange: (value: string) => void
+    assignee: UserSummary | null,
+    assignees: UserSummary[]
     onCheckedChange: (checked: boolean) => void
+    onTitleChange: (value: string) => void
     onKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => void
+    onAssigneeChange: (assignee: UserSummary | null) => void
 }
 
 export function NewTaskRow({
     rowRef,
     title,
     checked,
-    onTitleChange,
     onCheckedChange,
+    onTitleChange,
     onKeyDown,
+    assignee,
+    onAssigneeChange,
+    assignees
+
 }: NewTaskRowProps) {
     return (
         <div ref={rowRef} className="flex items-start gap-3 py-1 group/item">
@@ -39,16 +48,20 @@ export function NewTaskRow({
                 placeholder="Enter task"
                 className="p-0 h-fit bg-transparent"
             />
-            <Tooltip>
-                <TooltipTrigger asChild>
+            {assignee ? (
+                <TaskAssigneeMenu tooltip={assignee.name} onUpdateAssignee={onAssigneeChange} assigneeId={assignee.id} assignees={assignees}>
+                    <Avatar>
+                        <AvatarImage src={assignee.avatarUrl} />
+                        <AvatarFallback>{assignee.initials}</AvatarFallback>
+                    </Avatar>
+                </TaskAssigneeMenu>
+            ) : (
+                <TaskAssigneeMenu tooltip="Add assignee" onUpdateAssignee={onAssigneeChange} assignees={assignees}>
                     <Button variant="secondary" size="icon-xs" className="rounded-full">
                         <UserPlus />
                     </Button>
-                </TooltipTrigger>
-                <TooltipContent side="right">
-                    <p>Add assignee</p>
-                </TooltipContent>
-            </Tooltip>
+                </TaskAssigneeMenu>
+            )}
         </div>
     )
 }

@@ -22,6 +22,8 @@ export function TaskList({ tasksGroup, assignees }: { tasksGroup: TasksGroup, as
         setNewTaskTitle,
         temporaryChecked,
         setTemporaryChecked,
+        temporaryAssignee,
+        setTemporaryAssignee,
         collapsibleOpen,
         setCollapsibleOpen,
         newTaskRowRef,
@@ -75,10 +77,13 @@ export function TaskList({ tasksGroup, assignees }: { tasksGroup: TasksGroup, as
                         {isAdding && (
                             <NewTaskRow
                                 rowRef={newTaskRowRef}
+                                assignees={assignees}
                                 title={newTaskTitle}
                                 checked={temporaryChecked}
-                                onTitleChange={setNewTaskTitle}
                                 onCheckedChange={setTemporaryChecked}
+                                assignee={temporaryAssignee}
+                                onAssigneeChange={setTemporaryAssignee}
+                                onTitleChange={setNewTaskTitle}
                                 onKeyDown={handleKeyDown}
                             />
                         )}
