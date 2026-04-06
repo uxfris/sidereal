@@ -1,4 +1,4 @@
-import { ActionItem } from "../_types/task"
+import { ActionItem, UserSummary } from "../_types/task"
 
 export const taskApi = {
     async toggle(id: string, isCompleted: boolean): Promise<void> {
@@ -20,6 +20,12 @@ export const taskApi = {
     async updateTitle(id: string, title: string): Promise<void> {
         await new Promise((r) => setTimeout(r, 300))
         //PATCH /api/tasks/:id
-    }
+    },
+
+    async updateAssignee(id: string, assignee?: UserSummary): Promise<void> {
+        await new Promise((r) => setTimeout(r, 300))
+        //PATH /api/tasks/:id
+    },
+
 
 }

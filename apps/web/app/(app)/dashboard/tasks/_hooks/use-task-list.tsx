@@ -126,6 +126,23 @@ export function useTaskList(tasksGroup: TasksGroup) {
         }
     }
 
+    async function updateAssignee(id: string, assignee?: UserSummary) {
+        const prev = tasks.find((t) => t.id === id)
+        if (!prev) return
+
+        //Optimistic update
+        setTasks((curr) => curr.map((t) => (t.id === id) ? { ...t, assignee: assignee ? assignee : null } : t))
+
+        try {
+            await taskApi.updateAssignee(id, assignee)
+        } catch (error) {
+            //Rollback
+            setTasks((curr) => curr.map((t) => (t.id === id) ? { ...t, assignee: prev.assignee } : t))
+            toast.error("Failed to update assignee.")
+        }
+    }
+
+
     // ─── Click-outside to commit new task ────────────────────────────────────────
 
     useEffect(() => {
@@ -167,5 +184,6 @@ export function useTaskList(tasksGroup: TasksGroup) {
         addTask,
         deleteTask,
         updateTaskTitle,
+        updateAssignee,
     }
 }

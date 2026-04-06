@@ -5,19 +5,21 @@ import { Avatar, AvatarFallback, AvatarImage } from "@workspace/ui/components/av
 import { Button } from "@workspace/ui/components/button"
 import { Checkbox } from "@workspace/ui/components/checkbox"
 import { Input } from "@workspace/ui/components/input"
-import { Tooltip, TooltipContent, TooltipTrigger } from "@workspace/ui/components/tooltip"
 import { TrashBin2, UserPlus } from "@solar-icons/react"
 import { cn } from "@workspace/ui/lib/utils"
-import type { ActionItem } from "../_types/task"
+import { ActionItem, UserSummary } from "../_types/task"
+import { TaskAssigneeMenu } from "./task-assignee-menu"
 
 type TaskItemProps = {
     item: ActionItem
     onToggle: () => void
     onDelete: () => void
     onUpdateTitle: (title: string) => void
+    onUpdateAssignee: (assignee?: UserSummary) => void
+
 }
 
-export function TaskItem({ item, onToggle, onDelete, onUpdateTitle }: TaskItemProps) {
+export function TaskItem({ item, onToggle, onDelete, onUpdateTitle, onUpdateAssignee }: TaskItemProps) {
     const [isEditing, setIsEditing] = useState(false)
     const [title, setTitle] = useState(item.title)
     const inputRef = useRef<HTMLInputElement>(null)
@@ -95,29 +97,20 @@ export function TaskItem({ item, onToggle, onDelete, onUpdateTitle }: TaskItemPr
             </Button>
 
             {item.assignee ? (
-                <Tooltip>
-                    <TooltipTrigger asChild>
-                        <Avatar>
-                            <AvatarImage src={item.assignee.avatarUrl} />
-                            <AvatarFallback>{item.assignee.initials}</AvatarFallback>
-                        </Avatar>
-                    </TooltipTrigger>
-                    <TooltipContent side="right">
-                        <p>{item.assignee.name}</p>
-                    </TooltipContent>
-                </Tooltip>
+                <TaskAssigneeMenu tooltip={item.assignee.name} onUpdateAssignee={onUpdateAssignee} assigneeId={item.assignee.id}>
+                    <Avatar>
+                        <AvatarImage src={item.assignee.avatarUrl} />
+                        <AvatarFallback>{item.assignee.initials}</AvatarFallback>
+                    </Avatar>
+                </TaskAssigneeMenu>
             ) : (
-                <Tooltip>
-                    <TooltipTrigger asChild>
-                        <Button variant="secondary" size="icon-xs" className="rounded-full">
-                            <UserPlus />
-                        </Button>
-                    </TooltipTrigger>
-                    <TooltipContent side="right">
-                        <p>Add assignee</p>
-                    </TooltipContent>
-                </Tooltip>
+                <TaskAssigneeMenu tooltip="Add assignee" onUpdateAssignee={onUpdateAssignee}>
+                    <Button variant="secondary" size="icon-xs" className="rounded-full">
+                        <UserPlus />
+                    </Button>
+                </TaskAssigneeMenu>
             )}
         </div>
     )
 }
+

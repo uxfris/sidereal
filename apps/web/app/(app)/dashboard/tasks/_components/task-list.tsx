@@ -31,6 +31,7 @@ export function TaskList({ tasksGroup }: { tasksGroup: TasksGroup }) {
         addTask,
         deleteTask,
         updateTaskTitle,
+        updateAssignee
     } = useTaskList(tasksGroup)
 
     function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
@@ -66,6 +67,7 @@ export function TaskList({ tasksGroup }: { tasksGroup: TasksGroup }) {
                                 onToggle={() => toggleTask(item.id)}
                                 onDelete={() => deleteTask(item.id)}
                                 onUpdateTitle={(title) => updateTaskTitle(item.id, title)}
+                                onUpdateAssignee={(assignee) => updateAssignee(item.id, assignee)}
                             />
                         ))}
 
@@ -109,6 +111,7 @@ export function TaskList({ tasksGroup }: { tasksGroup: TasksGroup }) {
                                             onToggle={() => toggleTask(item.id)}
                                             onDelete={() => deleteTask(item.id)}
                                             onUpdateTitle={(title) => updateTaskTitle(item.id, title)}
+                                            onUpdateAssignee={(assignee) => updateAssignee(item.id, assignee)}
                                         />
                                     ))}
                                 </CollapsibleContent>
