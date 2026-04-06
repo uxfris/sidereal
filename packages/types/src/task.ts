@@ -1,20 +1,25 @@
-export interface UserSummary {
-    id: string
-    name: string
-    initials: string
-    avatarUrl?: string
-}
+import { z } from "zod";
 
-export interface ActionItem {
-    id: string
-    title: string
-    isCompleted: boolean
-    assignee: UserSummary | null
-}
+export const UserSummarySchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  initials: z.string(),
+  avatarUrl: z.string().url().optional(),
+});
+export type UserSummary = z.infer<typeof UserSummarySchema>;
 
-export interface TasksGroup {
-    id: string
-    title: string
-    timestamp: string // ISO 8601
-    tasks: ActionItem[]
-}
+export const ActionItemSchema = z.object({
+  id: z.string(),
+  title: z.string().min(1, "Task title is required"),
+  isCompleted: z.boolean(),
+  assignee: UserSummarySchema.nullable(),
+});
+export type ActionItem = z.infer<typeof ActionItemSchema>;
+
+export const TasksGroupSchema = z.object({
+  id: z.string(),
+  title: z.string(),
+  timestamp: z.string(), // ISO 8601
+  tasks: z.array(ActionItemSchema),
+});
+export type TasksGroup = z.infer<typeof TasksGroupSchema>;

@@ -1,35 +1,44 @@
+import { z } from "zod";
 
-export type MeetingStatus = "analyzing" | "processed"
-export type MeetingPlatform = "Google Meet" | "Zoom" | "Teams"
+export const MeetingStatusSchema = z.enum(["analyzing", "processed"]);
+export type MeetingStatus = z.infer<typeof MeetingStatusSchema>;
 
-export interface Attendee { id: string; avatarUrl?: string; initials: string }
+export const MeetingPlatformSchema = z.enum(["Google Meet", "Zoom", "Teams"]);
+export type MeetingPlatform = z.infer<typeof MeetingPlatformSchema>;
 
-export interface RecentMeeting {
-    id: string
-    title: string
-    summary: string
-    status: MeetingStatus
-    timestamp: string   // display string, e.g. "10:30" or "Oct 22, 2024"
-    duration: string    // e.g. "28m"
-    attendees: Attendee[],
-    extraAttendees?: number,
-}
+export const AttendeeSchema = z.object({
+  id: z.string(),
+  avatarUrl: z.string().url().optional(),
+  initials: z.string(),
+});
+export type Attendee = z.infer<typeof AttendeeSchema>;
 
+export const RecentMeetingSchema = z.object({
+  id: z.string(),
+  title: z.string(),
+  summary: z.string(),
+  status: MeetingStatusSchema,
+  timestamp: z.string(), // display string, e.g. "10:30" or "Oct 22, 2024"
+  duration: z.string(),  // e.g. "28m"
+  attendees: z.array(AttendeeSchema),
+  extraAttendees: z.number().optional(),
+});
+export type RecentMeeting = z.infer<typeof RecentMeetingSchema>;
 
+export const UpcomingMeetingSchema = z.object({
+  id: z.string(),
+  title: z.string(),
+  timestamp: z.string(), // display string, e.g. "10:30" or "Oct 22, 2024"
+  duration: z.string(),  // e.g. "28m"
+  platform: MeetingPlatformSchema,
+  action: z.enum(["join", "prepare"]),
+  attendees: z.array(AttendeeSchema),
+  extraAttendees: z.number().optional(),
+});
+export type UpcomingMeeting = z.infer<typeof UpcomingMeetingSchema>;
 
-
-export interface UpcomingMeeting {
-    id: string
-    title: string
-    timestamp: string   // display string, e.g. "10:30" or "Oct 22, 2024"
-    duration: string    // e.g. "28m"
-    platform: MeetingPlatform
-    action: 'join' | 'prepare'
-    attendees: Attendee[]
-    extraAttendees?: number
-}
-
-export interface UpcomingMeetingGroup {
-    label: string
-    meetings: UpcomingMeeting[]
-}
+export const UpcomingMeetingGroupSchema = z.object({
+  label: z.string(),
+  meetings: z.array(UpcomingMeetingSchema),
+});
+export type UpcomingMeetingGroup = z.infer<typeof UpcomingMeetingGroupSchema>;

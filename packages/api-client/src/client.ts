@@ -2,12 +2,16 @@
 
 import { env } from "apps/web/config/env"
 
-export type ApiError = {
-    code: string
-    message: string
-    status: number
-    details?: unknown
-}
+import { z } from "zod";
+
+export const ApiErrorSchema = z.object({
+    type: z.string(),
+    title: z.string(),
+    status: z.number(),
+    detail: z.string(),
+    traceId: z.string(),
+});
+export type ApiError = z.infer<typeof ApiErrorSchema>;
 
 type RequestOptions = {
     method?: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE'
@@ -66,12 +70,13 @@ async function request<T>(url: string, options: RequestOptions = {}): Promise<T>
             errorBody = await res.json()
         } catch { }
 
-        const error: ApiError = {
-            code: errorBody?.code,
-            message: errorBody?.message || res.statusText || 'API Error',
+        const error: ApiError = ApiErrorSchema.parse({
+            type: errorBody?.['type'] || 'about:blank',
+            title: errorBody?.['title'] || errorBody?.['message'] || res.statusText || 'API Error',
             status: res.status,
-            details: errorBody,
-        }
+            detail: errorBody?.['detail'] || '',
+            traceId: errorBody?.['trace_id'] || '',
+        })
 
         throw error
     }
