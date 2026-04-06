@@ -1,4 +1,5 @@
 import { ActionItem, TasksGroup, UserSummary } from "@workspace/types/task"
+import { client } from "./client";
 
 const MOCK_TASK_GROUPS: TasksGroup[] = [
     {
@@ -121,6 +122,7 @@ const MOCK_ASSIGNEES: UserSummary[] = [
 
 
 export const taskApi = {
+    // getGroups: () => client.get<TasksGroup[]>('/tasks/groups'),
     async fetchTasksGroup(): Promise<TasksGroup[]> {
         await new Promise((r) => setTimeout(r, 600))
         return MOCK_TASK_GROUPS

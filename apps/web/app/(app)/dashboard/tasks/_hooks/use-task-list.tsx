@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react"
 import { toast } from "sonner"
 import type { ActionItem, TasksGroup, UserSummary } from "../../../../../../../packages/types/src/task"
-import { taskApi } from "../../../../../../../packages/api-client/src/task-api"
+import { taskApi } from "../../../../../../../packages/api-client/src/task.api"
 
 export function useTaskList(tasksGroup: TasksGroup) {
     const [tasks, setTasks] = useState<ActionItem[]>(tasksGroup.tasks)
