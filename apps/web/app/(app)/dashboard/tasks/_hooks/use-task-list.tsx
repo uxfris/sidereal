@@ -1,45 +1,35 @@
-import { useEffect, useRef, useState } from "react"
+import { useState } from "react"
 import { toast } from "sonner"
 import type { ActionItem, TasksGroup, UserSummary } from "../../../../../../../packages/types/src/task"
-import { taskApi } from "../../../../../../../packages/api-client/src/task.api"
+import { taskApi as defaultTaskApi } from "../../../../../../../packages/api-client/src/task.api"
+import { useNewTaskForm } from "./use-task-form"
 
-export function useTaskList(tasksGroup: TasksGroup) {
+// Injecting the api makes every action trivially unit-testable
+// without jest.mock() or module-level mocking
+interface UseTaskListOptions {
+    api?: typeof defaultTaskApi
+}
+
+export function useTaskList(
+    tasksGroup: TasksGroup,
+    { api = defaultTaskApi }: UseTaskListOptions = {}
+) {
     const [tasks, setTasks] = useState<ActionItem[]>(tasksGroup.tasks)
-
-    // — Adding state —
-    const [isAdding, setIsAdding] = useState(false)
-    const [newTaskTitle, setNewTaskTitle] = useState("")
-    const [temporaryAssignee, setTemporaryAssignee] = useState<UserSummary | null>(null)
-    const [temporaryChecked, setTemporaryChecked] = useState(false)
-    const newTaskRowRef = useRef<HTMLDivElement>(null)
-
-    // — Collapsible —
     const [collapsibleOpen, setCollapsibleOpen] = useState(false)
 
-    // ─── Helpers ────────────────────────────────────────────────────────────────
-
-    function resetAddForm() {
-        setNewTaskTitle("")
-        setTemporaryChecked(false)
-        setTemporaryAssignee(null)
-        setIsAdding(false)
-    }
-
-    // ─── Actions ─────────────────────────────────────────────────────────────────
+    // ─── Actions ──────────────────────────────────────────────────────────────
 
     async function toggleTask(id: string) {
         const prev = tasks.find((t) => t.id === id)
         if (!prev) return
 
-        // Optimistic update
         setTasks((curr) =>
             curr.map((t) => (t.id === id ? { ...t, isCompleted: !t.isCompleted } : t))
         )
 
         try {
-            await taskApi.toggle(id, !prev.isCompleted)
+            await api.toggle(id, !prev.isCompleted)
         } catch {
-            // Rollback
             setTasks((curr) =>
                 curr.map((t) => (t.id === id ? { ...t, isCompleted: prev.isCompleted } : t))
             )
@@ -47,28 +37,19 @@ export function useTaskList(tasksGroup: TasksGroup) {
         }
     }
 
-    async function addTask() {
-        const trimmed = newTaskTitle.trim()
-        if (!trimmed) {
-            resetAddForm()
-            return
-        }
-
+    async function addTask(title: string, assignee: UserSummary | null, isCompleted: boolean) {
         const optimisticTask: ActionItem = {
             id: crypto.randomUUID(),
-            title: trimmed,
-            isCompleted: temporaryChecked,
-            assignee: temporaryAssignee,
+            title,
+            isCompleted,
+            assignee,
         }
 
-        // Optimistic update
         setTasks((curr) => [...curr, optimisticTask])
-        resetAddForm()
 
         try {
-            await taskApi.add(optimisticTask)
+            await api.add(optimisticTask)
         } catch {
-            // Rollback
             setTasks((curr) => curr.filter((t) => t.id !== optimisticTask.id))
             toast.error("Failed to add task. Please try again.")
         }
@@ -79,7 +60,6 @@ export function useTaskList(tasksGroup: TasksGroup) {
         const snapshot = tasks[index]
         if (!snapshot) return
 
-        // Optimistic update
         setTasks((curr) => curr.filter((t) => t.id !== id))
 
         toast("Task deleted", {
@@ -97,9 +77,9 @@ export function useTaskList(tasksGroup: TasksGroup) {
         })
 
         try {
-            await taskApi.remove(id)
+            await api.remove(id)
         } catch {
-            // Rollback (only if undo wasn't already clicked)
+            // Only rollback if the user didn't already undo
             setTasks((curr) => {
                 if (curr.find((t) => t.id === id)) return curr
                 const restored = [...curr]
@@ -114,13 +94,11 @@ export function useTaskList(tasksGroup: TasksGroup) {
         const prev = tasks.find((t) => t.id === id)
         if (!prev) return
 
-        // Optimistic update
         setTasks((curr) => curr.map((t) => (t.id === id ? { ...t, title } : t)))
 
         try {
-            await taskApi.updateTitle(id, title)
+            await api.updateTitle(id, title)
         } catch {
-            // Rollback
             setTasks((curr) => curr.map((t) => (t.id === id ? { ...t, title: prev.title } : t)))
             toast.error("Failed to update task title.")
         }
@@ -130,69 +108,40 @@ export function useTaskList(tasksGroup: TasksGroup) {
         const prev = tasks.find((t) => t.id === id)
         if (!prev) return
 
-        //Optimistic update
-        setTasks((curr) => curr.map((t) => (t.id === id) ? { ...t, assignee: assignee } : t))
+        setTasks((curr) => curr.map((t) => (t.id === id ? { ...t, assignee } : t)))
 
         try {
-            await taskApi.updateAssignee(id, assignee)
-        } catch (error) {
-            //Rollback
-            setTasks((curr) => curr.map((t) => (t.id === id) ? { ...t, assignee: prev.assignee } : t))
+            await api.updateAssignee(id, assignee)
+        } catch {
+            setTasks((curr) => curr.map((t) => (t.id === id ? { ...t, assignee: prev.assignee } : t)))
             toast.error("Failed to update assignee.")
         }
     }
 
+    // ─── Form (delegates to useNewTaskForm) ───────────────────────────────────
 
-    // ─── Click-outside to commit new task ────────────────────────────────────────
+    const form = useNewTaskForm({ onCommit: addTask })
 
-    useEffect(() => {
-        if (!isAdding) return
-
-        function handleClickOutside(e: MouseEvent) {
-            const target = e.target as HTMLElement
-
-            const clickedInsideRow = newTaskRowRef.current?.contains(target)
-            const clickedInsideOverlay = target.closest(
-                "[data-radix-popper-content-wrapper], [role='menu'], [role='dialog']"
-            )
-
-            if (clickedInsideRow || clickedInsideOverlay) return
-
-
-            addTask()
-        }
-
-        document.addEventListener("mousedown", handleClickOutside)
-        return () => document.removeEventListener("mousedown", handleClickOutside)
-    }, [isAdding, newTaskTitle, temporaryChecked, temporaryAssignee])
-
-    // ─── Derived ─────────────────────────────────────────────────────────────────
+    // ─── Derived ──────────────────────────────────────────────────────────────
 
     const incompleteTasks = tasks.filter((t) => !t.isCompleted)
     const completedTasks = tasks.filter((t) => t.isCompleted)
 
     return {
-        // state
+        // task state
         tasks,
-        isAdding,
-        setIsAdding,
-        newTaskTitle,
-        setNewTaskTitle,
-        temporaryChecked,
-        setTemporaryChecked,
-        temporaryAssignee,
-        setTemporaryAssignee,
-        collapsibleOpen,
-        setCollapsibleOpen,
-        newTaskRowRef,
-        // derived
         incompleteTasks,
         completedTasks,
+        // ui state
+        collapsibleOpen,
+        setCollapsibleOpen,
         // actions
         toggleTask,
         addTask,
         deleteTask,
         updateTaskTitle,
         updateAssignee,
+        // form (spread or pass as a group — consumer's choice)
+        form,
     }
 }
