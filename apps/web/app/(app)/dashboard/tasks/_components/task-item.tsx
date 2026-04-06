@@ -12,6 +12,7 @@ import { TaskAssigneeMenu } from "./task-assignee-menu"
 
 type TaskItemProps = {
     item: ActionItem
+    assignees: UserSummary[]
     onToggle: () => void
     onDelete: () => void
     onUpdateTitle: (title: string) => void
@@ -19,7 +20,7 @@ type TaskItemProps = {
 
 }
 
-export function TaskItem({ item, onToggle, onDelete, onUpdateTitle, onUpdateAssignee }: TaskItemProps) {
+export function TaskItem({ item, assignees, onToggle, onDelete, onUpdateTitle, onUpdateAssignee }: TaskItemProps) {
     const [isEditing, setIsEditing] = useState(false)
     const [title, setTitle] = useState(item.title)
     const inputRef = useRef<HTMLInputElement>(null)
@@ -97,14 +98,14 @@ export function TaskItem({ item, onToggle, onDelete, onUpdateTitle, onUpdateAssi
             </Button>
 
             {item.assignee ? (
-                <TaskAssigneeMenu tooltip={item.assignee.name} onUpdateAssignee={onUpdateAssignee} assigneeId={item.assignee.id}>
+                <TaskAssigneeMenu tooltip={item.assignee.name} onUpdateAssignee={onUpdateAssignee} assigneeId={item.assignee.id} assignees={assignees}>
                     <Avatar>
                         <AvatarImage src={item.assignee.avatarUrl} />
                         <AvatarFallback>{item.assignee.initials}</AvatarFallback>
                     </Avatar>
                 </TaskAssigneeMenu>
             ) : (
-                <TaskAssigneeMenu tooltip="Add assignee" onUpdateAssignee={onUpdateAssignee}>
+                <TaskAssigneeMenu tooltip="Add assignee" onUpdateAssignee={onUpdateAssignee} assignees={assignees}>
                     <Button variant="secondary" size="icon-xs" className="rounded-full">
                         <UserPlus />
                     </Button>

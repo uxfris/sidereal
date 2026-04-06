@@ -11,9 +11,9 @@ import { TaskListHeader } from "./task-list-header"
 import { TaskItem } from "./task-item"
 import { NewTaskRow } from "./new-task-row"
 import { useTaskList } from "../_hooks/use-task-list"
-import type { TasksGroup } from "../_types/task"
+import type { TasksGroup, UserSummary } from "../_types/task"
 
-export function TaskList({ tasksGroup }: { tasksGroup: TasksGroup }) {
+export function TaskList({ tasksGroup, assignees }: { tasksGroup: TasksGroup, assignees: UserSummary[] }) {
     const {
         tasks,
         isAdding,
@@ -64,6 +64,7 @@ export function TaskList({ tasksGroup }: { tasksGroup: TasksGroup }) {
                             <TaskItem
                                 key={item.id}
                                 item={item}
+                                assignees={assignees}
                                 onToggle={() => toggleTask(item.id)}
                                 onDelete={() => deleteTask(item.id)}
                                 onUpdateTitle={(title) => updateTaskTitle(item.id, title)}
@@ -108,6 +109,7 @@ export function TaskList({ tasksGroup }: { tasksGroup: TasksGroup }) {
                                         <TaskItem
                                             key={item.id}
                                             item={item}
+                                            assignees={assignees}
                                             onToggle={() => toggleTask(item.id)}
                                             onDelete={() => deleteTask(item.id)}
                                             onUpdateTitle={(title) => updateTaskTitle(item.id, title)}

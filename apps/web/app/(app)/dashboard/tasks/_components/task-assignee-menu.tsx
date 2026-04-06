@@ -8,30 +8,17 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSepara
 import { UserSummary } from "../_types/task"
 import { cn } from "@workspace/ui/lib/utils"
 
-//Mock data
-const assignees: UserSummary[] = [
-    {
-        id: "1",
-        name: "Fris El",
-        initials: "FE",
-        avatarUrl: "https://assets.lummi.ai/assets/Qmeh9r8a3AE8dQyCTSLiqVKLgu6HKEvJWaEwxMUMyDqHn5?auto=format&w=150"
-    },
-    {
-        id: "user-1",
-        name: "Alice Johnson",
-        initials: "AJ",
-        avatarUrl: "https://i.pravatar.cc/150?img=1"
-    }
-]
+
 
 type TaskAssigneeMenuProps = {
     children: React.ReactNode
     assigneeId?: string
+    assignees: UserSummary[]
     tooltip: string
     onUpdateAssignee: (assignee?: UserSummary) => void
 }
 
-export function TaskAssigneeMenu({ children, tooltip, onUpdateAssignee, assigneeId }: TaskAssigneeMenuProps) {
+export function TaskAssigneeMenu({ children, tooltip, onUpdateAssignee, assigneeId, assignees }: TaskAssigneeMenuProps) {
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
