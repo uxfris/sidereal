@@ -1,21 +1,16 @@
 import { useState } from "react"
 import { toast } from "sonner"
-import type { ActionItem, TasksGroup, UserSummary } from "../../../../../../../packages/types/src/task"
-import { taskApi as defaultTaskApi } from "../../../../../../../packages/api-client/src/task.api"
 import { useNewTaskForm } from "./use-task-form"
-
-// Injecting the api makes every action trivially unit-testable
-// without jest.mock() or module-level mocking
-interface UseTaskListOptions {
-    api?: typeof defaultTaskApi
-}
+import { ActionItem, TasksGroup, UserSummary } from "@workspace/types/task"
+import { taskApi } from "@workspace/api-client/task.api"
 
 export function useTaskList(
-    tasksGroup: TasksGroup,
-    { api = defaultTaskApi }: UseTaskListOptions = {}
+    tasksGroup: TasksGroup
 ) {
     const [tasks, setTasks] = useState<ActionItem[]>(tasksGroup.tasks)
     const [collapsibleOpen, setCollapsibleOpen] = useState(false)
+
+
 
     // ─── Actions ──────────────────────────────────────────────────────────────
 
@@ -28,7 +23,7 @@ export function useTaskList(
         )
 
         try {
-            await api.toggle(id, !prev.isCompleted)
+            await taskApi.toggle(id, !prev.isCompleted)
         } catch {
             setTasks((curr) =>
                 curr.map((t) => (t.id === id ? { ...t, isCompleted: prev.isCompleted } : t))
@@ -48,7 +43,7 @@ export function useTaskList(
         setTasks((curr) => [...curr, optimisticTask])
 
         try {
-            await api.add(optimisticTask)
+            await taskApi.add(optimisticTask)
         } catch {
             setTasks((curr) => curr.filter((t) => t.id !== optimisticTask.id))
             toast.error("Failed to add task. Please try again.")
@@ -77,7 +72,7 @@ export function useTaskList(
         })
 
         try {
-            await api.remove(id)
+            await taskApi.remove(id)
         } catch {
             // Only rollback if the user didn't already undo
             setTasks((curr) => {
@@ -97,7 +92,7 @@ export function useTaskList(
         setTasks((curr) => curr.map((t) => (t.id === id ? { ...t, title } : t)))
 
         try {
-            await api.updateTitle(id, title)
+            await taskApi.updateTitle(id, title)
         } catch {
             setTasks((curr) => curr.map((t) => (t.id === id ? { ...t, title: prev.title } : t)))
             toast.error("Failed to update task title.")
@@ -111,7 +106,7 @@ export function useTaskList(
         setTasks((curr) => curr.map((t) => (t.id === id ? { ...t, assignee } : t)))
 
         try {
-            await api.updateAssignee(id, assignee)
+            await taskApi.updateAssignee(id, assignee)
         } catch {
             setTasks((curr) => curr.map((t) => (t.id === id ? { ...t, assignee: prev.assignee } : t)))
             toast.error("Failed to update assignee.")

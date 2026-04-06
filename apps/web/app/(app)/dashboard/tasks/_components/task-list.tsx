@@ -16,40 +16,29 @@ import { TasksGroup, UserSummary } from "@workspace/types/task"
 export function TaskList({ tasksGroup, assignees }: { tasksGroup: TasksGroup, assignees: UserSummary[] }) {
     const {
         tasks,
-        isAdding,
-        setIsAdding,
-        newTaskTitle,
-        setNewTaskTitle,
-        temporaryChecked,
-        setTemporaryChecked,
-        temporaryAssignee,
-        setTemporaryAssignee,
         collapsibleOpen,
         setCollapsibleOpen,
-        newTaskRowRef,
         incompleteTasks,
         completedTasks,
         toggleTask,
-        addTask,
         deleteTask,
         updateTaskTitle,
-        updateAssignee
+        updateAssignee,
+        form
     } = useTaskList(tasksGroup)
 
     function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
         if (e.key === "Enter") {
             e.preventDefault()
-            addTask()
+            form.commit()
         }
         if (e.key === "Escape") {
             e.preventDefault()
-            setIsAdding(false)
-            setNewTaskTitle("")
-            setTemporaryChecked(false)
+            form.reset()
         }
     }
 
-    const showCard = tasks.length > 0 || isAdding
+    const showCard = tasks.length > 0 || form.isAdding
 
     return (
         <div className="space-y-4 group/task">
@@ -74,16 +63,16 @@ export function TaskList({ tasksGroup, assignees }: { tasksGroup: TasksGroup, as
                             />
                         ))}
 
-                        {isAdding && (
+                        {form.isAdding && (
                             <NewTaskRow
-                                rowRef={newTaskRowRef}
+                                rowRef={form.newTaskRowRef}
                                 assignees={assignees}
-                                title={newTaskTitle}
-                                checked={temporaryChecked}
-                                onCheckedChange={setTemporaryChecked}
-                                assignee={temporaryAssignee}
-                                onAssigneeChange={setTemporaryAssignee}
-                                onTitleChange={setNewTaskTitle}
+                                title={form.newTaskTitle}
+                                checked={form.temporaryChecked}
+                                onCheckedChange={form.setTemporaryChecked}
+                                assignee={form.temporaryAssignee}
+                                onAssigneeChange={form.setTemporaryAssignee}
+                                onTitleChange={form.setNewTaskTitle}
                                 onKeyDown={handleKeyDown}
                             />
                         )}
@@ -128,7 +117,7 @@ export function TaskList({ tasksGroup, assignees }: { tasksGroup: TasksGroup, as
                 </Card>
             )}
 
-            <Button variant="ghost" onClick={() => setIsAdding(true)}>
+            <Button variant="ghost" onClick={() => form.setIsAdding(true)}>
                 <Plus /> New Task
             </Button>
         </div>
