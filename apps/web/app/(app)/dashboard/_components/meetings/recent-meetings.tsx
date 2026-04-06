@@ -1,10 +1,10 @@
 "use client"
 
 import { Button } from "@workspace/ui/components/button"
-import { RecentMeeting } from "../../_types/meetings"
 import MeetingItem from "./meeting-item"
 import { cn } from "@workspace/ui/lib/utils"
 import { EmptyState } from "@/components/empty-state"
+import { RecentMeeting } from "@workspace/types/meetings"
 
 
 // ── Mock data ──────────────────────────────────────────

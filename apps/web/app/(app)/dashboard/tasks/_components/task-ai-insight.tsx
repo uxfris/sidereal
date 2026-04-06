@@ -1,6 +1,6 @@
 
 import { Soundwave, Stars } from "@solar-icons/react/ssr";
-import { Card, CardContent, CardHeader, CardTitle } from "@workspace/ui/components/card";
+import { Card, CardContent, CardHeader } from "@workspace/ui/components/card";
 import { Separator } from "@workspace/ui/components/separator";
 
 export function TaskAIInsight() {

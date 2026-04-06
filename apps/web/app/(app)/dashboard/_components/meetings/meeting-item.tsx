@@ -1,12 +1,12 @@
 "use client"
 
-import { RecentMeeting } from "../../_types/meetings"
 import { Card, CardContent } from "@workspace/ui/components/card"
 import { Badge } from "@workspace/ui/components/badge"
 import { cn } from "@workspace/ui/lib/utils"
 import { AttendeeAvatar } from "@/components/attendee-avatar"
 import Link from "next/link"
 import { SanitizedHtml } from "@/lib/sanitized-html"
+import { RecentMeeting } from "@workspace/types/meetings"
 
 type MeetingItemProps = {
     meeting: RecentMeeting

@@ -9,7 +9,13 @@ const nextConfig = {
         pathname: "/assets/**"
       }
     ]
-  }
+  },
+  transpilePackages: [
+    '@workspace/ui',
+    '@workspace/utils',
+    '@workspace/types',
+    '@workspace/api-client'
+  ]
 }
 
 export default nextConfig

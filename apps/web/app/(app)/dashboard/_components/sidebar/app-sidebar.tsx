@@ -11,7 +11,7 @@ import {
 } from "@workspace/ui/components/sidebar"
 
 import { SidebarBrand } from "./sidebar-brand";
-import { navIntegrations, navMain, navMeetings, navUploads } from "../../_lib/data";
+import { navIntegrations, navMain, navMeetings, navUploads } from "../../_lib/nav-item";
 import { SidebarGroupItem } from "./sidebar-group-item";
 import NavUpgrade from "./nav-upgrade";
 import { NavUser } from "./nav-user";

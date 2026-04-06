@@ -11,7 +11,6 @@ import {
     DialogTrigger,
 } from "@workspace/ui/components/dialog"
 import { Field, FieldGroup, FieldLabel } from "@workspace/ui/components/field"
-import { Input } from "@workspace/ui/components/input"
 import { Separator } from "@workspace/ui/components/separator"
 
 export function UpcomingMeetingSettingDialog() {

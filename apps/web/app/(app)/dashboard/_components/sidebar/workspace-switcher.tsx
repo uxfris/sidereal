@@ -13,7 +13,7 @@ import {
 } from "@workspace/ui/components/dropdown-menu"
 import { Badge } from "@workspace/ui/components/badge"
 import { Tooltip, TooltipContent, TooltipTrigger } from "@workspace/ui/components/tooltip";
-import { Check, ChevronDown, ChevronRight, Plus } from "lucide-react";
+import { ChevronDown, ChevronRight, Plus } from "lucide-react";
 import React from "react";
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "@workspace/ui/components/sidebar";
 

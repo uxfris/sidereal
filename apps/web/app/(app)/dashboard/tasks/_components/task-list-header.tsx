@@ -8,7 +8,7 @@ import { cn } from "@workspace/ui/lib/utils"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger } from "@workspace/ui/components/dropdown-menu"
 import Image from "next/image"
 import { useState } from "react"
-import { ActionItem, TaskGroup } from "../_types/task"
+import { ActionItem } from "@workspace/types/task"
 
 //Mock data
 

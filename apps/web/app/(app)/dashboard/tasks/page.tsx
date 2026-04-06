@@ -3,7 +3,7 @@ import { TaskList } from "./_components/task-list"
 import { TaskAIInsight } from "./_components/task-ai-insight"
 import { TaskProductivityStats } from "./_components/task-productivity"
 import { EmptyState } from "@/components/empty-state";
-import { taskApi } from "./_lib/task-api";
+import { taskApi } from "@workspace/api-client/task-api";
 
 
 

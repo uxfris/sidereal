@@ -1,4 +1,3 @@
-import { Icon } from "@solar-icons/react/lib/types"
 import { SidebarMenuButton } from "@workspace/ui/components/sidebar"
 import { NavItem } from "../../_types/nav-item";
 

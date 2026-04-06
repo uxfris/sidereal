@@ -1,12 +1,10 @@
 "use client"
 
-import { Button } from "@workspace/ui/components/button"
-import { UpcomingMeetingGroup } from "../../_types/meetings"
-import { ArrowRight, SettingsMinimalistic } from "@solar-icons/react"
 import { UpcomingMeetingItem } from "./upcoming-meeting-item"
 import { UpcomingMeetingSettingDialog } from "./upcoming-meeting-setting-dialog"
 import { UpcomingMeetingsEmpty } from "./upcoming-meetings-empty"
 import { ScheduleNewMeetingButton } from "./schedule-new-meeting-button"
+import { UpcomingMeetingGroup } from "@workspace/types/meetings"
 
 // ── Mock data ──────────────────────────────────────────
 const groups: UpcomingMeetingGroup[] = [

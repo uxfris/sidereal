@@ -4,16 +4,9 @@ import {
     CollapsibleTrigger,
 } from "@workspace/ui/components/collapsible"
 import {
-    Sidebar,
-    SidebarContent,
-    SidebarGroup,
-    SidebarGroupContent,
-    SidebarGroupLabel,
-    SidebarMenu,
     SidebarMenuButton,
     SidebarMenuItem,
     SidebarMenuSub,
-    SidebarMenuSubButton,
     SidebarMenuSubItem,
 } from "@workspace/ui/components/sidebar"
 import { NavItem } from "../../_types/nav-item"

@@ -5,8 +5,8 @@ import { Input } from "@workspace/ui/components/input"
 import { Tooltip, TooltipContent, TooltipTrigger } from "@workspace/ui/components/tooltip"
 import { UserPlus } from "@solar-icons/react"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@workspace/ui/components/dropdown-menu"
-import { UserSummary } from "../_types/task"
 import { cn } from "@workspace/ui/lib/utils"
+import { UserSummary } from "@workspace/types/task"
 
 
 

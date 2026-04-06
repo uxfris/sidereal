@@ -7,8 +7,8 @@ import { Checkbox } from "@workspace/ui/components/checkbox"
 import { Input } from "@workspace/ui/components/input"
 import { TrashBin2, UserPlus } from "@solar-icons/react"
 import { cn } from "@workspace/ui/lib/utils"
-import { ActionItem, UserSummary } from "../_types/task"
 import { TaskAssigneeMenu } from "./task-assignee-menu"
+import { ActionItem, UserSummary } from "@workspace/types/task"
 
 type TaskItemProps = {
     item: ActionItem

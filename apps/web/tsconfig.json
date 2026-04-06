@@ -3,8 +3,21 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./*"],
-      "@workspace/ui/*": ["../../packages/ui/src/*"]
+      "@/*": [
+        "./*"
+      ],
+      "@workspace/ui/*": [
+        "../../packages/ui/src/*"
+      ],
+      "@workspace/utils/*": [
+        "../../packages/utils/src/*"
+      ],
+      "@workspace/types/*": [
+        "../../packages/types/src/*"
+      ],
+      "@workspace/api-client/*": [
+        "../../packages/api-client/src/*"
+      ],
     },
     "plugins": [
       {
@@ -17,7 +30,9 @@
     "next.config.ts",
     "**/*.ts",
     "**/*.tsx",
-    ".next/types/**/*.ts"
+    ".next/types/**/*.ts",
   ],
-  "exclude": ["node_modules"]
+  "exclude": [
+    "node_modules"
+  ]
 }

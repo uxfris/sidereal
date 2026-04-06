@@ -8,8 +8,8 @@ import { Field } from "@workspace/ui/components/field"
 import { Input } from "@workspace/ui/components/input"
 import { MinimalisticMagnifier } from "@solar-icons/react"
 import MeetingItem from "../meetings/meeting-item"
-import { RecentMeeting } from "../../_types/meetings"
 import { useDebounce } from "@workspace/ui/hooks/use-debouce"
+import { RecentMeeting } from "@workspace/types/meetings"
 
 
 
@@ -170,7 +170,7 @@ export function SearchDialog() {
             </div>
             {!query && <div className="flex-1 overflow-y-auto flex flex-col gap-5">
                 {meetings.map((meeting) => (<div key={meeting.id} className="border border-border rounded-md">
-                    <MeetingItem meeting={meeting} query={query} />
+                    <MeetingItem meeting={meeting} />
                 </div>))}
             </div>}
             {loading && <span >Loading...</span>}
@@ -179,7 +179,7 @@ export function SearchDialog() {
             )}
             {!loading && query && <div className="flex-1 overflow-y-auto flex flex-col gap-5">
                 {results.map((meeting) => (<div key={meeting.id} className="border border-border rounded-md">
-                    <MeetingItem meeting={meeting} query={query} />
+                    <MeetingItem meeting={meeting} />
                 </div>))}
             </div>}
 

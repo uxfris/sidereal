@@ -11,7 +11,7 @@ import { TaskListHeader } from "./task-list-header"
 import { TaskItem } from "./task-item"
 import { NewTaskRow } from "./new-task-row"
 import { useTaskList } from "../_hooks/use-task-list"
-import type { TasksGroup, UserSummary } from "../_types/task"
+import { TasksGroup, UserSummary } from "@workspace/types/task"
 
 export function TaskList({ tasksGroup, assignees }: { tasksGroup: TasksGroup, assignees: UserSummary[] }) {
     const {

@@ -1,5 +1,5 @@
 import { Bolt } from "@solar-icons/react"
-import { SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "@workspace/ui/components/sidebar"
+import { SidebarMenuButton, SidebarMenuItem } from "@workspace/ui/components/sidebar"
 
 export default function NavUpgrade() {
     return (

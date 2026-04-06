@@ -1,11 +1,11 @@
 "use client"
 
 import { Button } from "@workspace/ui/components/button"
-import { UpcomingMeeting } from "../../_types/meetings"
 import { Card, CardContent } from "@workspace/ui/components/card"
 import { ClockCircle } from "@solar-icons/react/ssr"
 import { cn } from "@workspace/ui/lib/utils"
 import { AttendeeAvatar } from "@/components/attendee-avatar"
+import { UpcomingMeeting } from "@workspace/types/meetings"
 
 
 export function UpcomingMeetingItem({ meeting, isTomorrow }: { meeting: UpcomingMeeting, isTomorrow: boolean }) {
