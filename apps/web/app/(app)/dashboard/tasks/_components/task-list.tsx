@@ -38,7 +38,7 @@ export function TaskList({ tasksGroup, assignees }: { tasksGroup: TasksGroup, as
         }
     }
 
-    const showCard = tasks.length > 0 || form.isAdding
+    const showCard = tasksGroup.tasks.length > 0 || form.isAdding
 
     return (
         <div className="space-y-4 group/task">
@@ -46,6 +46,8 @@ export function TaskList({ tasksGroup, assignees }: { tasksGroup: TasksGroup, as
                 title={tasksGroup.title}
                 timestamp={tasksGroup.timestamp}
                 tasks={tasks}
+                assignees={assignees}
+                onUpdateAssignee={(id, assignee) => updateAssignee(id, assignee)}
             />
 
             {showCard && (

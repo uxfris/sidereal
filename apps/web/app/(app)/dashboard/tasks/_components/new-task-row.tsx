@@ -48,20 +48,25 @@ export function NewTaskRow({
                 placeholder="Enter task"
                 className="p-0 h-fit bg-transparent"
             />
-            {assignee ? (
-                <TaskAssigneeMenu tooltip={assignee.name} onUpdateAssignee={onAssigneeChange} assigneeId={assignee.id} assignees={assignees}>
-                    <Avatar>
-                        <AvatarImage src={assignee.avatarUrl} />
-                        <AvatarFallback>{assignee.initials}</AvatarFallback>
-                    </Avatar>
-                </TaskAssigneeMenu>
-            ) : (
-                <TaskAssigneeMenu tooltip="Add assignee" onUpdateAssignee={onAssigneeChange} assignees={assignees}>
-                    <Button variant="secondary" size="icon-xs" className="rounded-full">
-                        <UserPlus />
-                    </Button>
-                </TaskAssigneeMenu>
-            )}
+            <TaskAssigneeMenu
+                tooltip={assignee?.name ?? "Add assignee"}
+                onUpdateAssignee={onAssigneeChange}
+                assigneeId={assignee?.id}
+                assignees={assignees}
+            >
+                {
+                    assignee ?
+                        <Avatar>
+                            <AvatarImage src={assignee.avatarUrl} />
+                            <AvatarFallback>{assignee.initials}</AvatarFallback>
+                        </Avatar>
+                        :
+                        <Button variant="secondary" size="icon-xs" className="rounded-full">
+                            <UserPlus />
+                        </Button>
+                }
+            </TaskAssigneeMenu>
+
         </div>
     )
 }

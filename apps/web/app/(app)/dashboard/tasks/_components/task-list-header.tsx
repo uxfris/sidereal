@@ -1,84 +1,47 @@
 import { Badge } from "@workspace/ui/components/badge"
 import { Button } from "@workspace/ui/components/button"
-import { ArrowRightLeft, Check, Copy } from "lucide-react"
-import { CheckCircle, LinkMinimalistic } from "@solar-icons/react"
+import { Check, Copy } from "lucide-react"
 import { formatDate } from "@workspace/ui/lib/date-format"
 import { Tooltip, TooltipContent, TooltipTrigger } from "@workspace/ui/components/tooltip"
 import { cn } from "@workspace/ui/lib/utils"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger } from "@workspace/ui/components/dropdown-menu"
-import Image from "next/image"
 import { useState } from "react"
-import { ActionItem } from "@workspace/types/task"
-
-//Mock data
-
-const MockIntegrationList = [
-    {
-        id: "1",
-        icon: "/vectors/asana.svg",
-        label: "Asana",
-        isConnected: false,
-    },
-    {
-        id: "2",
-        icon: "/vectors/clickup.svg",
-        label: "ClickUp",
-        isConnected: false,
-    },
-    {
-        id: "3",
-        icon: "/vectors/googletasks.svg",
-        label: "Google Tasks",
-        isConnected: false,
-    },
-    {
-        id: "4",
-        icon: "/vectors/jira.svg",
-        label: "Jira Projects",
-        isConnected: false,
-    },
-    {
-        id: "5",
-        icon: "/vectors/linear-app.svg",
-        label: "Linear App",
-        isConnected: false,
-    },
-    {
-        id: "6",
-        icon: "/vectors/ms-planner.svg",
-        label: "Microsoft Planner",
-        isConnected: false,
-    },
-    {
-        id: "7",
-        icon: "/vectors/ms-todo.svg",
-        label: "Microsoft To Do",
-        isConnected: false,
-    },
-    {
-        id: "8",
-        icon: "/vectors/trello.svg",
-        label: "Trello",
-        isConnected: true,
-        feature: "Send tasks",
-    }
-]
+import { ActionItem, UserSummary } from "@workspace/types/task"
+import { TaskSync } from "./task-sync"
+import { SendTaskSelectionDialog } from "./send-task-selection-dialog"
 
 
 
+type TaskListHeaderProps = {
+    title: string
+    timestamp: string
+    tasks: ActionItem[]
+    assignees: UserSummary[]
+    onUpdateAssignee: (itemId: string, assignee: UserSummary | null) => void
+}
 
-export function TaskListHeader({ title, timestamp, tasks }: { title: string, timestamp: string, tasks: ActionItem[] }) {
+export function TaskListHeader({ title, timestamp, tasks, assignees, onUpdateAssignee }: TaskListHeaderProps) {
+    const [taskSelectionOpen, setTaskSelectionOpen] = useState(false)
+    const [areInitiallySelected, setAreInitiallySelected] = useState(false)
+    const [taskSendOpen, setTaskSendOpen] = useState(false)
+
+
     const [copied, setCopied] = useState(false)
 
     const handleCopy = async () => {
         const text = tasks.map(task => task.title).join("\n")
         await navigator.clipboard.writeText(text)
-
         setCopied(true)
-
         setTimeout(() => setCopied(false), 1500)
+    }
 
+    const onOpenTaskSelection = (state: boolean) => {
+        setAreInitiallySelected(state)
+        setTaskSelectionOpen(true)
+    }
 
+    const onContinue = () => {
+        setTaskSelectionOpen(false)
+        setTaskSendOpen(true)
     }
 
 
@@ -109,60 +72,21 @@ export function TaskListHeader({ title, timestamp, tasks }: { title: string, tim
                             </TooltipContent>
                         </Tooltip>}
                     </div>
-                    <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                            <Button variant="secondary" className="hidden md:flex">
-                                <ArrowRightLeft />
-                                Sync to
-                            </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent className="sm:min-w-52">
-                            <DropdownMenuGroup className="space-y-2">
-                                <DropdownMenuLabel>Project Destination</DropdownMenuLabel>
-                                <DropdownMenuSeparator />
-                                {MockIntegrationList.map((item) =>
-                                    !item.isConnected ?
-                                        (<DropdownMenuItem key={item.id} className="gap-3" onSelect={() => console.log("menu is clicked", item.label)}>
-                                            <Image src={item.icon} alt={item.label} width={14} height={14} />
-                                            <div className="flex-1">
-                                                <h5 className="text-sm font-medium">{item.label}</h5>
-                                                <p className="text-xs text-muted-foreground">Connect</p>
-                                            </div>
-                                            <LinkMinimalistic />
-                                        </DropdownMenuItem>)
-                                        :
-                                        (
-                                            <DropdownMenuSub key={item.id}>
-                                                <DropdownMenuSubTrigger className="gap-3">
-                                                    <Image src={item.icon} alt={item.label} width={14} height={14} />
-                                                    <div>
-                                                        <div className="flex items-center gap-1">
-                                                            <h5 className="text-sm font-medium">{item.label}</h5>
-                                                            <CheckCircle weight="Bold" className="text-green-300 dark:text-green-600" />
-                                                        </div>
-                                                        <p className="text-xs text-muted-foreground">{item.feature}</p>
-                                                    </div>
-                                                </DropdownMenuSubTrigger>
-                                                <DropdownMenuSubContent>
-                                                    <DropdownMenuItem onSelect={() => { }}>
-                                                        Send my taks
-                                                    </DropdownMenuItem>
-                                                    <DropdownMenuItem onSelect={() => { }}>
-                                                        Send all taks
-                                                    </DropdownMenuItem>
-                                                    <DropdownMenuItem onSelect={() => { }}>
-                                                        Select tasks
-                                                    </DropdownMenuItem>
-                                                </DropdownMenuSubContent>
-                                            </DropdownMenuSub>
-                                        )
-                                )}
-                            </DropdownMenuGroup>
-                        </DropdownMenuContent>
-                    </DropdownMenu>
+                    <TaskSync openTaskSelectionDialog={(areInitiallySelected) => onOpenTaskSelection(areInitiallySelected)} />
                 </div>
-                <time dateTime={timestamp} className="text-xs text-muted-foreground">{formatDate(timestamp)}</time>
+                <time dateTime={timestamp} className="text-xs text-muted-foreground">
+                    {formatDate(timestamp)}
+                </time>
             </div>
+            <SendTaskSelectionDialog
+                open={taskSelectionOpen}
+                onOpenChange={setTaskSelectionOpen}
+                initialSelectedTasksIds={areInitiallySelected ? tasks.map(t => t.id) : undefined}
+                onContinue={onContinue}
+                tasks={tasks}
+                assignees={assignees}
+                onUpdateAssignee={onUpdateAssignee}
+            />
         </div>
     )
 }

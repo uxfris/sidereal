@@ -96,21 +96,25 @@ export function TaskItem({ item, assignees, onToggle, onDelete, onUpdateTitle, o
             >
                 <TrashBin2 size={1} className="mt-1 text-destructive" />
             </Button>
+            <TaskAssigneeMenu
+                tooltip={item.assignee?.name ?? "Add assignee"}
+                onUpdateAssignee={onUpdateAssignee}
+                assigneeId={item.assignee?.id}
+                assignees={assignees}
+            >
+                {
+                    item.assignee ?
+                        <Avatar>
+                            <AvatarImage src={item.assignee.avatarUrl} />
+                            <AvatarFallback>{item.assignee.initials}</AvatarFallback>
+                        </Avatar>
+                        :
+                        <Button variant="secondary" size="icon-xs" className="rounded-full">
+                            <UserPlus />
+                        </Button>
+                }
+            </TaskAssigneeMenu>
 
-            {item.assignee ? (
-                <TaskAssigneeMenu tooltip={item.assignee.name} onUpdateAssignee={onUpdateAssignee} assigneeId={item.assignee.id} assignees={assignees}>
-                    <Avatar>
-                        <AvatarImage src={item.assignee.avatarUrl} />
-                        <AvatarFallback>{item.assignee.initials}</AvatarFallback>
-                    </Avatar>
-                </TaskAssigneeMenu>
-            ) : (
-                <TaskAssigneeMenu tooltip="Add assignee" onUpdateAssignee={onUpdateAssignee} assignees={assignees}>
-                    <Button variant="secondary" size="icon-xs" className="rounded-full">
-                        <UserPlus />
-                    </Button>
-                </TaskAssigneeMenu>
-            )}
         </div>
     )
 }

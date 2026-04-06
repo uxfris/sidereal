@@ -118,7 +118,6 @@ export function useTaskList(
     const form = useNewTaskForm({ onCommit: addTask })
 
     // ─── Derived ──────────────────────────────────────────────────────────────
-
     const incompleteTasks = tasks.filter((t) => !t.isCompleted)
     const completedTasks = tasks.filter((t) => t.isCompleted)
 
