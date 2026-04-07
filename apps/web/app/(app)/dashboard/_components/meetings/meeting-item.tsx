@@ -7,6 +7,7 @@ import { AttendeeAvatar } from "@/components/attendee-avatar"
 import Link from "next/link"
 import { SanitizedHtml } from "@/lib/sanitized-html"
 import { RecentMeeting } from "@workspace/types/meetings"
+import { MeetingItemMenu } from "./meeting-item-menu"
 
 type MeetingItemProps = {
     meeting: RecentMeeting
@@ -19,7 +20,7 @@ export default function MeetingItem({ meeting }: MeetingItemProps) {
     return (
         <Link
             href={isAnalyzing ? "#" : `/meeting/${meeting.id}`}
-            className={cn("h-full", isAnalyzing ? "cursor-not-allowed" : "cursor-pointer")}>
+            className={cn("h-full group/meeting", isAnalyzing ? "cursor-not-allowed" : "cursor-pointer")}>
             <Card className="h-full p-0 hover:bg-secondary">
                 <CardContent className="h-full flex flex-col gap-6 p-6">
                     <div className="flex items-center justify-between">
@@ -51,7 +52,10 @@ export default function MeetingItem({ meeting }: MeetingItemProps) {
                                     <SanitizedHtml html={meeting.summary} />
                                 </p>}
                     </div>
-                    <AttendeeAvatar attendees={meeting.attendees} extra={meeting.extraAttendees} />
+                    <div className="flex items-center justify-between">
+                        <AttendeeAvatar attendees={meeting.attendees} extra={meeting.extraAttendees} />
+                        <MeetingItemMenu />
+                    </div>
                 </CardContent>
             </Card>
         </Link>
