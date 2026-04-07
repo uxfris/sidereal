@@ -13,6 +13,7 @@ import { MeetingParticipantPopover } from "./filter-popovers/meeting-participant
 import { MeetingTimePopover } from "./filter-popovers/meeting-time-popover";
 import { MeetingDurationPopover } from "./filter-popovers/meeting-duration-popover";
 import { MeetingSourcePopover } from "./filter-popovers/meeting-source-popover";
+import { MeetingSelectionButton } from "./meeting-selection-button";
 
 
 
@@ -31,9 +32,7 @@ export function MeetingSearchFilter() {
                 <MeetingTimePopover />
                 <MeetingDurationPopover />
                 <MeetingSourcePopover />
-                <Button variant="outline" size="icon-xs">
-                    <div className="w-4 h-4 rounded-sm border border-muted-foreground border-dashed" />
-                </Button>
+                <MeetingSelectionButton />
                 <div className="flex items-center gap-1.5 p-1 bg-secondary rounded-md">
                     <Button variant="ghost" size="icon" className="h-auto w-auto p-1 bg-white dark:bg-accent">
                         <Widget className="w-3.5" />

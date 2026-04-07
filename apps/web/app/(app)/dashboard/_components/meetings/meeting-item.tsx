@@ -8,25 +8,31 @@ import Link from "next/link"
 import { SanitizedHtml } from "@/lib/sanitized-html"
 import { RecentMeeting } from "@workspace/types/meetings"
 import { MeetingItemMenu } from "./meeting-item-menu"
+import { Checkbox } from "@workspace/ui/components/checkbox"
 
 type MeetingItemProps = {
-    meeting: RecentMeeting
+    meeting: RecentMeeting,
+    isSelection?: boolean
 }
 
 
-export default function MeetingItem({ meeting }: MeetingItemProps) {
+export default function MeetingItem({ meeting, isSelection }: MeetingItemProps) {
     const isAnalyzing = meeting.status === "analyzing"
 
     return (
         <Link
-            href={isAnalyzing ? "#" : `/meeting/${meeting.id}`}
-            className={cn("h-full group/meeting", isAnalyzing ? "cursor-not-allowed" : "cursor-pointer")}>
-            <Card className="h-full p-0 hover:bg-secondary">
+            href={isSelection ? "#" : `/meeting/${meeting.id}`}
+            className={cn("h-full group/meeting", !isSelection ? "cursor-pointer" : "cursor-auto")}>
+            <Card className={cn("h-full p-0", !isSelection && "hover:bg-secondary")}>
                 <CardContent className="h-full flex flex-col gap-6 p-6">
                     <div className="flex items-center justify-between">
-                        <Badge className={cn(isAnalyzing ? "bg-accent-2" : "bg-accent-3", "text-primary dark:text-slate-200 text-[10px] rounded-[2px] px-2 pb-3 pt-3.5 font-semibold uppercase")}>
-                            <SanitizedHtml html={meeting.status} />
-                        </Badge>
+                        {isSelection ?
+                            <Checkbox className="w-7 h-7" />
+                            :
+                            <Badge className={cn(isAnalyzing ? "bg-accent-2" : "bg-accent-3", "text-primary dark:text-slate-200 text-[10px] rounded-[2px] px-2 pb-3 pt-3.5 font-semibold uppercase")}>
+                                <SanitizedHtml html={meeting.status} />
+                            </Badge>
+                        }
                         <span className="text-xs font-medium text-muted-foreground">
                             <SanitizedHtml html={`${meeting.timestamp} • ${meeting.duration}`}
                             />
