@@ -16,7 +16,7 @@ type SendTaskSelectionDialogProps = {
     tasks: ActionItem[]
     initialSelectedTasksIds?: string[]
     onOpenChange: (open: boolean) => void
-    onContinue: () => void
+    onContinue: (selectedTasks: string[]) => void
     assignees: UserSummary[]
     onUpdateAssignee: (itemId: string, assignee: UserSummary | null) => void
 }
@@ -123,7 +123,7 @@ export function SendTaskSelectionDialog({ open, tasks, initialSelectedTasksIds, 
                         <DialogClose asChild>
                             <Button variant="ghost" type="button">Close</Button>
                         </DialogClose>
-                        <Button onClick={onContinue}>Continue</Button>
+                        <Button onClick={() => onContinue(Array.from(selectedTaskIds))}>Continue</Button>
                     </div>
                 </DialogFooter>
             </DialogContent>

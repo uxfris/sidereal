@@ -8,6 +8,8 @@ import { useState } from "react"
 import { ActionItem, UserSummary } from "@workspace/types/task"
 import { TaskSync } from "./task-sync"
 import { SendTaskSelectionDialog } from "./send-task-selection-dialog"
+import { SendTaskDialog } from "./send-task-dialog"
+import { toast } from "sonner"
 
 
 
@@ -22,6 +24,7 @@ type TaskListHeaderProps = {
 export function TaskListHeader({ title, timestamp, tasks, assignees, onUpdateAssignee }: TaskListHeaderProps) {
     const [taskSelectionOpen, setTaskSelectionOpen] = useState(false)
     const [areInitiallySelected, setAreInitiallySelected] = useState(false)
+    const [selectedTaskIds, setSelectedTaskIds] = useState<String[]>([])
     const [taskSendOpen, setTaskSendOpen] = useState(false)
 
 
@@ -39,9 +42,16 @@ export function TaskListHeader({ title, timestamp, tasks, assignees, onUpdateAss
         setTaskSelectionOpen(true)
     }
 
-    const onContinue = () => {
+    const onContinue = (selectedTaskIds: string[]) => {
+        setSelectedTaskIds(selectedTaskIds)
         setTaskSelectionOpen(false)
         setTaskSendOpen(true)
+    }
+
+    const onSuccess = () => {
+        //TODO: change the platform
+        setTaskSendOpen(false)
+        toast.success("Tasks sent to Trello")
     }
 
 
@@ -87,6 +97,7 @@ export function TaskListHeader({ title, timestamp, tasks, assignees, onUpdateAss
                 assignees={assignees}
                 onUpdateAssignee={onUpdateAssignee}
             />
+            <SendTaskDialog open={taskSendOpen} onOpenChange={setTaskSendOpen} onSuccess={onSuccess} tasks={tasks.filter((t) => selectedTaskIds.includes(t.id))} />
         </div>
     )
 }
