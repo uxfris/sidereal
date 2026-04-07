@@ -58,7 +58,7 @@ export function NavMeetings({ item }: { item: NavItem }) {
                     <SidebarMenuSubItem >
                         <NavAddChannel />
                     </SidebarMenuSubItem>
-                    {[{ icon: Hashtag, label: "Side Projects", url: "/dashboard/meetings/side-projects" }].map((subItem) => (
+                    {[{ icon: Hashtag, label: "Sprint Planning", url: "/dashboard/meetings/side-projects" }].map((subItem) => (
                         <SidebarMenuSubItem key={subItem.label}>
                             <AppSidebarMenuButton item={subItem} />
                         </SidebarMenuSubItem>

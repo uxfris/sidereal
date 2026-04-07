@@ -6,8 +6,8 @@ export function MeetingChannelButtons() {
     return (
         <div className="flex flex-wrap items-center gap-2">
             {[
-                { id: "1", label: "Design Sprint" },
-                { id: "2", label: "Side Projects" },
+                { id: "1", label: "Sprint Planning" },
+                { id: "2", label: "Design Reviews" },
 
             ].map((channel) => (
                 <Button key={channel.id} variant="outline" className="shrink-0" asChild>

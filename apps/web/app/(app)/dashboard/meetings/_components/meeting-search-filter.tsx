@@ -21,7 +21,7 @@ import { ChevronDown, List } from "lucide-react";
 export function MeetingSearchFilter() {
     return (
         <div className="flex items-center gap-3">
-            <InputGroup className="bg-input rounded-md">
+            <InputGroup className="bg-input">
                 <InputGroupInput placeholder="Search meetings..." />
                 <InputGroupAddon className="w-5">
                     <MinimalisticMagnifier />
