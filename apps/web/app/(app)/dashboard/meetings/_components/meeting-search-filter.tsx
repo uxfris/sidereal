@@ -7,42 +7,28 @@ import {
     InputGroupAddon,
     InputGroupInput,
 } from "@workspace/ui/components/input-group"
-import {
-    Popover,
-    PopoverContent,
-    PopoverHeader,
-    PopoverTitle,
-    PopoverTrigger,
-} from "@workspace/ui/components/popover"
-import { ChevronDown, List } from "lucide-react";
+import { List } from "lucide-react";
+import { MeetingHostPopover } from "./filter-popovers/meeting-host-popover";
+import { MeetingParticipantPopover } from "./filter-popovers/meeting-participant-popover";
+import { MeetingTimePopover } from "./filter-popovers/meeting-time-popover";
 
 
 
 export function MeetingSearchFilter() {
     return (
         <div className="flex items-center gap-3">
-            <InputGroup className="bg-input">
+            <InputGroup className="bg-input w-60">
                 <InputGroupInput placeholder="Search meetings..." />
                 <InputGroupAddon className="w-5">
                     <MinimalisticMagnifier />
                 </InputGroupAddon>
             </InputGroup>
-            <div className="flex items-center gap-2">
-                <Popover>
-                    <PopoverTrigger asChild>
-                        <Button variant="outline" size="xs" className="text-muted-foreground">
-                            Any host
-                            <ChevronDown />
-                        </Button>
-                    </PopoverTrigger>
-                    <PopoverContent>
-                        <PopoverHeader>
-                            <PopoverTitle>
-                                Hosted by
-                            </PopoverTitle>
-                        </PopoverHeader>
-                    </PopoverContent>
-                </Popover>
+            <div className="flex-1 flex items-center gap-2">
+                <MeetingHostPopover />
+                <MeetingParticipantPopover />
+                <MeetingTimePopover />
+                <MeetingHostPopover />
+                <MeetingHostPopover />
                 <Button variant="outline" size="icon-xs">
                     <div className="w-4 h-4 rounded-sm border border-muted-foreground border-dashed" />
                 </Button>
