@@ -11,6 +11,8 @@ import { List } from "lucide-react";
 import { MeetingHostPopover } from "./filter-popovers/meeting-host-popover";
 import { MeetingParticipantPopover } from "./filter-popovers/meeting-participant-popover";
 import { MeetingTimePopover } from "./filter-popovers/meeting-time-popover";
+import { MeetingDurationPopover } from "./filter-popovers/meeting-duration-popover";
+import { MeetingSourcePopover } from "./filter-popovers/meeting-source-popover";
 
 
 
@@ -27,8 +29,8 @@ export function MeetingSearchFilter() {
                 <MeetingHostPopover />
                 <MeetingParticipantPopover />
                 <MeetingTimePopover />
-                <MeetingHostPopover />
-                <MeetingHostPopover />
+                <MeetingDurationPopover />
+                <MeetingSourcePopover />
                 <Button variant="outline" size="icon-xs">
                     <div className="w-4 h-4 rounded-sm border border-muted-foreground border-dashed" />
                 </Button>

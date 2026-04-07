@@ -14,81 +14,84 @@ import { Separator } from "@workspace/ui/components/separator";
 import { ChevronDown, } from "lucide-react";
 
 
-export function MeetingTimePopover() {
+export function MeetingDurationPopover() {
     return (
         <Popover>
             <PopoverTrigger asChild>
                 <Button variant="outline" size="xs" className="flex-1 justify-between text-muted-foreground">
-                    Any time
+                    Any Duration
                     <ChevronDown />
                 </Button>
             </PopoverTrigger>
             <PopoverContent side="bottom" align="start" className="w-48 px-1">
                 <PopoverHeader>
                     <PopoverTitle className="px-3">
-                        Date Range
+                        Duration
                     </PopoverTitle>
                 </PopoverHeader>
                 <Separator />
-                <RadioGroup defaultValue="any-time" >
-                    <FieldLabel htmlFor="any-time" className="border-none">
+                <RadioGroup defaultValue="any-duration" >
+                    <FieldLabel htmlFor="any-duration" className="border-none">
                         <Field orientation="horizontal" className="group hover:bg-secondary px-3 py-2 rounded-md">
                             <FieldContent>
                                 <FieldTitle className="normal-case text-sm text-popover-foreground font-medium">
-                                    Any time
+                                    Any duration
                                 </FieldTitle>
                             </FieldContent>
-                            <RadioGroupItem value="any-time" id="any-time" className="group-hover:data-[state=unchecked]:border-foreground" />
+                            <RadioGroupItem value="any-duration" id="any-duration" className="group-hover:data-[state=unchecked]:border-foreground" />
                         </Field>
                     </FieldLabel>
-                    <FieldLabel htmlFor="today" className="border-none">
+                    <FieldLabel htmlFor="less-15-min" className="border-none">
                         <Field orientation="horizontal" className="group hover:bg-secondary px-3 py-2 rounded-md">
                             <FieldContent>
                                 <FieldTitle className="normal-case text-sm text-popover-foreground font-medium">
-                                    Today
+                                    {"<15 mins"}
                                 </FieldTitle>
                             </FieldContent>
-                            <RadioGroupItem value="today" id="today" className="group-hover:data-[state=unchecked]:border-foreground" />
+                            <RadioGroupItem value="less-15-min" id="less-15-min" className="group-hover:data-[state=unchecked]:border-foreground" />
                         </Field>
                     </FieldLabel>
-                    <FieldLabel htmlFor="last-7-days" className="border-none">
+                    <FieldLabel htmlFor="15-to-30mins" className="border-none">
                         <Field orientation="horizontal" className="group hover:bg-secondary px-3 py-2 rounded-md">
                             <FieldContent>
                                 <FieldTitle className="normal-case text-sm text-popover-foreground font-medium">
-                                    Last 7 days
+                                    15 to 30 mins
                                 </FieldTitle>
                             </FieldContent>
-                            <RadioGroupItem value="last-7-days" id="last-7-days" className="group-hover:data-[state=unchecked]:border-foreground" />
+                            <RadioGroupItem value="15-to-30mins" id="15-to-30mins" className="group-hover:data-[state=unchecked]:border-foreground" />
                         </Field>
                     </FieldLabel>
-                    <FieldLabel htmlFor="last-14-days" className="border-none">
+                    <FieldLabel htmlFor="30-to-60mins" className="border-none">
                         <Field orientation="horizontal" className="group hover:bg-secondary px-3 py-2 rounded-md">
                             <FieldContent>
                                 <FieldTitle className="normal-case text-sm text-popover-foreground font-medium">
-                                    Last 14 days
+                                    30 to 60 mins
                                 </FieldTitle>
                             </FieldContent>
-                            <RadioGroupItem value="last-14-days" id="last-14-days" className="group-hover:data-[state=unchecked]:border-foreground" />
+                            <RadioGroupItem value="30-to-60mins" id="30-to-60mins" className="group-hover:data-[state=unchecked]:border-foreground" />
                         </Field>
                     </FieldLabel>
-                    <FieldLabel htmlFor="last-30-days" className="border-none">
+                    <FieldLabel htmlFor="60-to-90mins" className="border-none">
                         <Field orientation="horizontal" className="group hover:bg-secondary px-3 py-2 rounded-md">
                             <FieldContent>
                                 <FieldTitle className="normal-case text-sm text-popover-foreground font-medium">
-                                    Last 30 days
+                                    60 to 90 mins
                                 </FieldTitle>
                             </FieldContent>
-                            <RadioGroupItem value="last-30-days" id="last-30-days" className="group-hover:data-[state=unchecked]:border-foreground" />
+                            <RadioGroupItem value="60-to-90mins" id="60-to-90mins" className="group-hover:data-[state=unchecked]:border-foreground" />
+                        </Field>
+                    </FieldLabel>
+                    <FieldLabel htmlFor="more-than-90mins" className="border-none">
+                        <Field orientation="horizontal" className="group hover:bg-secondary px-3 py-2 rounded-md">
+                            <FieldContent>
+                                <FieldTitle className="normal-case text-sm text-popover-foreground font-medium">
+                                    90+ mins
+                                </FieldTitle>
+                            </FieldContent>
+                            <RadioGroupItem value="more-than-90mins" id="more-than-90mins" className="group-hover:data-[state=unchecked]:border-foreground" />
                         </Field>
                     </FieldLabel>
                 </RadioGroup>
-                <Separator />
-                <div className="flex items-center justify-between py-2 hover:bg-secondary px-3 rounded-md">
-                    <p className="text-sm font-medium normal-case text-popover-foreground">Custom date range</p>
-                    <Button variant="ghost" size="icon-xs">
-                        <CalendarMark />
-                    </Button>
-                </div>
             </PopoverContent>
         </Popover>
     )

@@ -30,9 +30,9 @@ export function TitleMenuDialog({ open, onOpenChange }: { open: boolean, onOpenC
                             Visibility
                         </h4>
                         <RadioGroup defaultValue="workspace" className="space-y-2">
-                            <FieldLabel htmlFor="workspace">
-                                <Field orientation="horizontal" className="gap-4">
-                                    <RadioGroupItem value="workspace" id="workspace" />
+                            <FieldLabel htmlFor="workspace" className="group hover:bg-secondary rounded-md">
+                                <Field orientation="horizontal" className="gap-4 ">
+                                    <RadioGroupItem value="workspace" id="workspace" className="group-hover:data-[state=unchecked]:border-foreground" />
                                     <FieldContent>
                                         <FieldTitle className="text-sm font-semibold normal-case gap-1.5">
                                             <Widget2 />
@@ -45,9 +45,9 @@ export function TitleMenuDialog({ open, onOpenChange }: { open: boolean, onOpenC
 
                                 </Field>
                             </FieldLabel>
-                            <FieldLabel htmlFor="personal">
+                            <FieldLabel htmlFor="personal" className="group hover:bg-secondary rounded-md">
                                 <Field orientation="horizontal" className="gap-4">
-                                    <RadioGroupItem value="personal" id="personal" />
+                                    <RadioGroupItem value="personal" id="personal" className="group-hover:data-[state=unchecked]:border-foreground" />
                                     <FieldContent>
                                         <FieldTitle className="text-sm font-semibold normal-case gap-1.5">
                                             <FolderSecurity />
