@@ -11,9 +11,9 @@ import { TaskListHeader } from "./task-list-header"
 import { TaskItem } from "./task-item"
 import { NewTaskRow } from "./new-task-row"
 import { useTaskList } from "../_hooks/use-task-list"
-import { TasksGroup, UserSummary } from "@workspace/types/task"
+import { TasksGroup } from "@workspace/types/task"
 
-export function TaskList({ tasksGroup, assignees }: { tasksGroup: TasksGroup, assignees: UserSummary[] }) {
+export function TaskList({ tasksGroup }: { tasksGroup: TasksGroup }) {
     const {
         tasks,
         collapsibleOpen,
@@ -46,7 +46,6 @@ export function TaskList({ tasksGroup, assignees }: { tasksGroup: TasksGroup, as
                 title={tasksGroup.title}
                 timestamp={tasksGroup.timestamp}
                 tasks={tasks}
-                assignees={assignees}
                 onUpdateAssignee={(id, assignee) => updateAssignee(id, assignee)}
             />
 
@@ -57,7 +56,6 @@ export function TaskList({ tasksGroup, assignees }: { tasksGroup: TasksGroup, as
                             <TaskItem
                                 key={item.id}
                                 item={item}
-                                assignees={assignees}
                                 onToggle={() => toggleTask(item.id)}
                                 onDelete={() => deleteTask(item.id)}
                                 onUpdateTitle={(title) => updateTaskTitle(item.id, title)}
@@ -68,7 +66,6 @@ export function TaskList({ tasksGroup, assignees }: { tasksGroup: TasksGroup, as
                         {form.isAdding && (
                             <NewTaskRow
                                 rowRef={form.newTaskRowRef}
-                                assignees={assignees}
                                 title={form.newTaskTitle}
                                 checked={form.temporaryChecked}
                                 onCheckedChange={form.setTemporaryChecked}
@@ -105,7 +102,6 @@ export function TaskList({ tasksGroup, assignees }: { tasksGroup: TasksGroup, as
                                         <TaskItem
                                             key={item.id}
                                             item={item}
-                                            assignees={assignees}
                                             onToggle={() => toggleTask(item.id)}
                                             onDelete={() => deleteTask(item.id)}
                                             onUpdateTitle={(title) => updateTaskTitle(item.id, title)}

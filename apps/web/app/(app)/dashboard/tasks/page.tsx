@@ -4,6 +4,7 @@ import { TaskAIInsight } from "./_components/task-ai-insight"
 import { TaskProductivityStats } from "./_components/task-productivity"
 import { EmptyState } from "@/components/empty-state";
 import { taskApi } from "@workspace/api-client/task.api";
+import { AssigneesProvider } from "./_hooks/use-task-assigness";
 
 
 
@@ -30,9 +31,11 @@ export default async function Tasks() {
                                 description="Lume is waiting for your first meeting to begin automatically capturing action items and strategic takeaways."
                                 className="h-full" />}
 
-                        {
-                            groups.map((taskGroup) => <TaskList key={taskGroup.id} tasksGroup={taskGroup} assignees={assignees} />)
-                        }
+                        <AssigneesProvider assignees={assignees}>
+                            {
+                                groups.map((taskGroup) => <TaskList key={taskGroup.id} tasksGroup={taskGroup} />)
+                            }
+                        </AssigneesProvider>
                     </div>
                     <div className="hidden lg:block w-[288px] shrink-0 md:no-scrollbar overflow-y-auto pt-7 pb-36 space-y-8">
                         <TaskAIInsight />

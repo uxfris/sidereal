@@ -3,8 +3,6 @@
 import { Meeting } from "@workspace/types/meetings";
 import { createContext, ReactNode, useContext } from "react";
 
-type MeetingsContextType = Meeting[] | null;
-
 const MeetingsContext = createContext<Meeting[] | undefined>(undefined);
 
 type MeetingsProviderProps = {

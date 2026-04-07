@@ -12,7 +12,6 @@ import { ActionItem, UserSummary } from "@workspace/types/task"
 
 type TaskItemProps = {
     item: ActionItem
-    assignees: UserSummary[]
     onToggle: () => void
     onDelete: () => void
     onUpdateTitle: (title: string) => void
@@ -20,7 +19,7 @@ type TaskItemProps = {
 
 }
 
-export function TaskItem({ item, assignees, onToggle, onDelete, onUpdateTitle, onUpdateAssignee }: TaskItemProps) {
+export function TaskItem({ item, onToggle, onDelete, onUpdateTitle, onUpdateAssignee }: TaskItemProps) {
     const [isEditing, setIsEditing] = useState(false)
     const [title, setTitle] = useState(item.title)
     const inputRef = useRef<HTMLInputElement>(null)
@@ -100,7 +99,6 @@ export function TaskItem({ item, assignees, onToggle, onDelete, onUpdateTitle, o
                 tooltip={item.assignee?.name ?? "Add assignee"}
                 onUpdateAssignee={onUpdateAssignee}
                 assigneeId={item.assignee?.id}
-                assignees={assignees}
             >
                 {
                     item.assignee ?

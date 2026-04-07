@@ -17,10 +17,9 @@ type SendTaskSelectionDialogProps = {
     initialSelectedTasksIds?: string[]
     onOpenChange: (open: boolean) => void
     onContinue: (selectedTasks: string[]) => void
-    assignees: UserSummary[]
     onUpdateAssignee: (itemId: string, assignee: UserSummary | null) => void
 }
-export function SendTaskSelectionDialog({ open, tasks, initialSelectedTasksIds, onOpenChange, onContinue, assignees, onUpdateAssignee }: SendTaskSelectionDialogProps) {
+export function SendTaskSelectionDialog({ open, tasks, initialSelectedTasksIds, onOpenChange, onContinue, onUpdateAssignee }: SendTaskSelectionDialogProps) {
     const [selectedTaskIds, setSelectedTaskIds] = useState<Set<string>>(new Set())
 
     const allSelected = tasks.length > 0 && tasks.every(t => selectedTaskIds.has(t.id))
@@ -101,7 +100,6 @@ export function SendTaskSelectionDialog({ open, tasks, initialSelectedTasksIds, 
                                     tooltip={task.assignee?.name ?? "Add assignee"}
                                     onUpdateAssignee={(assignee) => onUpdateAssignee(task.id, assignee)}
                                     assigneeId={task.assignee?.id}
-                                    assignees={assignees}
                                 >
                                     {task.assignee ? (
                                         <Avatar>

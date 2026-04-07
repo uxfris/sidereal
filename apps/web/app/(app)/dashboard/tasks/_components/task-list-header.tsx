@@ -17,11 +17,10 @@ type TaskListHeaderProps = {
     title: string
     timestamp: string
     tasks: ActionItem[]
-    assignees: UserSummary[]
     onUpdateAssignee: (itemId: string, assignee: UserSummary | null) => void
 }
 
-export function TaskListHeader({ title, timestamp, tasks, assignees, onUpdateAssignee }: TaskListHeaderProps) {
+export function TaskListHeader({ title, timestamp, tasks, onUpdateAssignee }: TaskListHeaderProps) {
     const [taskSelectionOpen, setTaskSelectionOpen] = useState(false)
     const [areInitiallySelected, setAreInitiallySelected] = useState(false)
     const [selectedTaskIds, setSelectedTaskIds] = useState<String[]>([])
@@ -94,7 +93,6 @@ export function TaskListHeader({ title, timestamp, tasks, assignees, onUpdateAss
                 initialSelectedTasksIds={areInitiallySelected ? tasks.map(t => t.id) : undefined}
                 onContinue={onContinue}
                 tasks={tasks}
-                assignees={assignees}
                 onUpdateAssignee={onUpdateAssignee}
             />
             <SendTaskDialog open={taskSendOpen} onOpenChange={setTaskSendOpen} onSuccess={onSuccess} tasks={tasks.filter((t) => selectedTaskIds.includes(t.id))} />

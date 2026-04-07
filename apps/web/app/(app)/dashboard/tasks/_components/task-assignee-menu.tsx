@@ -7,18 +7,19 @@ import { UserPlus } from "@solar-icons/react"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@workspace/ui/components/dropdown-menu"
 import { cn } from "@workspace/ui/lib/utils"
 import { UserSummary } from "@workspace/types/task"
+import { useAssignees } from "../_hooks/use-task-assigness"
 
 
 
 type TaskAssigneeMenuProps = {
     children: React.ReactNode
     assigneeId?: string
-    assignees: UserSummary[]
     tooltip: string
     onUpdateAssignee: (assignee: UserSummary | null) => void
 }
 
-export function TaskAssigneeMenu({ children, tooltip, onUpdateAssignee, assigneeId, assignees }: TaskAssigneeMenuProps) {
+export function TaskAssigneeMenu({ children, tooltip, onUpdateAssignee, assigneeId }: TaskAssigneeMenuProps) {
+    const assignees = useAssignees();
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>

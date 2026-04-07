@@ -14,7 +14,6 @@ type NewTaskRowProps = {
     title: string
     checked: boolean
     assignee: UserSummary | null,
-    assignees: UserSummary[]
     onCheckedChange: (checked: boolean) => void
     onTitleChange: (value: string) => void
     onKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => void
@@ -30,7 +29,6 @@ export function NewTaskRow({
     onKeyDown,
     assignee,
     onAssigneeChange,
-    assignees
 
 }: NewTaskRowProps) {
     return (
@@ -52,7 +50,6 @@ export function NewTaskRow({
                 tooltip={assignee?.name ?? "Add assignee"}
                 onUpdateAssignee={onAssigneeChange}
                 assigneeId={assignee?.id}
-                assignees={assignees}
             >
                 {
                     assignee ?
