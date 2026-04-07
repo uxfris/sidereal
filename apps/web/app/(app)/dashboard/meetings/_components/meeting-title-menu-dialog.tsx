@@ -39,7 +39,7 @@ export function TitleMenuDialog({ open, onOpenChange }: { open: boolean, onOpenC
                                             Workspace
                                         </FieldTitle>
                                         <FieldDescription className="text-sm text-muted-foreground normal-case">
-                                            All workspace members can see and add meetings to this folder
+                                            All workspace members can see and add meetings to this channel
                                         </FieldDescription>
                                     </FieldContent>
 
@@ -54,7 +54,7 @@ export function TitleMenuDialog({ open, onOpenChange }: { open: boolean, onOpenC
                                             Personal
                                         </FieldTitle>
                                         <FieldDescription className="text-sm text-muted-foreground normal-case">
-                                            only you can see and add meetings to this folder
+                                            Only you can see and add meetings to this channel
                                         </FieldDescription>
                                     </FieldContent>
 
