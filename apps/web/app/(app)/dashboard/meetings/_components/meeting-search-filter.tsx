@@ -16,7 +16,6 @@ import { MeetingSourcePopover } from "./filter-popovers/meeting-source-popover";
 import { MeetingSelectionButton } from "./meeting-selection-button";
 
 
-
 export function MeetingSearchFilter() {
     return (
         <div className="flex items-center gap-3">

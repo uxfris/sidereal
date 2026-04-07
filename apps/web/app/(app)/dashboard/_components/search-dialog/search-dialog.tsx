@@ -9,13 +9,13 @@ import { Input } from "@workspace/ui/components/input"
 import { MinimalisticMagnifier } from "@solar-icons/react"
 import MeetingItem from "../meetings/meeting-item"
 import { useDebounce } from "@workspace/ui/hooks/use-debouce"
-import { RecentMeeting } from "@workspace/types/meetings"
+import { Meeting } from "@workspace/types/meetings"
 
 
 
 
 // ── Mock data ──────────────────────────────────────────
-const meetings: RecentMeeting[] = [
+const meetings: Meeting[] = [
     {
         id: "1",
         title: "Client<mark>Onboarding</mark>: Helios",
@@ -87,7 +87,7 @@ function delay(ms: number, signal?: AbortSignal) {
 
 export function SearchDialog() {
     const [query, setQuery] = useState("")
-    const [results, setResults] = useState<RecentMeeting[]>([])
+    const [results, setResults] = useState<Meeting[]>([])
     const [loading, setLoading] = useState(false)
 
     const debounceQuery = useDebounce(query, 350)

@@ -13,7 +13,7 @@ export const AttendeeSchema = z.object({
 });
 export type Attendee = z.infer<typeof AttendeeSchema>;
 
-export const RecentMeetingSchema = z.object({
+export const MeetingSchema = z.object({
   id: z.string(),
   title: z.string(),
   summary: z.string(),
@@ -23,7 +23,7 @@ export const RecentMeetingSchema = z.object({
   attendees: z.array(AttendeeSchema),
   extraAttendees: z.number().optional(),
 });
-export type RecentMeeting = z.infer<typeof RecentMeetingSchema>;
+export type Meeting = z.infer<typeof MeetingSchema>;
 
 export const UpcomingMeetingSchema = z.object({
   id: z.string(),

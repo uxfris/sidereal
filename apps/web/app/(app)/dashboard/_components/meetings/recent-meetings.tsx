@@ -4,11 +4,11 @@ import { Button } from "@workspace/ui/components/button"
 import MeetingItem from "./meeting-item"
 import { cn } from "@workspace/ui/lib/utils"
 import { EmptyState } from "@/components/empty-state"
-import { RecentMeeting } from "@workspace/types/meetings"
+import { Meeting } from "@workspace/types/meetings"
 
 
 // ── Mock data ──────────────────────────────────────────
-const meetings: RecentMeeting[] = [
+const meetings: Meeting[] = [
     {
         id: "1",
         title: "Client Onboarding: Helios",
