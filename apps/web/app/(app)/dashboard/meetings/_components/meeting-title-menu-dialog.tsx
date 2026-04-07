@@ -1,4 +1,4 @@
-import { Hashtag } from "@solar-icons/react";
+import { FolderSecurity, Hashtag, Widget2 } from "@solar-icons/react";
 import { Button } from "@workspace/ui/components/button";
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@workspace/ui/components/dialog";
 import { Field, FieldContent, FieldDescription, FieldLabel, FieldTitle } from "@workspace/ui/components/field";
@@ -31,10 +31,11 @@ export function TitleMenuDialog({ open, onOpenChange }: { open: boolean, onOpenC
                         </h4>
                         <RadioGroup defaultValue="workspace" className="space-y-2">
                             <FieldLabel htmlFor="workspace">
-                                <Field orientation="horizontal">
+                                <Field orientation="horizontal" className="gap-4">
                                     <RadioGroupItem value="workspace" id="workspace" />
                                     <FieldContent>
-                                        <FieldTitle className="text-sm font-semibold normal-case">
+                                        <FieldTitle className="text-sm font-semibold normal-case gap-1.5">
+                                            <Widget2 />
                                             Workspace
                                         </FieldTitle>
                                         <FieldDescription className="text-sm text-muted-foreground normal-case">
@@ -45,10 +46,11 @@ export function TitleMenuDialog({ open, onOpenChange }: { open: boolean, onOpenC
                                 </Field>
                             </FieldLabel>
                             <FieldLabel htmlFor="personal">
-                                <Field orientation="horizontal">
+                                <Field orientation="horizontal" className="gap-4">
                                     <RadioGroupItem value="personal" id="personal" />
                                     <FieldContent>
-                                        <FieldTitle className="text-sm font-semibold normal-case">
+                                        <FieldTitle className="text-sm font-semibold normal-case gap-1.5">
+                                            <FolderSecurity />
                                             Personal
                                         </FieldTitle>
                                         <FieldDescription className="text-sm text-muted-foreground normal-case">
