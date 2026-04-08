@@ -10,6 +10,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "@workspace/ui/component
 import { SmartKbd } from "@workspace/ui/components/smart-kbd";
 import { useShortcutRegister } from "@workspace/ui/components/shortcut-provider";
 import { useEffect } from "react";
+import { MoveToChannelDialog } from "./meeting-action/move-to-channel-dialog";
 
 export function MeetingBulkActionBar({ meetings }: { meetings: Meeting[] }) {
 
@@ -59,11 +60,7 @@ export function MeetingBulkActionBar({ meetings }: { meetings: Meeting[] }) {
                     selectedIds.length > 0 &&
                     <>
                         <div className="w-px h-[22px] bg-border" />
-                        <Button size="xs" variant="ghost">
-                            <Hashtag />
-                            {/* TODO: conditionally 'Remove from channel' if it's on the channel tab */}
-                            Move to channel
-                        </Button>
+                        <MoveToChannelDialog />
                         <Button size="xs" variant="ghost">
                             <UsersGroupRounded />
                             Transfer
