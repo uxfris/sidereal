@@ -12,6 +12,8 @@ import { useShortcutRegister } from "@workspace/ui/components/shortcut-provider"
 import { useEffect } from "react";
 import { MoveToChannelDialog } from "./meeting-action/move-to-channel-dialog";
 import { MoveToWorkspaceDialog } from "./meeting-action/move-to-workspace-dialog";
+import { RemoveFromChannelDialog } from "./meeting-action/remove-from-channel-dialog";
+import { DeleteMeetingsDialog } from "./meeting-action/delete-meetings-dialog";
 
 export function MeetingBulkActionBar({ meetings }: { meetings: Meeting[] }) {
 
@@ -61,13 +63,11 @@ export function MeetingBulkActionBar({ meetings }: { meetings: Meeting[] }) {
                     selectedIds.length > 0 &&
                     <>
                         <div className="w-px h-[22px] bg-border" />
-                        <MoveToChannelDialog />
+                        {false ? <MoveToChannelDialog /> :
+                            <RemoveFromChannelDialog />}
                         <MoveToWorkspaceDialog />
                         <div className="w-px h-[22px] bg-border" />
-                        <Button size="xs" variant="destructive" className="bg-transparent">
-                            <TrashBin2 />
-                            Delete
-                        </Button>
+                        <DeleteMeetingsDialog />
                         <div className="w-px h-[22px] bg-border" />
                         <Button size="xs" variant="ghost" onClick={() => {
                             clearSelection()
