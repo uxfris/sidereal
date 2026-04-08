@@ -1,7 +1,6 @@
 import { Button } from "@workspace/ui/components/button";
 import { cn } from "@workspace/ui/lib/utils";
 import { useMeetingSelection } from "../_stores/meeting-selection-store";
-import { useMeetings } from "../_hooks/use-meeting-context";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@workspace/ui/components/tooltip";
 
 export function MeetingSelectionButton() {

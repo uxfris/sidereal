@@ -3,7 +3,7 @@
 import { create } from 'zustand'
 
 type MeetingSelectionState = {
-    selectionMode: boolean,
+    selectionMode: boolean
     selectedIds: string[]
 
     setSelectionMode: (val: boolean) => void
