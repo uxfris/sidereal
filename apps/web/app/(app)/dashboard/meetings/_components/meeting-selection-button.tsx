@@ -7,11 +7,16 @@ export function MeetingSelectionButton() {
     const selectionMode = useMeetingSelection(s => s.selectionMode)
     const setSelectionMode = useMeetingSelection(s => s.setSelectionMode)
 
+    const clearSelection = useMeetingSelection(s => s.clearSelection)
+
     return (
         <TooltipProvider delayDuration={700}>
             <Tooltip>
                 <TooltipTrigger asChild >
-                    <Button variant={selectionMode ? "default" : "outline"} size="icon-xs" onClick={() => setSelectionMode(!selectionMode)}>
+                    <Button variant={selectionMode ? "default" : "outline"} size="icon-xs" onClick={() => {
+                        clearSelection()
+                        setSelectionMode(!selectionMode)
+                    }}>
                         <div className={cn("w-4 h-4 rounded-sm border border-dashed", selectionMode ? "border-primary-foreground" : "border-muted-foreground")} />
                     </Button>
                 </TooltipTrigger>
