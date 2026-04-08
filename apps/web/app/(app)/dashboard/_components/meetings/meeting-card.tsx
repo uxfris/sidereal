@@ -28,7 +28,7 @@ export function MeetingCard({ meeting, selectionMode }: MeetingCardProps) {
     return (
         <Card
             onClick={selectionMode ? () => { toggleSelect(meeting.id) } : undefined}
-            className={cn("h-full p-0", selectionMode && "cursor-pointer", !selectionMode && "hover:bg-secondary")}
+            className={cn("h-full p-0 group/meeting", selectionMode && "cursor-pointer", !selectionMode && "hover:bg-secondary")}
         >
             <CardContent className="h-full flex flex-col gap-6 p-6">
                 <div className="flex items-center justify-between">
@@ -74,7 +74,7 @@ export function MeetingCard({ meeting, selectionMode }: MeetingCardProps) {
                 </div>
                 <div className="flex items-center justify-between">
                     <AttendeeAvatar attendees={meeting.attendees} extra={meeting.extraAttendees} />
-                    {!selectionMode && <MeetingItemMenu />}
+                    {!selectionMode && <MeetingItemMenu meeting={meeting} />}
                 </div>
             </CardContent>
         </Card>
