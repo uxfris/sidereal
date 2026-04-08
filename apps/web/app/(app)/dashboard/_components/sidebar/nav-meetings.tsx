@@ -13,7 +13,7 @@ import { NavItem } from "../../_types/nav-item"
 import { ChevronRight } from "lucide-react"
 import { AppSidebarMenuButton } from "./nav-item"
 import { Button } from "@workspace/ui/components/button"
-import { Folder, Hashtag } from "@solar-icons/react"
+import { Hashtag } from "@solar-icons/react"
 import { NavAddChannel } from "./nav-add-channel"
 
 export function NavMeetings({ item }: { item: NavItem }) {
@@ -48,7 +48,8 @@ export function NavMeetings({ item }: { item: NavItem }) {
                 {/* Navigation area*/}
                 <SidebarMenuButton asChild tooltip={item.label} className="p-0">
                     <a href={item.url} className="flex items-center gap-2">
-                        <span className="ml-0">{item.label}</span>
+                        <span className="flex-1 text-sm transition-all duration-200 ease-out group-data-[state=collapsed]:opacity-0"> {item.label}</span>
+                        {/* <span className="ml-0">{item.label}</span> */}
                     </a>
                 </SidebarMenuButton>
             </SidebarMenuItem>
