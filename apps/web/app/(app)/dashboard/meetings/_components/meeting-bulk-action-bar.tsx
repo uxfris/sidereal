@@ -11,6 +11,7 @@ import { SmartKbd } from "@workspace/ui/components/smart-kbd";
 import { useShortcutRegister } from "@workspace/ui/components/shortcut-provider";
 import { useEffect } from "react";
 import { MoveToChannelDialog } from "./meeting-action/move-to-channel-dialog";
+import { MoveToWorkspaceDialog } from "./meeting-action/move-to-workspace-dialog";
 
 export function MeetingBulkActionBar({ meetings }: { meetings: Meeting[] }) {
 
@@ -61,10 +62,7 @@ export function MeetingBulkActionBar({ meetings }: { meetings: Meeting[] }) {
                     <>
                         <div className="w-px h-[22px] bg-border" />
                         <MoveToChannelDialog />
-                        <Button size="xs" variant="ghost">
-                            <UsersGroupRounded />
-                            Transfer
-                        </Button>
+                        <MoveToWorkspaceDialog />
                         <div className="w-px h-[22px] bg-border" />
                         <Button size="xs" variant="destructive" className="bg-transparent">
                             <TrashBin2 />
