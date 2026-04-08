@@ -37,7 +37,7 @@ export function JoinMeetingSuccessfulDialog({ open, onOpenChange }: JoinMeetingS
                 <DialogFooter className="bg-muted text-left">
                     <div className="flex gap-3 text-muted-foreground">
                         <InfoCircle weight="Bold" size={24} />
-                        <p>Atelier needs to stay inside the meeting for at least 3
+                        <p>Lume needs to stay inside the meeting for at least 3
                             minutes to process the meeting transcript.</p>
                     </div>
                 </DialogFooter>

@@ -11,6 +11,11 @@ const macShortcuts: ShortcutMap = {
         display: ["⌘", "K"],
         key: "k",
         meta: true,
+    },
+    selectall: {
+        display: ["⌘", "A"],
+        key: "a",
+        meta: true,
     }
 }
 
@@ -21,8 +26,13 @@ const windowsShortcuts: ShortcutMap = {
         ctrl: true,
     },
     search: {
-        display: ["Ctrl", "k"],
+        display: ["Ctrl", "K"],
         key: "k",
+        ctrl: true,
+    },
+    selectall: {
+        display: ["Ctrl", "A"],
+        key: "a",
         ctrl: true,
     }
 }

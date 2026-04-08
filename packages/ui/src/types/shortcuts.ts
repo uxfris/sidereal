@@ -3,6 +3,7 @@
 export type ShortcutAction =
     | "sidebar"
     | "search"
+    | "selectall"
 
 export type KeyCombo = {
     display: string[]

@@ -81,9 +81,7 @@ export default function Meeting() {
                 </div>
             </div>
             <MeetingView meetings={meetings} />
-            <MeetingsProvider meetings={meetings}>
-                <MeetingBulkActionBar />
-            </MeetingsProvider>
+            <MeetingBulkActionBar meetings={meetings} />
         </div>
     )
 }

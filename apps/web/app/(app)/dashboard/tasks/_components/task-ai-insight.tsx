@@ -17,7 +17,7 @@ export function TaskAIInsight() {
                 <CardContent className="flex items-center flex-col gap-4">
                     <Soundwave className="w-8 h-8 text-primary/20" />
                     <p className="text-primary/80 text-center">
-                        Atelier is listening. Start your first
+                        Lume is listening. Start your first
                         meeting to surface unique team
                         insights here.
                     </p>
