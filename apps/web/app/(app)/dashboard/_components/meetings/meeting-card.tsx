@@ -34,11 +34,12 @@ export function MeetingCard({ meeting, selectionMode }: MeetingCardProps) {
                 <div className="flex items-center justify-between">
                     {selectionMode ?
                         <Checkbox
-                            className="w-7 h-7"
+                            className="w-7 h-7 cursor-pointer"
                             checked={isChecked}
-                            onPointerDown={(e) => {
-                                e.stopPropagation()
-                            }}
+                            // onPointerDown={(e) => {
+                            //     e.stopPropagation()
+                            // }}
+                            onClick={(e) => e.stopPropagation()}
                             onCheckedChange={() => toggleSelect(meeting.id)}
                         />
                         :
