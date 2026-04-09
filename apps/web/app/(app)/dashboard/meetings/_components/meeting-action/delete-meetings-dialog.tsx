@@ -23,7 +23,7 @@ export function DeleteMeetingsDialog() {
     return (
         <AlertDialog>
             <AlertDialogTrigger asChild>
-                <Button size="xs" variant="destructive" className="bg-transparent">
+                <Button size="xs" variant="destructive" className="bg-transparent text-destructive hover:text-destructive hover:bg-destructive/20">
                     <TrashBin2 />
                     Delete
                 </Button>

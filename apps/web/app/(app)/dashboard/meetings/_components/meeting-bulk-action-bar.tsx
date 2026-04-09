@@ -14,8 +14,11 @@ import { MoveToChannelDialog } from "./meeting-action/move-to-channel-dialog";
 import { MoveToWorkspaceDialog } from "./meeting-action/move-to-workspace-dialog";
 import { RemoveFromChannelDialog } from "./meeting-action/remove-from-channel-dialog";
 import { DeleteMeetingsDialog } from "./meeting-action/delete-meetings-dialog";
+import { usePathname } from "next/navigation";
 
-export function MeetingBulkActionBar({ meetings }: { meetings: Meeting[] }) {
+export function MeetingBulkActionBar({ isChannel, meetings }: { isChannel?: boolean, meetings: Meeting[] }) {
+
+    const pathname = usePathname()
 
     const selectionMode = useMeetingSelection(s => s.selectionMode)
     const setSelectionMode = useMeetingSelection(s => s.setSelectionMode)
@@ -33,6 +36,11 @@ export function MeetingBulkActionBar({ meetings }: { meetings: Meeting[] }) {
     useEffect(() => {
         register("selectall", () => selectionMode ? isAllSelected ? clearSelection() : selectAll(allIds) : {})
     })
+
+    useEffect(() => {
+        clearSelection()
+        setSelectionMode(false)
+    }, [pathname])
 
 
     if (selectionMode)
@@ -62,19 +70,19 @@ export function MeetingBulkActionBar({ meetings }: { meetings: Meeting[] }) {
                 {
                     selectedIds.length > 0 &&
                     <>
-                        <div className="w-px h-[22px] bg-border" />
-                        {false ? <MoveToChannelDialog /> :
-                            <RemoveFromChannelDialog />}
+                        <div className="w-px h-5.5 bg-border" />
+                        {isChannel ? <RemoveFromChannelDialog /> : <MoveToChannelDialog />
+                        }
                         <MoveToWorkspaceDialog />
-                        <div className="w-px h-[22px] bg-border" />
+                        <div className="w-px h-5.5 bg-border" />
                         <DeleteMeetingsDialog />
-                        <div className="w-px h-[22px] bg-border" />
+                        <div className="w-px h-5.5 bg-border" />
                         <Button size="xs" variant="ghost" onClick={() => {
                             clearSelection()
                         }}>Clear</Button>
                     </>
                 }
-                <div className="w-px h-[22px] bg-border" />
+                <div className="w-px h-5.5 bg-border" />
                 <Button size="xs" variant="ghost" onClick={() => {
                     setSelectionMode(false)
                     clearSelection()

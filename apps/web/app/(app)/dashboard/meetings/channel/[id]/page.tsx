@@ -1,11 +1,13 @@
 import { Meeting } from "@workspace/types/meetings"
 import { MeetingsProvider } from "../../_hooks/use-meeting-context"
 import { MeetingSearchFilter } from "../../_components/meeting-search-filter"
-import { MeetingChannelButtons } from "../../_components/meeting-channel-buttons"
 import { MeetingView } from "../../_components/meeting-view"
 import { MeetingBulkActionBar } from "../../_components/meeting-bulk-action-bar"
 import { MeetingChannelEmpty } from "../_components/meeting-channel-empty"
 import { ChannelTitleMenuDropdown } from "../_components/meeting-channel-title-menu-dropdown"
+import { ArrowLeft } from "@solar-icons/react/ssr"
+import { Button } from "@workspace/ui/components/button"
+import Link from "next/link"
 
 
 // ── Mock data ──────────────────────────────────────────
@@ -69,7 +71,10 @@ export default function MeetingChannel() {
     return (
         <div className="relative h-full flex flex-col overflow-hidden gap-6">
             <div className="flex items-center gap-3 px-10 pt-10">
-                <h1 className="text-base font-semibold">Design Sprint</h1>
+                <Link href="/dashboard/meetings" >
+                    <ArrowLeft />
+                </Link>
+                <h1 className="text-base font-semibold">Sprint Planning</h1>
                 <ChannelTitleMenuDropdown />
             </div>
             {meetings.length === 0
@@ -85,7 +90,7 @@ export default function MeetingChannel() {
                         </div>
                         <MeetingView meetings={meetings} />
                     </div>
-                    <MeetingBulkActionBar meetings={meetings} />
+                    <MeetingBulkActionBar meetings={meetings} isChannel={true} />
                 </>}
         </div>
     )

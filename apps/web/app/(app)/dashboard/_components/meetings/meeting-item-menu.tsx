@@ -37,7 +37,7 @@ export function MeetingItemMenu({ meeting }: { meeting: Meeting }) {
                 <DropdownMenuContent className="sm:min-w-fit p-2 text-sm space-y-3">
                     <DropdownMenuGroup className="space-y-3">
                         <DropdownMenuItem asChild>
-                            <Link href={`/meetings/${meeting.id}`} target="_blank" rel="noopener noreferrer">
+                            <Link href={`/meeting/${meeting.id}`} target="_blank" rel="noopener noreferrer">
                                 <SquareTopDown />
                                 Open in a new tab
                             </Link>
