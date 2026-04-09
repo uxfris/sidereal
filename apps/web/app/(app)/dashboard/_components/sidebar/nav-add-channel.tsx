@@ -1,34 +1,19 @@
-import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger,
-} from "@workspace/ui/components/dialog"
-import { AppSidebarMenuButton } from "./nav-item"
 import { Plus } from "lucide-react"
+import { useState } from "react"
+import { SidebarMenuButton } from "@workspace/ui/components/sidebar"
+import { CreateChannelDialog } from "../../meetings/_components/create-channel-dialog"
 
 export function NavAddChannel() {
+    const [open, setOpen] = useState(false)
     return (
-        <Dialog>
-            <DialogTrigger className="w-full">
-                <AppSidebarMenuButton item={{
-                    label: "Add Channel",
-                    url: "#",
-                    icon: Plus,
-                }} />
-            </DialogTrigger>
-            <DialogContent>
-                <DialogHeader>
-                    <DialogTitle>Are you absolutely sure?</DialogTitle>
-                    <DialogDescription>
-                        This action cannot be undone. This will permanently delete your account
-                        and remove your data from our servers.
-                    </DialogDescription>
-                </DialogHeader>
-            </DialogContent>
-        </Dialog>
+        <>
+            <SidebarMenuButton onClick={() => setOpen(true)}>
+                <Plus />
+                Add channel
+            </SidebarMenuButton>
+            <CreateChannelDialog open={open} onOpenChange={setOpen} />
+        </>
+
 
     )
 }
