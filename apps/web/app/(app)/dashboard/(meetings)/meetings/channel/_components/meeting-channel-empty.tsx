@@ -2,8 +2,8 @@
 
 import { Button } from "@workspace/ui/components/button";
 import { useState } from "react";
-import { JoinMeetingDialog } from "../../../_components/live-sync/join-meeting-dialog";
-import { JoinMeetingSuccessfulDialog } from "../../../_components/live-sync/join-meeting-successful-dialog";
+import { JoinMeetingDialog } from "../../../../_components/live-sync/join-meeting-dialog";
+import { JoinMeetingSuccessfulDialog } from "../../../../_components/live-sync/join-meeting-successful-dialog";
 import { Plus } from "lucide-react";
 import { Hashtag } from "@solar-icons/react";
 

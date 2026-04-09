@@ -8,7 +8,7 @@ import { ShareMeetingDialog } from "./meeting-menu-item/share-meeting-dialog";
 import { MoveMeeting } from "./meeting-menu-item/move-meeting-dialog";
 import { RenameMeeting } from "./meeting-menu-item/rename-meeting-dialog";
 import { DeleteMeetingDialog } from "./meeting-menu-item/delete-meeting-dialog";
-import { CreateChannelDialog } from "../../meetings/_components/create-channel-dialog";
+import { CreateChannelDialog } from "../../(meetings)/meetings/_components/create-channel-dialog";
 
 
 export function MeetingItemMenu({ meeting }: { meeting: Meeting }) {

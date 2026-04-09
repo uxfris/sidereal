@@ -18,7 +18,7 @@ import { NavAddChannel } from "./nav-add-channel"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { cn } from "@workspace/ui/lib/utils"
-import { ChannelTitleMenuDropdown } from "../../meetings/channel/_components/meeting-channel-title-menu-dropdown"
+import { ChannelTitleMenuDropdown } from "../../(meetings)/meetings/channel/_components/meeting-channel-title-menu-dropdown"
 
 export function NavMeetings({ item }: { item: NavItem }) {
     const pathname = usePathname()

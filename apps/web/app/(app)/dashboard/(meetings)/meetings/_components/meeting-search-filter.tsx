@@ -13,19 +13,20 @@ import { MeetingDurationPopover } from "./filter-popovers/meeting-duration-popov
 import { MeetingSourcePopover } from "./filter-popovers/meeting-source-popover";
 import { MeetingSelectionButton } from "./meeting-selection-button";
 import { MeetingViewButton } from "./meeting-action/meeting-view-button";
+import { cn } from "@workspace/ui/lib/utils";
 
 
-export function MeetingSearchFilter() {
+export function MeetingSearchFilter({ isCreatedByMe }: { isCreatedByMe?: boolean }) {
     return (
         <div className="flex items-center gap-3">
-            <InputGroup className="bg-input w-60">
+            <InputGroup className={cn("bg-input", isCreatedByMe ? "w-96" : "w-64")}>
                 <InputGroupInput placeholder="Search meetings..." />
                 <InputGroupAddon className="w-5">
                     <MinimalisticMagnifier />
                 </InputGroupAddon>
             </InputGroup>
             <div className="flex-1 flex items-center gap-2">
-                <MeetingHostPopover />
+                {!isCreatedByMe && <MeetingHostPopover />}
                 <MeetingParticipantPopover />
                 <MeetingTimePopover />
                 <MeetingDurationPopover />

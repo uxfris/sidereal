@@ -8,7 +8,7 @@ import { SanitizedHtml } from "@/lib/sanitized-html"
 import { Meeting } from "@workspace/types/meetings"
 import { MeetingItemMenu } from "./meeting-item-menu"
 import { Checkbox } from "@workspace/ui/components/checkbox"
-import { useMeetingSelection } from "../../meetings/_stores/meeting-selection-store"
+import { useMeetingSelection } from "../../(meetings)/meetings/_stores/meeting-selection-store"
 
 type MeetingCardProps = {
     meeting: Meeting,

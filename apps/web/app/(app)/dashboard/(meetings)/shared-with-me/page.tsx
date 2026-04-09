@@ -3,7 +3,7 @@ import { MeetingsProvider } from "../meetings/_hooks/use-meeting-context";
 import { MeetingSearchFilter } from "../meetings/_components/meeting-search-filter";
 import { MeetingView } from "../meetings/_components/meeting-view";
 import { MeetingBulkActionBar } from "../meetings/_components/meeting-bulk-action-bar";
-import { CreatedByMeEmpty } from "./_components/create-by-me-empty";
+import { MeetingEmptyGlobal } from "../_components/meeting-empty-global";
 
 
 
@@ -64,7 +64,7 @@ const meetings: Meeting[] = [
 
 
 
-export default function Meeting() {
+export default function MeetingsSharedWithMe() {
     return (
         <div className="relative h-full flex flex-col overflow-hidden gap-6">
             <div className="flex items-center gap-3 px-10 pt-10">
@@ -72,7 +72,7 @@ export default function Meeting() {
             </div>
             {
                 meetings.length === 0 ?
-                    <CreatedByMeEmpty />
+                    <MeetingEmptyGlobal variant="shared" />
                     :
                     <>
                         <div className="overflow-y-auto px-10 pb-10 space-y-10">

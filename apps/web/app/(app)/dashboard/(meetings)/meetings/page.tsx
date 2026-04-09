@@ -1,11 +1,11 @@
-import { Meeting } from "@workspace/types/meetings";
-import { MeetingEmpty } from "../tasks/_components/meeting-empty";
-import { MeetingsProvider } from "../meetings/_hooks/use-meeting-context";
-import { MeetingSearchFilter } from "../meetings/_components/meeting-search-filter";
-import { MeetingChannelButtons } from "../meetings/_components/meeting-channel-buttons";
-import { MeetingView } from "../meetings/_components/meeting-view";
-import { MeetingBulkActionBar } from "../meetings/_components/meeting-bulk-action-bar";
-import { StarredEmpty } from "./_components/starred-empty";
+import { TitleMenuDropdown } from "./_components/meeting-title-menu-dropdown";
+import { MeetingSearchFilter } from "./_components/meeting-search-filter";
+import { MeetingChannelButtons } from "./_components/meeting-channel-buttons";
+import { MeetingView } from "./_components/meeting-view";
+import { MeetingBulkActionBar } from "./_components/meeting-bulk-action-bar";
+import type { Meeting } from "@workspace/types/meetings";
+import { MeetingsProvider } from "./_hooks/use-meeting-context";
+import { MeetingEmpty } from "./_components/meeting-empty";
 
 
 
@@ -66,15 +66,16 @@ const meetings: Meeting[] = [
 
 
 
-export default function Starred() {
+export default function Meeting() {
     return (
         <div className="relative h-full flex flex-col overflow-hidden gap-6">
             <div className="flex items-center gap-3 px-10 pt-10">
-                <h1 className="text-base font-semibold">Starred Meetings</h1>
+                <h1 className="text-base font-semibold">Meetings</h1>
+                <TitleMenuDropdown />
             </div>
             {
                 meetings.length === 0 ?
-                    <StarredEmpty />
+                    <MeetingEmpty />
                     :
                     <>
                         <div className="overflow-y-auto px-10 pb-10 space-y-10">
@@ -82,10 +83,11 @@ export default function Starred() {
                                 <MeetingsProvider meetings={meetings}>
                                     <MeetingSearchFilter />
                                 </MeetingsProvider>
+                                <MeetingChannelButtons />
                             </div>
                             <MeetingView meetings={meetings} />
                         </div>
-                        <MeetingBulkActionBar meetings={meetings} isStarred={true} />
+                        <MeetingBulkActionBar meetings={meetings} />
                     </>}
         </div>
     )

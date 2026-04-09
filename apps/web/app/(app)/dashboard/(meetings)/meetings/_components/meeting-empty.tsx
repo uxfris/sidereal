@@ -2,9 +2,9 @@
 
 import { Button } from "@workspace/ui/components/button";
 import LogoIcon from "@/assets/icons/logo-icon";
-import { JoinMeetingDialog } from "../../_components/live-sync/join-meeting-dialog";
+import { JoinMeetingDialog } from "../../../_components/live-sync/join-meeting-dialog";
 import { useState } from "react";
-import { JoinMeetingSuccessfulDialog } from "../../_components/live-sync/join-meeting-successful-dialog";
+import { JoinMeetingSuccessfulDialog } from "../../../_components/live-sync/join-meeting-successful-dialog";
 
 export function MeetingEmpty() {
     const [openForm, setOpenForm] = useState(false)
