@@ -1,14 +1,21 @@
-import { Download, Hashtag, MenuDots, Share, SquareTopDown, Text, TrashBin2 } from "@solar-icons/react/ssr";
+import { Hashtag, MenuDots, Share, SquareTopDown, Text, TrashBin2 } from "@solar-icons/react/ssr";
 import { Meeting } from "@workspace/types/meetings";
 import { Button } from "@workspace/ui/components/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@workspace/ui/components/dropdown-menu";
 import Link from "next/link";
 import { useState } from "react";
-import { ShareMeetingDialog } from "./share-meeting-dialog";
+import { ShareMeetingDialog } from "./meeting-menu-item/share-meeting-dialog";
+import { MoveMeeting } from "./meeting-menu-item/move-meeting-dialog";
+import { RenameMeeting } from "./meeting-menu-item/rename-meeting-dialog";
+import { DeleteMeetingDialog } from "./meeting-menu-item/delete-meeting-dialog";
+
 
 export function MeetingItemMenu({ meeting }: { meeting: Meeting }) {
 
     const [openShare, setOpenShare] = useState(false)
+    const [openMove, setOpenMove] = useState(false)
+    const [openRename, setOpenRename] = useState(false)
+    const [openDelete, setOpenDelete] = useState(false)
 
     return (
         <div
@@ -32,21 +39,17 @@ export function MeetingItemMenu({ meeting }: { meeting: Meeting }) {
                             <Share />
                             Share
                         </DropdownMenuItem>
-                        <DropdownMenuItem>
-                            <Download />
-                            Download
-                        </DropdownMenuItem>
-                        <DropdownMenuItem>
+                        <DropdownMenuItem onSelect={() => setOpenMove(true)}>
                             <Hashtag />
                             Move to channel
                         </DropdownMenuItem>
-                        <DropdownMenuItem>
+                        <DropdownMenuItem onSelect={() => setOpenRename(true)}>
                             <Text />
                             Rename
                         </DropdownMenuItem>
                     </DropdownMenuGroup>
                     <DropdownMenuSeparator />
-                    <DropdownMenuItem className="text-destructive">
+                    <DropdownMenuItem className="text-destructive" onSelect={() => setOpenDelete(true)}>
                         <TrashBin2 />
                         Delete
                     </DropdownMenuItem>
@@ -54,6 +57,9 @@ export function MeetingItemMenu({ meeting }: { meeting: Meeting }) {
 
             </DropdownMenu>
             <ShareMeetingDialog open={openShare} onOpenChange={setOpenShare} meeting={meeting} />
+            <MoveMeeting open={openMove} onOpenChange={setOpenMove} meeting={meeting} />
+            <RenameMeeting open={openRename} onOpenChange={setOpenRename} meeting={meeting} />
+            <DeleteMeetingDialog open={openDelete} onOpenChange={setOpenDelete} meeting={meeting} />
         </div>
     )
 }
