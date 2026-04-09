@@ -65,8 +65,7 @@ const meetings: Meeting[] = [
 
 
 
-export default function MeetingChannel({ params }: { params: { id: string } }) {
-    const { id } = params
+export default function MeetingChannel() {
     return (
         <div className="relative h-full flex flex-col overflow-hidden gap-6">
             <div className="flex items-center gap-3 px-10 pt-10">
@@ -83,7 +82,6 @@ export default function MeetingChannel({ params }: { params: { id: string } }) {
                             <MeetingsProvider meetings={meetings}>
                                 <MeetingSearchFilter />
                             </MeetingsProvider>
-                            <MeetingChannelButtons />
                         </div>
                         <MeetingView meetings={meetings} />
                     </div>

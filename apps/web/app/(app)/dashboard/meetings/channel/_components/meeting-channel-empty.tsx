@@ -5,9 +5,7 @@ import { useState } from "react";
 import { JoinMeetingDialog } from "../../../_components/live-sync/join-meeting-dialog";
 import { JoinMeetingSuccessfulDialog } from "../../../_components/live-sync/join-meeting-successful-dialog";
 import { Plus } from "lucide-react";
-import { ArrowLeft, Hashtag } from "@solar-icons/react";
-import { TitleMenuDropdown } from "../../_components/meeting-title-menu-dropdown";
-import { ChannelTitleMenuDropdown } from "./meeting-channel-title-menu-dropdown";
+import { Hashtag } from "@solar-icons/react";
 
 export function MeetingChannelEmpty() {
     const [openForm, setOpenForm] = useState(false)

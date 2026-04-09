@@ -15,6 +15,7 @@ import { AppSidebarMenuButton } from "./nav-item"
 import { Button } from "@workspace/ui/components/button"
 import { Hashtag } from "@solar-icons/react"
 import { NavAddChannel } from "./nav-add-channel"
+import Link from "next/link"
 
 export function NavMeetings({ item }: { item: NavItem }) {
     return (
@@ -47,10 +48,12 @@ export function NavMeetings({ item }: { item: NavItem }) {
 
                 {/* Navigation area*/}
                 <SidebarMenuButton asChild tooltip={item.label} className="p-0">
-                    <a href={item.url} className="flex items-center gap-2">
-                        <span className="flex-1 text-sm transition-all duration-200 ease-out group-data-[state=collapsed]:opacity-0"> {item.label}</span>
+                    <Link href={item.url} className="flex items-center gap-2">
+                        <span className="flex-1 text-sm transition-all duration-200 ease-out group-data-[state=collapsed]:opacity-0">
+                            Meetings
+                        </span>
                         {/* <span className="ml-0">{item.label}</span> */}
-                    </a>
+                    </Link>
                 </SidebarMenuButton>
             </SidebarMenuItem>
 
