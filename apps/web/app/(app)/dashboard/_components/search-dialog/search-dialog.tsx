@@ -1,4 +1,5 @@
 import {
+    Dialog,
     DialogContent,
     DialogHeader,
     DialogTitle,
@@ -85,7 +86,7 @@ function delay(ms: number, signal?: AbortSignal) {
 }
 
 
-export function SearchDialog() {
+export function SearchDialog({ openSearch, onOpenSearchChange }: { openSearch: boolean, onOpenSearchChange: (open: boolean) => void }) {
     const [query, setQuery] = useState("")
     const [results, setResults] = useState<Meeting[]>([])
     const [loading, setLoading] = useState(false)
@@ -152,37 +153,39 @@ export function SearchDialog() {
 
 
     return (
-        <DialogContent className="sm:max-w-xl h-[80vh] flex flex-col">
-            <DialogHeader>
-                <DialogTitle className="sr-only">
-                    Search Meetings
-                </DialogTitle>
-                <Field orientation="horizontal" className="gap-0">
-                    <MinimalisticMagnifier size={18} />
-                    <Input
-                        value={query}
-                        onChange={(e) => setQuery(e.target.value)}
-                        type="search" placeholder="Search meetings by title or keyword" className="text-lg font-medium bg-transparent" />
-                </Field>
-            </DialogHeader>
-            <div>
-                {!query && <h3 className="text-[10px] text-muted-foreground font-medium">RECENT MEETINGS</h3>}
-            </div>
-            {!query && <div className="flex-1 overflow-y-auto flex flex-col gap-5">
-                {meetings.map((meeting) => (<div key={meeting.id} className="border border-border rounded-md">
-                    <MeetingItem meeting={meeting} />
-                </div>))}
-            </div>}
-            {loading && <span >Loading...</span>}
-            {!loading && results.length === 0 && debounceQuery && (
-                <span>No result found</span>
-            )}
-            {!loading && query && <div className="flex-1 overflow-y-auto flex flex-col gap-5">
-                {results.map((meeting) => (<div key={meeting.id} className="border border-border rounded-md">
-                    <MeetingItem meeting={meeting} />
-                </div>))}
-            </div>}
+        <Dialog open={openSearch} onOpenChange={onOpenSearchChange}>
+            <DialogContent className="sm:max-w-xl h-[80vh] flex flex-col">
+                <DialogHeader>
+                    <DialogTitle className="sr-only">
+                        Search Meetings
+                    </DialogTitle>
+                    <Field orientation="horizontal" className="gap-0">
+                        <MinimalisticMagnifier size={18} />
+                        <Input
+                            value={query}
+                            onChange={(e) => setQuery(e.target.value)}
+                            type="search" placeholder="Search meetings by title or keyword" className="text-lg font-medium bg-transparent" />
+                    </Field>
+                </DialogHeader>
+                <div>
+                    {!query && <h3 className="text-[10px] text-muted-foreground font-medium">RECENT MEETINGS</h3>}
+                </div>
+                {!query && <div className="flex-1 overflow-y-auto flex flex-col gap-5">
+                    {meetings.map((meeting) => (<div key={meeting.id} className="border border-border rounded-md">
+                        <MeetingItem meeting={meeting} />
+                    </div>))}
+                </div>}
+                {loading && <span >Loading...</span>}
+                {!loading && results.length === 0 && debounceQuery && (
+                    <span>No result found</span>
+                )}
+                {!loading && query && <div className="flex-1 overflow-y-auto flex flex-col gap-5">
+                    {results.map((meeting) => (<div key={meeting.id} className="border border-border rounded-md">
+                        <MeetingItem meeting={meeting} />
+                    </div>))}
+                </div>}
 
-        </DialogContent>
+            </DialogContent>
+        </Dialog>
     )
 }
