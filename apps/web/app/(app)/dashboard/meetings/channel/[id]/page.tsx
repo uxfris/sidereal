@@ -1,12 +1,11 @@
-import { TitleMenuDropdown } from "./_components/meeting-title-menu-dropdown";
-import { MeetingSearchFilter } from "./_components/meeting-search-filter";
-import { MeetingChannelButtons } from "./_components/meeting-channel-buttons";
-import { MeetingView } from "./_components/meeting-view";
-import { MeetingBulkActionBar } from "./_components/meeting-bulk-action-bar";
-import type { Meeting } from "@workspace/types/meetings";
-import { MeetingsProvider } from "./_hooks/use-meeting-context";
-import { MeetingEmpty } from "../tasks/_components/meeting-empty";
-
+import { Meeting } from "@workspace/types/meetings"
+import { MeetingsProvider } from "../../_hooks/use-meeting-context"
+import { MeetingSearchFilter } from "../../_components/meeting-search-filter"
+import { MeetingChannelButtons } from "../../_components/meeting-channel-buttons"
+import { MeetingView } from "../../_components/meeting-view"
+import { MeetingBulkActionBar } from "../../_components/meeting-bulk-action-bar"
+import { MeetingChannelEmpty } from "../_components/meeting-channel-empty"
+import { ChannelTitleMenuDropdown } from "../_components/meeting-channel-title-menu-dropdown"
 
 
 // ── Mock data ──────────────────────────────────────────
@@ -66,29 +65,30 @@ const meetings: Meeting[] = [
 
 
 
-export default function Meeting() {
+export default function MeetingChannel({ params }: { params: { id: string } }) {
+    const { id } = params
     return (
         <div className="relative h-full flex flex-col overflow-hidden gap-6">
             <div className="flex items-center gap-3 px-10 pt-10">
-                <h1 className="text-base font-semibold">Meetings</h1>
-                <TitleMenuDropdown />
+                <h1 className="text-base font-semibold">Design Sprint</h1>
+                <ChannelTitleMenuDropdown />
             </div>
-            {
-                meetings.length === 0 ?
-                    <MeetingEmpty />
-                    :
-                    <>
-                        <div className="overflow-y-auto px-10 pb-10 space-y-10">
-                            <div className="space-y-3">
-                                <MeetingsProvider meetings={meetings}>
-                                    <MeetingSearchFilter />
-                                </MeetingsProvider>
-                                <MeetingChannelButtons />
-                            </div>
-                            <MeetingView meetings={meetings} />
+            {meetings.length === 0
+                ?
+                <MeetingChannelEmpty />
+                :
+                <>
+                    <div className="overflow-y-auto px-10 pb-10 space-y-10">
+                        <div className="space-y-3">
+                            <MeetingsProvider meetings={meetings}>
+                                <MeetingSearchFilter />
+                            </MeetingsProvider>
+                            <MeetingChannelButtons />
                         </div>
-                        <MeetingBulkActionBar meetings={meetings} />
-                    </>}
+                        <MeetingView meetings={meetings} />
+                    </div>
+                    <MeetingBulkActionBar meetings={meetings} />
+                </>}
         </div>
     )
 }

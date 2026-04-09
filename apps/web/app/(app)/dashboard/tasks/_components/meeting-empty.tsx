@@ -6,7 +6,7 @@ import { JoinMeetingDialog } from "../../_components/live-sync/join-meeting-dial
 import { useState } from "react";
 import { JoinMeetingSuccessfulDialog } from "../../_components/live-sync/join-meeting-successful-dialog";
 
-export function Meetingmpty() {
+export function MeetingEmpty() {
     const [openForm, setOpenForm] = useState(false)
     const [openSuccess, setOpenSuccess] = useState(false)
 
@@ -19,7 +19,7 @@ export function Meetingmpty() {
 
 
     return (
-        <div className="p-8 h-full">
+        <div className="px-10 pb-10 h-full">
             <div className="flex flex-col items-center justify-center gap-8 h-full pb-10 bg-card rounded-md">
                 <div className="w-12">
                     <LogoIcon color="#2B3437" />
