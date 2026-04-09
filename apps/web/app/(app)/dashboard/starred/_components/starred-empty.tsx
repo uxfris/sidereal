@@ -16,7 +16,7 @@ export function StarredEmpty() {
                     Star meetings to access them quickly from any workspace
                 </h1>
                 <Button variant="outline" asChild>
-                    <Link href="/dashboard/meettings">
+                    <Link href="/dashboard/meetings">
                         Browse meetings
                     </Link>
                 </Button>
