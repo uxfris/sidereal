@@ -15,8 +15,9 @@ import { MoveToWorkspaceDialog } from "./meeting-action/move-to-workspace-dialog
 import { RemoveFromChannelDialog } from "./meeting-action/remove-from-channel-dialog";
 import { DeleteMeetingsDialog } from "./meeting-action/delete-meetings-dialog";
 import { usePathname } from "next/navigation";
+import { Star } from "lucide-react";
 
-export function MeetingBulkActionBar({ isChannel, meetings }: { isChannel?: boolean, meetings: Meeting[] }) {
+export function MeetingBulkActionBar({ isChannel, isStarred, meetings }: { isChannel?: boolean, isStarred?: boolean, meetings: Meeting[] }) {
 
     const pathname = usePathname()
 
@@ -70,23 +71,38 @@ export function MeetingBulkActionBar({ isChannel, meetings }: { isChannel?: bool
                 {
                     selectedIds.length > 0 &&
                     <>
-                        <div className="w-px h-5.5 bg-border" />
-                        {isChannel ? <RemoveFromChannelDialog /> : <MoveToChannelDialog />
+                        <VerticalDivider />
+                        {isStarred ?
+                            <Button size="xs" variant="ghost">
+                                <Star />
+                                Unstar
+                            </Button>
+                            :
+                            <>
+                                {isChannel ? <RemoveFromChannelDialog /> : <MoveToChannelDialog />
+                                }
+                                <MoveToWorkspaceDialog />
+                                <VerticalDivider />
+                                <DeleteMeetingsDialog />
+                            </>
                         }
-                        <MoveToWorkspaceDialog />
-                        <div className="w-px h-5.5 bg-border" />
-                        <DeleteMeetingsDialog />
-                        <div className="w-px h-5.5 bg-border" />
+                        <VerticalDivider />
                         <Button size="xs" variant="ghost" onClick={() => {
                             clearSelection()
                         }}>Clear</Button>
                     </>
                 }
-                <div className="w-px h-5.5 bg-border" />
+                <VerticalDivider />
                 <Button size="xs" variant="ghost" onClick={() => {
                     setSelectionMode(false)
                     clearSelection()
                 }}>Cancel</Button>
             </div>
         )
+}
+
+function VerticalDivider() {
+    return (
+        <div className="w-px h-5.5 bg-border" />
+    )
 }
