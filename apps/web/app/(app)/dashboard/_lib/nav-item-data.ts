@@ -34,12 +34,12 @@ const navMeetings: NavItem[] = [
     },
     {
         label: "Created by me",
-        url: "/dashboard/created",
+        url: "/dashboard/created-by-me",
         icon: User,
     },
     {
         label: "Shared with me",
-        url: "/dashboard/shared",
+        url: "/dashboard/shared-with-me",
         icon: UsersGroupRounded,
     }
 ]
