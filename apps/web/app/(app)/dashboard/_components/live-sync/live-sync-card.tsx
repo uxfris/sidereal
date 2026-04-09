@@ -36,12 +36,12 @@ export function LiveSyncCard() {
     })
 
 
-    const handleJoin = (data: { url: string }) => {
+    const joinMeeting = (data: { url: string }) => {
         setOpenForm(true)
 
     }
 
-    const handleSuccess = () => {
+    const onSuccess = () => {
         setOpenForm(false)
         setOpenSuccess(true)
     }
@@ -56,9 +56,8 @@ export function LiveSyncCard() {
             </div>
             {/* Input */}
             <form className="flex gap-3"
-                onSubmit={form.handleSubmit(handleJoin)}>
+                onSubmit={form.handleSubmit(joinMeeting)}>
                 <div className=" flex-1 space-y-1">
-
                     <Input
                         {...form.register("url")}
                         placeholder="Paste meeting URL (Google Meet, Teams)"
@@ -69,7 +68,7 @@ export function LiveSyncCard() {
                 <Button type="submit" size="xl" className="shrink-0 gap-2" >
                     <Bolt />
                     Join Now</Button>
-                <JoinMeetingDialog open={openForm} onOpenChange={setOpenForm} onSuccess={handleSuccess} url={form.getValues("url")} />
+                <JoinMeetingDialog open={openForm} onOpenChange={setOpenForm} onSuccess={onSuccess} meetingUrl={form.getValues("url")} />
                 <JoinMeetingSuccessfulDialog open={openSuccess} onOpenChange={setOpenSuccess} />
             </form>
         </CardContent>

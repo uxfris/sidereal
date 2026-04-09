@@ -5,6 +5,7 @@ import { MeetingView } from "./_components/meeting-view";
 import { MeetingBulkActionBar } from "./_components/meeting-bulk-action-bar";
 import type { Meeting } from "@workspace/types/meetings";
 import { MeetingsProvider } from "./_hooks/use-meeting-context";
+import { Meetingmpty } from "../tasks/_components/meeting-empty";
 
 
 
@@ -66,6 +67,9 @@ const meetings: Meeting[] = [
 
 
 export default function Meeting() {
+    if (meetings.length !== 0) {
+        return <Meetingmpty />
+    }
     return (
         <div className="relative h-full flex flex-col overflow-hidden gap-6">
             <div className="flex items-center gap-3 px-10 pt-10">
