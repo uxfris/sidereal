@@ -70,10 +70,13 @@ export function NavMeetings({ item }: { item: NavItem }) {
 
             <CollapsibleContent>
                 <SidebarMenuSub className="border-zinc-200 dark:border-zinc-800">
-                    <SidebarMenuSubItem >
+                    <SidebarMenuSubItem>
                         <NavAddChannel />
                     </SidebarMenuSubItem>
-                    {[{ icon: Hashtag, label: "Sprint Planning", url: "/dashboard/meetings/channel/side-projects" }].map((subItem) => (
+                    {[
+                        { icon: Hashtag, label: "Sprint Planning", url: "/dashboard/meetings/channel/side-projects" }
+
+                    ].map((subItem) => (
                         <SidebarMenuSubItem key={subItem.label} className="flex group/channel">
                             <AppSidebarMenuButton item={{
                                 ...subItem,
