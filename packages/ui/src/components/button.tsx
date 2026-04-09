@@ -34,7 +34,7 @@ const buttonVariants = cva(
           "h-11 gap-2.5 px-5 text-sm has-data-[icon=inline-end]:pr-4 has-data-[icon=inline-start]:pl-4",
 
         xl:
-          "h-12 gap-3 px-6 text-sm font-medium has-data-[icon=inline-end]:pr-5 has-data-[icon=inline-start]:pl-5",
+          "h-12 gap-3 px-6 text-base font-medium has-data-[icon=inline-end]:pr-5 has-data-[icon=inline-start]:pl-5",
 
         icon: "size-10",
 
