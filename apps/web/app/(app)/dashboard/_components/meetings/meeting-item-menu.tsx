@@ -8,14 +8,21 @@ import { ShareMeetingDialog } from "./meeting-menu-item/share-meeting-dialog";
 import { MoveMeeting } from "./meeting-menu-item/move-meeting-dialog";
 import { RenameMeeting } from "./meeting-menu-item/rename-meeting-dialog";
 import { DeleteMeetingDialog } from "./meeting-menu-item/delete-meeting-dialog";
+import { CreateChannelDialog } from "../../meetings/_components/create-channel-dialog";
 
 
 export function MeetingItemMenu({ meeting }: { meeting: Meeting }) {
 
     const [openShare, setOpenShare] = useState(false)
     const [openMove, setOpenMove] = useState(false)
+    const [openCreate, setOpenCreate] = useState(false)
     const [openRename, setOpenRename] = useState(false)
     const [openDelete, setOpenDelete] = useState(false)
+
+    const createChannel = () => {
+        setOpenMove(false)
+        setOpenCreate(true)
+    }
 
     return (
         <div
@@ -57,7 +64,8 @@ export function MeetingItemMenu({ meeting }: { meeting: Meeting }) {
 
             </DropdownMenu>
             <ShareMeetingDialog open={openShare} onOpenChange={setOpenShare} meeting={meeting} />
-            <MoveMeeting open={openMove} onOpenChange={setOpenMove} meeting={meeting} />
+            <MoveMeeting open={openMove} onOpenChange={setOpenMove} meeting={meeting} onCreateChannel={createChannel} />
+            <CreateChannelDialog open={openCreate} onOpenChange={setOpenCreate} />
             <RenameMeeting open={openRename} onOpenChange={setOpenRename} meeting={meeting} />
             <DeleteMeetingDialog open={openDelete} onOpenChange={setOpenDelete} meeting={meeting} />
         </div>

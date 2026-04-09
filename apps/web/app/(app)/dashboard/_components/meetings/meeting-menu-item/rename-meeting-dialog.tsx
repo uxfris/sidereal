@@ -13,7 +13,7 @@ export function RenameMeeting({ meeting, open, onOpenChange }: { meeting: Meetin
     }
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent>
+            <DialogContent className="sm:min-w-md">
                 <DialogHeader>
                     <DialogTitle>
                         Rename Meeting
@@ -26,17 +26,15 @@ export function RenameMeeting({ meeting, open, onOpenChange }: { meeting: Meetin
                     <FieldLabel htmlFor="meeting-name">
                         Display Name
                     </FieldLabel>
-                    <Input id="meeting-name" defaultValue={meeting.title} placeholder="Enter meeting title" />
+                    <Input autoFocus id="meeting-name" defaultValue={meeting.title} placeholder="Enter meeting title" />
                 </Field>
                 <DialogFooter>
-                    <DialogFooter>
-                        <div className="flex justify-end gap-3">
-                            <DialogClose asChild>
-                                <Button variant="ghost">Cancel</Button>
-                            </DialogClose>
-                            <Button onClick={renameMeeting}>Save</Button>
-                        </div>
-                    </DialogFooter>
+                    <div className="flex justify-end gap-3">
+                        <DialogClose asChild>
+                            <Button variant="ghost">Cancel</Button>
+                        </DialogClose>
+                        <Button onClick={renameMeeting}>Save</Button>
+                    </div>
                 </DialogFooter>
             </DialogContent>
         </Dialog>

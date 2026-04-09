@@ -20,7 +20,7 @@ export function DeleteMeetingDialog({ meeting, open, onOpenChange }: { meeting: 
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                     <AlertDialogCancel>Cancel</AlertDialogCancel>
-                    <AlertDialogAction onClick={deleteMeeting}> Continue</AlertDialogAction>
+                    <AlertDialogAction variant="destructive" onClick={deleteMeeting}> Continue</AlertDialogAction>
                 </AlertDialogFooter>
             </AlertDialogContent>
         </AlertDialog>

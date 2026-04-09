@@ -4,7 +4,7 @@ import { MenuDots } from "@solar-icons/react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@workspace/ui/components/dropdown-menu";
 import { Plus } from "lucide-react";
 import { useState } from "react";
-import { TitleMenuDialog } from "./meeting-title-menu-dialog";
+import { CreateChannelDialog } from "./create-channel-dialog";
 
 export function TitleMenuDropdown() {
     const [dialogOpen, setDialogOpen] = useState(false)
@@ -21,7 +21,7 @@ export function TitleMenuDropdown() {
                     </DropdownMenuItem>
                 </DropdownMenuContent>
             </DropdownMenu>
-            <TitleMenuDialog open={dialogOpen} onOpenChange={(open) => setDialogOpen(open)} />
+            <CreateChannelDialog open={dialogOpen} onOpenChange={(open) => setDialogOpen(open)} />
         </>
     )
 }
