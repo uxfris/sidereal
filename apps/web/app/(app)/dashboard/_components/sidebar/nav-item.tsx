@@ -1,13 +1,16 @@
 import { SidebarMenuButton } from "@workspace/ui/components/sidebar"
 import { NavItem } from "../../_types/nav-item";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 export function AppSidebarMenuButton({ item }: { item: NavItem }) {
-    const { url, label, icon: Icon, active, badge } = item;
+    const pathname = usePathname();
+    const { url, label, icon: Icon, badge } = item;
+    const isActive = pathname === (url === "/dashboard" ? false : url);
     return (
         <SidebarMenuButton
             asChild
-            isActive={active}
+            isActive={isActive}
             tooltip={label}
             className="py-3"
         >

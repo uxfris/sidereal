@@ -16,15 +16,25 @@ import { Button } from "@workspace/ui/components/button"
 import { Hashtag } from "@solar-icons/react"
 import { NavAddChannel } from "./nav-add-channel"
 import Link from "next/link"
+import { usePathname } from "next/navigation"
+import { cn } from "@workspace/ui/lib/utils"
 
 export function NavMeetings({ item }: { item: NavItem }) {
+    const pathname = usePathname()
+    const isActive = pathname === item.url;
     return (
         <Collapsible className="group/collapsible">
-            <SidebarMenuItem className="group/trigger px-1 flex items-center hover:bg-sidebar-accent rounded-md gap-0.5">
+            <SidebarMenuItem
+                className={cn("group/trigger px-1 flex items-center hover:bg-sidebar-accent rounded-md gap-0.5",
+                    isActive && "bg-sidebar-accent")}>
 
                 {/* ICON ZONE (becomes trigger on hover) */}
                 <CollapsibleTrigger asChild>
-                    <Button variant="ghost" size="icon-xs" className="w-6 h-6 transition bg-sidebar group-data-[state=open]/collapsible:bg-sidebar">
+                    <Button
+                        variant="ghost"
+                        size="icon-xs"
+                        className="w-6 h-6 transition bg-sidebar group-data-[state=open]/collapsible:bg-sidebar"
+                    >
                         {/* Default icon */}
                         <item.icon className="
                         text-foreground
@@ -47,7 +57,7 @@ export function NavMeetings({ item }: { item: NavItem }) {
                 </CollapsibleTrigger>
 
                 {/* Navigation area*/}
-                <SidebarMenuButton asChild tooltip={item.label} className="p-0">
+                <SidebarMenuButton asChild tooltip={item.label} className="p-0" isActive={isActive}>
                     <Link href={item.url} className="flex items-center gap-2">
                         <span className="flex-1 text-sm transition-all duration-200 ease-out group-data-[state=collapsed]:opacity-0">
                             Meetings
