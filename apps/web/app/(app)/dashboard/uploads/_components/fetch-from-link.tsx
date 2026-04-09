@@ -27,7 +27,7 @@ export function FetchFromLink() {
                     </FieldLabel>
                     <Input
                         className="bg-secondary brightness-95 h-12"
-                        placeholder="https://cloud.sidereal.io/share/..." />
+                        placeholder="https://cloud.lume.io/share/..." />
                 </Field>
                 <Button variant="outline" size="xl" className="brightness-90 w-full">
                     Fetch from Link

@@ -35,7 +35,7 @@ export function UpcomingMeetingSettingDialog() {
                                         { label: "All Meetings with web-conf link", value: "all" },
                                         { label: "Only meetings that I own", value: "mine" },
                                         { label: "Only meetings with teammates", value: "teammates" },
-                                        { label: "Only when I invite vivi@sidereal.ai", value: "invite-only" }
+                                        { label: "Only when I invite vivi@lume.ai", value: "invite-only" }
                                     ]
                                 } />
                             </Field>
