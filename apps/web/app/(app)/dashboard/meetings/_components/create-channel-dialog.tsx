@@ -6,16 +6,16 @@ import { InputGroup, InputGroupAddon, InputGroupInput } from "@workspace/ui/comp
 import { RadioGroup, RadioGroupItem } from "@workspace/ui/components/radio-group"
 
 
-export function CreateChannelDialog({ open, onOpenChange }: { open: boolean, onOpenChange: (open: boolean) => void }) {
+export function CreateChannelDialog({ isEdit, open, onOpenChange }: { isEdit?: boolean, open: boolean, onOpenChange: (open: boolean) => void }) {
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent className="sm:min-w-md">
                 <DialogHeader>
                     <DialogTitle>
-                        Create channel
+                        {isEdit ? "Edit" : "Create"} channel
                     </DialogTitle>
                     <DialogDescription>
-                        Create a channel and add meetings to it
+                        {isEdit ? "Make changes to your chanel" : "Create a channel and add meetings to it"}
                     </DialogDescription>
                 </DialogHeader>
                 <div className="space-y-5">

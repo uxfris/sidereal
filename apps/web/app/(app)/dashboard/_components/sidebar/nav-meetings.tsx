@@ -18,6 +18,7 @@ import { NavAddChannel } from "./nav-add-channel"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { cn } from "@workspace/ui/lib/utils"
+import { ChannelTitleMenuDropdown } from "../../meetings/channel/_components/meeting-channel-title-menu-dropdown"
 
 export function NavMeetings({ item }: { item: NavItem }) {
     const pathname = usePathname()
@@ -73,8 +74,12 @@ export function NavMeetings({ item }: { item: NavItem }) {
                         <NavAddChannel />
                     </SidebarMenuSubItem>
                     {[{ icon: Hashtag, label: "Sprint Planning", url: "/dashboard/meetings/channel/side-projects" }].map((subItem) => (
-                        <SidebarMenuSubItem key={subItem.label}>
-                            <AppSidebarMenuButton item={subItem} />
+                        <SidebarMenuSubItem key={subItem.label} className="flex group/channel">
+                            <AppSidebarMenuButton item={{
+                                ...subItem,
+                                badge: <ChannelTitleMenuDropdown isSidebar={true} />
+                            }} />
+
                         </SidebarMenuSubItem>
                     ))}
                 </SidebarMenuSub>
