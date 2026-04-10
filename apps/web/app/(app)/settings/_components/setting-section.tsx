@@ -14,7 +14,7 @@ type SettingSectionProps = {
 export function SettingSection(
     { icon: Icon, title, description, children, borderBottom = true, childrenWidth, className }: SettingSectionProps) {
     return (
-        <div className={cn("flex items-center justify-between gap-2 py-5", borderBottom && "border-b border-border", className)}>
+        <div className={cn("flex flex-col md:flex-row items-start md:items-center justify-between gap-2 py-5", borderBottom && "border-b border-border", className)}>
             {Icon &&
                 <div className="flex items-center justify-center p-1 bg-secondary rounded-sm">
                     <Icon />
@@ -28,7 +28,7 @@ export function SettingSection(
                     {description}
                 </p>
             </div>
-            <div className={cn("shrink-0", childrenWidth ?? "w-[450px]")}>
+            <div className={cn("shrink-0", childrenWidth ?? "w-3/6")}>
                 {children}
             </div>
         </div>
