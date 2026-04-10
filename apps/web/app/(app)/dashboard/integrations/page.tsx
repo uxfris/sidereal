@@ -1,12 +1,6 @@
-import { Badge } from "@workspace/ui/components/badge";
-import { Button } from "@workspace/ui/components/button";
-import { Card, CardContent } from "@workspace/ui/components/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@workspace/ui/components/tabs";
-import { CircleCheck } from "lucide-react";
-import Image from "next/image";
-
 import { Integration } from "@workspace/types/integrations"
-import { cn } from "@workspace/ui/lib/utils";
+import { IntegrationsView } from "./_components/integrations-view";
 
 const MOCK_INTEGRATION: Integration[] = [
     {
@@ -184,37 +178,7 @@ export default function Integrations() {
                     </TabsTrigger>
                 </TabsList>
                 <TabsContent value="all" className="flex-1 min-h-0">
-                    <div className="h-full overflow-y-auto px-10 pt-6 pb-20">
-                        <div className="grid grid-cols-3 gap-6">
-                            {MOCK_INTEGRATION.map((integration) => (
-                                <Card key={integration.id} className="flex flex-col h-full">
-                                    <CardContent className="flex flex-col gap-6 px-6 py-2 h-full">
-                                        <div className="flex justify-between">
-                                            <Image src={integration.logo} alt="slack" width={48} height={48} />
-                                            {integration.status !== "disconnected" &&
-                                                <Badge variant={integration.status === "connected" ? "default" : "secondary"}>
-                                                    {integration.status === "connected" && <CircleCheck />}
-                                                    <span className="uppercase">{integration.status}</span>
-                                                </Badge>}
-                                        </div>
-                                        <div>
-                                            <h3 className="text-lg font-semibold">
-                                                {integration.name}
-                                            </h3>
-                                            <p className="text-sm text-muted-foreground line-clamp-2">
-                                                {integration.description}
-                                            </p>
-                                        </div>
-                                        <Button variant={integration.status === "connected" ? "outline" : "default"} size="xl"
-                                            className={cn("mt-auto w-full", integration.status === "coming soon" && "opacity-50 cursor-not-allowed")}
-                                        >
-                                            {integration.status === "connected" ? "Configure" : "Connect"}
-                                        </Button>
-                                    </CardContent>
-                                </Card>
-                            ))}
-                        </div>
-                    </div>
+                    <IntegrationsView integrations={MOCK_INTEGRATION} />
                 </TabsContent>
             </Tabs>
         </div>
