@@ -1,25 +1,40 @@
-import { Button } from "@workspace/ui/components/button";
 import { Card, CardContent } from "@workspace/ui/components/card";
 import { SettingSection } from "../../_components/setting-section";
-
+import { cn } from "@workspace/ui/lib/utils";
+import { LeaveWorkspaceDialog } from "./leave-workspace-dialog";
 
 export function LeaveWorkspace() {
+    const isLastWorkspace = false;
+    const isOnlyOwner = false;
+    const hasOtherOwners = true;
+
+    let description = "";
+
+    if (isLastWorkspace) {
+        description =
+            "You cannot leave your last workspace. Your account must be a member of at least one workspace.";
+    } else if (isOnlyOwner) {
+        description =
+            "You cannot leave because you are the only owner. Please transfer ownership first.";
+    } else if (hasOtherOwners) {
+        description =
+            "You can leave the workspace. Other owners will maintain access.";
+    }
+
+
+
     return (
         <Card className="py-2">
-            <CardContent className="px-5 opacity-80">
+            <CardContent className={cn("px-5", !hasOtherOwners && "opacity-80")}>
                 <SettingSection
                     title="Leave workspace"
-                    description={
-                        true ?
-                            "You cannot leave your last workspace. Your account must be a member of at least one workspace." :
-                            "Once you leave, you'll lose access to this workspace. You must still be a member of at least one workspace."
-                    }
-                    borderBottom={false}>
-                    <span className="w-full flex justify-end">
-                        <Button disabled={true} variant="destructive">Leave workspace</Button>
-                    </span>
+                    description={description}
+                    borderBottom={false}
+                >
+                    <LeaveWorkspaceDialog hasOtherOwners={hasOtherOwners} />
                 </SettingSection>
             </CardContent>
         </Card>
-    )
+    );
 }
+
