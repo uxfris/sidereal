@@ -10,10 +10,10 @@ export default function Account() {
     return <div className="flex flex-col gap-8 p-10">
         <div className="space-y-2">
             <h1 className="text-lg font-semibold">
-                Workspace settings
+                Account settings
             </h1>
             <p className="text-sm text-muted-foreground">
-                Workspace allow you to collaborate on projects in real time.
+                Personalize how other see and interact with you on Lume.
             </p>
         </div>
         <Card className="py-2">
