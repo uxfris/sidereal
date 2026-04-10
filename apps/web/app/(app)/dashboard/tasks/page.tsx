@@ -7,7 +7,6 @@ import { taskApi } from "@workspace/api-client/task.api";
 import { AssigneesProvider } from "./_hooks/use-task-assigness";
 
 
-
 export default async function Tasks() {
     const [groups, assignees] = await Promise.all([
         taskApi.fetchTasksGroup(),
