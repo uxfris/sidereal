@@ -4,6 +4,8 @@ import { ColumnDef, flexRender, getCoreRowModel, getFilteredRowModel, getPaginat
 import { Button } from "@workspace/ui/components/button"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@workspace/ui/components/table"
 import { useState } from "react"
+import { usePeopleTableStore } from "../_stores/people-table-store"
+import React from "react"
 
 
 interface DataTableProps<TData, TValue> {
@@ -13,21 +15,35 @@ interface DataTableProps<TData, TValue> {
 
 export function PeopleDataTable<TData, TValue>({ columns, data }: DataTableProps<TValue, TData>) {
 
-    const [sorting, setSorting] = useState<SortingState>([])
+    const { sorting, search, setSorting } = usePeopleTableStore()
+
+    const columnFilters = React.useMemo(
+        () =>
+            search
+                ? [
+                    {
+                        id: "name",
+                        value: search,
+                    },
+
+                ]
+                : [],
+        [search]
+    );
 
     const table = useReactTable({
         data,
         columns,
-        getCoreRowModel: getCoreRowModel(),
-        getPaginationRowModel: getPaginationRowModel(),
-        onSortingChange: setSorting,
-        getSortedRowModel: getSortedRowModel(),
-        // onColumnFiltersChange: setColumnFilter,
-        getFilteredRowModel: getFilteredRowModel(),
         state: {
             sorting,
-            // columnFilters
+            columnFilters
         },
+        onSortingChange: setSorting,
+        getCoreRowModel: getCoreRowModel(),
+        getFilteredRowModel: getFilteredRowModel(),
+        getSortedRowModel: getSortedRowModel(),
+        getPaginationRowModel: getPaginationRowModel(),
+        // onColumnFiltersChange: setColumnFilters,
     })
 
     return (
