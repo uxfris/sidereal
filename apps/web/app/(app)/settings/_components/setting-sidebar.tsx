@@ -5,7 +5,7 @@ import {
     Card,
     UserCircle,
     UsersGroupRounded,
-} from "@solar-icons/react/ssr";
+} from "@solar-icons/react";
 import {
     Avatar,
     AvatarFallback,
