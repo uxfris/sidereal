@@ -52,14 +52,14 @@ export function WorkspaceSwitcher() {
                                 </div>
                             </div>
                             {/* Menu */}
-                            <div className="flex items-center gap-1.5 w-full">
+                            <div className="flex items-center gap-1 w-full">
                                 <Link href="/settings/workspace">
-                                    <Button size="xs" variant="secondary" className="px-2 text-[11px]" >
+                                    <Button size="xs" variant="ghost" className="px-2 text-[11px]" >
                                         <span> <Settings /></span>
                                         Settings</Button>
                                 </Link>
                                 <Link href="/settings/people?invite=true">
-                                    <Button size="xs" variant="secondary" className="px-2 text-[11px]">
+                                    <Button size="xs" variant="ghost" className="px-2 text-[11px]">
                                         <UserPlusRounded />
                                         Invite members</Button>
                                 </Link>
@@ -68,7 +68,7 @@ export function WorkspaceSwitcher() {
                         <DropdownMenuSeparator className="my-2" />
                         {/* Credit */}
                         <div className="flex flex-col gap-2 px-1">
-                            {/* Upgrade button */}
+                            {/* Upgrade button. Visibility depends on the workspace ownerships*/}
                             <div className="flex items-center justify-between p-3 bg-secondary rounded-sm">
                                 <div className="flex items-center gap-1">
                                     <Bolt weight="Bold" size={20} />
@@ -78,13 +78,15 @@ export function WorkspaceSwitcher() {
                             </div>
                             {/* Credit left */}
                             <div className="flex flex-col gap-2 p-3 bg-secondary rounded-sm">
-                                <Button variant="ghost" className="justify-between hover:opacity-75 px-0 h-5">
-                                    <span className="text-xs font-semibold">Credits</span>
-                                    <div className="flex items-center gap-1 text-muted-foreground">
-                                        <span className="text-xs font-semibold">3 Left</span>
-                                        <span><ChevronRight size={12} /></span>
-                                    </div>
-                                </Button>
+                                <Link href="/settings/billing" >
+                                    <Button variant="ghost" className="w-full justify-between hover:opacity-75 hover:bg-transparent px-0 h-5">
+                                        <span className="text-xs font-semibold">Credits</span>
+                                        <div className="flex items-center gap-1 text-muted-foreground">
+                                            <span className="text-xs font-semibold">3 Left</span>
+                                            <span><ChevronRight size={12} /></span>
+                                        </div>
+                                    </Button>
+                                </Link>
                                 <Tooltip>
                                     <TooltipTrigger asChild>
                                         <Progress value={60} className="bg-muted brightness-90" />
