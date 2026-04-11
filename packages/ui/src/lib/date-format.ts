@@ -16,6 +16,16 @@ export function formatDate(dateString: string) {
     return `${map.weekday}, ${map.month} ${map.year} ${map.hour}:${map.minute} ${map.dayPeriod}`
 }
 
+export function formatDateOnly(value: string) {
+    return new Date(value).toLocaleDateString("en-US", {
+        month: "short",
+        day: "numeric",
+        year: "numeric",
+    });
+}
+
+
+
 export function formatTimeAgoIntl(dateString: string) {
     const rtf = new Intl.RelativeTimeFormat('en', { numeric: "auto" })
 
@@ -45,3 +55,4 @@ export function formatTimeAgoIntl(dateString: string) {
     return rtf.format(0, "second")
 
 }
+
