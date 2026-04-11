@@ -6,10 +6,36 @@ import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, Di
 import { Field, FieldLabel } from "@workspace/ui/components/field";
 import { Input } from "@workspace/ui/components/input";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@workspace/ui/components/select";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 
 export function PeopleInviteMembers() {
+
+    const [open, setOpen] = useState(false)
+
+    //Get context data to show the dialog from a query param: isInvite
+    const searchParams = useSearchParams()
+    const router = useRouter()
+    const pathname = usePathname()
+
+
+    useEffect(() => {
+        if (searchParams.get('invite') === 'true') {
+            setOpen(true)
+
+            // Clean up the URL immediately so it doesn't reopen on refresh
+            const params = new URLSearchParams(searchParams.toString())
+            params.delete('invite')
+            router.replace(pathname + (params.toString() ? `?${params.toString()}` : ''), { scroll: false })
+        }
+
+
+
+
+    }, [searchParams, pathname, router])
+
     return (
-        <Dialog>
+        <Dialog open={open} onOpenChange={(open) => setOpen(open)}>
             <DialogTrigger asChild>
                 <Button size="xs">
                     <UserPlus />

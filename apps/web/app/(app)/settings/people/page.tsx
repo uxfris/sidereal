@@ -67,33 +67,33 @@ export const workspacePeopleInvitationMock: WorkspacePeopleInvitationTable = [
 
 
 export default function People() {
-    return <div className="flex flex-col gap-8 p-12">
-        <SettingHeader
-            title="People"
-            description="Inviting people to Fris's Lume gives access to workspace shared projects and credits. You have 1 builder in this workspace."
-        />
-        <Tabs defaultValue="all" className="space-y-4">
-            <TabsList className="gap-2">
-                <TabsTrigger value="all" className="px-4">
-                    All
-                </TabsTrigger>
-                <TabsTrigger value="invited" className="px-4">
-                    Invited
-                </TabsTrigger>
-            </TabsList>
-            <TabsContent value="all">
-                <div className="space-y-2">
-                    <PeopleSearchFilterAction />
+
+    return (
+        <div className="flex flex-col gap-8 p-12">
+            <SettingHeader
+                title="People"
+                description="Inviting people to Fris's Lume gives access to workspace shared projects and credits. You have 1 builder in this workspace."
+            />
+            <Tabs defaultValue="all" className="space-y-4">
+                <TabsList className="gap-2">
+                    <TabsTrigger value="all" className="px-4">
+                        All
+                    </TabsTrigger>
+                    <TabsTrigger value="invited" className="px-4">
+                        Invited
+                    </TabsTrigger>
+                </TabsList>
+                <TabsContent value="all">
                     <PeopleDataTable columns={peopleColumns} data={workspacePeopleMock} />
-                </div>
-            </TabsContent>
-            <TabsContent value="invited">
-                <div className="space-y-2">
-                    <PeopleSearchFilterAction />
-                    {workspacePeopleInvitationMock.length === 0 && <InvitationEmpty />}
-                    {workspacePeopleInvitationMock.length !== 0 && <PeopleDataTable columns={peopleInvitationColumns} data={workspacePeopleInvitationMock} />}
-                </div>
-            </TabsContent>
-        </Tabs>
-    </div>
+                </TabsContent>
+                <TabsContent value="invited">
+                    <div className="space-y-2">
+                        <PeopleSearchFilterAction />
+                        {workspacePeopleInvitationMock.length === 0 && <InvitationEmpty />}
+                        {workspacePeopleInvitationMock.length !== 0 && <PeopleDataTable columns={peopleInvitationColumns} data={workspacePeopleInvitationMock} />}
+                    </div>
+                </TabsContent>
+            </Tabs>
+        </div>
+    )
 }

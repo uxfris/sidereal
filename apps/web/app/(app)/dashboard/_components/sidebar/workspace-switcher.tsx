@@ -16,6 +16,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "@workspace/ui/component
 import { ChevronDown, ChevronRight, Plus } from "lucide-react";
 import React from "react";
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "@workspace/ui/components/sidebar";
+import Link from "next/link";
 
 export function WorkspaceSwitcher() {
 
@@ -52,12 +53,16 @@ export function WorkspaceSwitcher() {
                             </div>
                             {/* Menu */}
                             <div className="flex items-center gap-1.5 w-full">
-                                <Button size="xs" variant="secondary" className="px-2 text-[11px]">
-                                    <span> <Settings /></span>
-                                    Settings</Button>
-                                <Button size="xs" variant="secondary" className="px-2 text-[11px]">
-                                    <UserPlusRounded />
-                                    Invite members</Button>
+                                <Link href="/settings/workspace">
+                                    <Button size="xs" variant="secondary" className="px-2 text-[11px]" >
+                                        <span> <Settings /></span>
+                                        Settings</Button>
+                                </Link>
+                                <Link href="/settings/people?invite=true">
+                                    <Button size="xs" variant="secondary" className="px-2 text-[11px]">
+                                        <UserPlusRounded />
+                                        Invite members</Button>
+                                </Link>
                             </div>
                         </div>
                         <DropdownMenuSeparator className="my-2" />
@@ -117,6 +122,6 @@ export function WorkspaceSwitcher() {
                     </DropdownMenuContent>
                 </DropdownMenu>
             </SidebarMenuItem>
-        </SidebarMenu>
+        </SidebarMenu >
     )
 }
