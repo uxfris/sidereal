@@ -52,12 +52,8 @@ export const peopleColumns: ColumnDef<WorkspaceMember>[] = [
                         </AvatarFallback>
                     </Avatar>
                     <div className="flex flex-col">
-                        <span className="text-xs font-semibold">{member.name} {member.isCurrentUser && " (you)"}</span>
-                        <span className="text-xs font-medium text-muted-foreground">
-
-                        </span>
-
-                        <span className="text-muted-foreground text-sm">
+                        <span className="text-sm font-medium">{member.name} {member.isCurrentUser && " (you)"}</span>
+                        <span className="text-muted-foreground text-xs">
                             {member.email}
                         </span>
                     </div>
@@ -87,7 +83,7 @@ export const peopleColumns: ColumnDef<WorkspaceMember>[] = [
         cell: ({ row }) => (
             <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                    <Button size="sm" variant="ghost">
+                    <Button size="sm" variant="ghost" className=" font-normal">
                         {formatRole(row.original.role)}
                         <AltArrowDown />
                     </Button>
@@ -129,7 +125,7 @@ export const peopleColumns: ColumnDef<WorkspaceMember>[] = [
         ),
 
         cell: ({ row }) =>
-            formatDateOnly(row.original.joinedAt),
+            <span className="text-sm text-muted-foreground">{formatDateOnly(row.original.joinedAt)}</span>,
     },
 
     {
