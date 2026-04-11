@@ -3,17 +3,14 @@ import { WorkspaceAvatarSetting } from "./_components/workspace-avatar-setting";
 import { WorkspaceNameSetting } from "./_components/workspace-name-setting";
 import { WorkspaceHandleSetting } from "./_components/workspace-handle-setting";
 import { LeaveWorkspace } from "./_components/leave-workspace";
+import { SettingHeader } from "../_components/setting-header";
 
 export default function Workspace() {
     return <div className="flex flex-col gap-8 px-10 p-12">
-        <div className="space-y-2">
-            <h1 className="text-lg font-semibold">
-                Workspace settings
-            </h1>
-            <p className="text-sm text-muted-foreground">
-                Workspace allow you to collaborate on projects in real time.
-            </p>
-        </div>
+        <SettingHeader
+            title="Workspace settings"
+            description="Workspace allow you to collaborate on projects in real time."
+        />
         <Card className="py-2">
             <CardContent className="px-5">
                 <WorkspaceAvatarSetting />

@@ -5,17 +5,14 @@ import { DeleteAccount } from "./_components/delete-account";
 import { AccountEmailSetting } from "./_components/account-email-setting";
 import { PushNotificationSetting } from "./_components/push-notification-setting";
 import { TwoFactorAuthSetting } from "./_components/two-factor-auth-setting";
+import { SettingHeader } from "../_components/setting-header";
 
 export default function Account() {
     return <div className="flex flex-col gap-8 p-12">
-        <div className="space-y-2">
-            <h1 className="text-lg font-semibold">
-                Account settings
-            </h1>
-            <p className="text-sm text-muted-foreground">
-                Personalize how other see and interact with you on Lume.
-            </p>
-        </div>
+        <SettingHeader
+            title="Account settings"
+            description="Personalize how other see and interact with you on Lume."
+        />
         <Card className="py-2">
             <CardContent className="px-5">
                 <AccountAvatarSetting />
