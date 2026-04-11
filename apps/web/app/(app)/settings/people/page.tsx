@@ -6,6 +6,7 @@ import { peopleColumns } from "./_components/columns/people-column";
 
 import { WorkspacePeopleInvitationTable, WorkspacePeopleTable } from "@workspace/types/people";
 import { peopleInvitationColumns } from "./_components/columns/people-invitation-column";
+import { InvitationEmpty } from "./_components/people-invitation-empty";
 
 export const workspacePeopleMock: WorkspacePeopleTable = [
     {
@@ -89,7 +90,8 @@ export default function People() {
             <TabsContent value="invited">
                 <div className="space-y-2">
                     <PeopleSearchFilterAction />
-                    <PeopleDataTable columns={peopleInvitationColumns} data={workspacePeopleInvitationMock} />
+                    {workspacePeopleInvitationMock.length === 0 && <InvitationEmpty />}
+                    {workspacePeopleInvitationMock.length !== 0 && <PeopleDataTable columns={peopleInvitationColumns} data={workspacePeopleInvitationMock} />}
                 </div>
             </TabsContent>
         </Tabs>
