@@ -158,7 +158,7 @@ export function SettingSidebar() {
     const pathname = usePathname();
 
     return (
-        <aside className="hidden md:block w-3xs bg-sidebar text-sidebar-foreground px-3 py-4 space-y-4">
+        <aside className="hidden md:block w-[273px] bg-sidebar text-sidebar-foreground px-3 py-4 space-y-4">
             <Link href="/dashboard" className="w-fit pl-2 pr-4 py-2 rounded-md flex items-center justify-start gap-2 mb-4 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground">
                 <AltArrowLeft />
                 <span className="text-sm font-medium">

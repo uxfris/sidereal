@@ -7,7 +7,7 @@ import { PushNotificationSetting } from "./_components/push-notification-setting
 import { TwoFactorAuthSetting } from "./_components/two-factor-auth-setting";
 
 export default function Account() {
-    return <div className="flex flex-col gap-8 p-10">
+    return <div className="flex flex-col gap-8 p-12">
         <div className="space-y-2">
             <h1 className="text-lg font-semibold">
                 Account settings

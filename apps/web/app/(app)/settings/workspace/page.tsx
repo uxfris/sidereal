@@ -5,7 +5,7 @@ import { WorkspaceHandleSetting } from "./_components/workspace-handle-setting";
 import { LeaveWorkspace } from "./_components/leave-workspace";
 
 export default function Workspace() {
-    return <div className="flex flex-col gap-8 px-10 p-10">
+    return <div className="flex flex-col gap-8 px-10 p-12">
         <div className="space-y-2">
             <h1 className="text-lg font-semibold">
                 Workspace settings
