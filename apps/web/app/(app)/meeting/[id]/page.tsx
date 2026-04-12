@@ -1,10 +1,3 @@
-import { AttendeeAvatar } from "@/components/attendee-avatar";
-import { CreditLeftCard } from "@/components/credit-left-card";
-import { AltArrowDown, AltArrowLeft, CalendarMinimalistic, ClockCircle, Copy, Download, InfoCircle, Pen, Refresh, Restart, Share, Star, Stars } from "@solar-icons/react/ssr";
-import { Badge } from "@workspace/ui/components/badge";
-import { Button } from "@workspace/ui/components/button";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@workspace/ui/components/dropdown-menu";
-import Link from "next/link";
 import { MeetingDocumentToolbar } from "./_components/meeting-document-toolbar";
 import { MeetingDocumentHeader } from "./_components/meeting-document-header";
 import { MeetingDocumentOverview } from "./_components/meeting-document-overview";

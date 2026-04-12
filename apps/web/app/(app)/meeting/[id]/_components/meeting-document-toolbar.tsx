@@ -14,7 +14,7 @@ export function MeetingDocumentToolbar() {
                         <span className="text-sm font-medium">Q4 Strategy Planning</span>
                         <AltArrowDown />
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent className="sm:min-w-3xs space-y-2">
+                    <DropdownMenuContent className="sm:min-w-56 space-y-2">
                         <Link href="/dashboard">
                             <DropdownMenuItem>
                                 <AltArrowLeft />
