@@ -45,7 +45,7 @@ export function BillingCredits() {
                             <span className="text-foreground">3</span> / 5
                         </p>
                     </div>
-                    <Progress value={70} className="h-2.5" />
+                    <Progress value={70} className="h-2" />
                 </div>
                 <div className="space-y-4 p-4 bg-card rounded-lg h-full">
                     <div className="flex items-center justify-between">
@@ -57,7 +57,7 @@ export function BillingCredits() {
 
                         </p>
                     </div>
-                    <Progress value={70} className="h-2.5" />
+                    <Progress value={70} className="h-2" />
                 </div>
             </div>
         </div>
