@@ -1,6 +1,5 @@
 import { Badge } from "@workspace/ui/components/badge"
-import { Button } from "@workspace/ui/components/button"
-import { Check, Copy } from "lucide-react"
+
 import { formatDate } from "@workspace/ui/lib/date-format"
 import { Tooltip, TooltipContent, TooltipTrigger } from "@workspace/ui/components/tooltip"
 import { cn } from "@workspace/ui/lib/utils"
@@ -10,6 +9,7 @@ import { TaskSync } from "./task-sync"
 import { SendTaskSelectionDialog } from "./send-task-selection-dialog"
 import { SendTaskDialog } from "./send-task-dialog"
 import { toast } from "sonner"
+import { CopyButton } from "@/components/copy-button"
 
 
 
@@ -26,15 +26,6 @@ export function TaskListHeader({ title, timestamp, tasks, onUpdateAssignee }: Ta
     const [selectedTaskIds, setSelectedTaskIds] = useState<String[]>([])
     const [taskSendOpen, setTaskSendOpen] = useState(false)
 
-
-    const [copied, setCopied] = useState(false)
-
-    const handleCopy = async () => {
-        const text = tasks.map(task => task.title).join("\n")
-        await navigator.clipboard.writeText(text)
-        setCopied(true)
-        setTimeout(() => setCopied(false), 1500)
-    }
 
     const onOpenTaskSelection = (state: boolean) => {
         setAreInitiallySelected(state)
@@ -64,17 +55,7 @@ export function TaskListHeader({ title, timestamp, tasks, onUpdateAssignee }: Ta
                         <Badge variant="secondary" className="text-muted-foreground">{tasks.length} items</Badge>
                         {tasks.length > 0 && <Tooltip>
                             <TooltipTrigger asChild>
-                                <Button
-                                    variant="ghost"
-                                    size="icon"
-                                    className="opacity-0 group-hover/task:opacity-100 transition-opacity duration-300"
-                                    onClick={handleCopy}
-                                >
-                                    <span className="relative w-4 h-4">
-                                        <Copy className={cn("absolute transition-all duration-200", copied ? "scale-0 opacity-0" : "scale-100 opacity-100")} />
-                                        <Check className={cn("absolute transition-all duration-200", copied ? "scale-100 opacity-100" : "scale-0 opacity-0")} />
-                                    </span>
-                                </Button>
+                                <CopyButton group="task" content={tasks.map(task => task.title).join("\n")} />
                             </TooltipTrigger>
                             <TooltipContent>
                                 <p>Copy {tasks.length} items</p>

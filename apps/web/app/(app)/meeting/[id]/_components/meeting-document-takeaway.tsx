@@ -1,3 +1,4 @@
+import { CopyButton } from "@/components/copy-button";
 import { Copy } from "@solar-icons/react/ssr";
 import { Button } from "@workspace/ui/components/button";
 
@@ -8,9 +9,7 @@ export function MeetingDocumentTakeaway() {
                 <h2 className="text-lg font-semibold">
                     Key Takeaways
                 </h2>
-                <Button variant="ghost" size="icon" className="opacity-0 group-hover/takeaway:opacity-100 duration-200 transition-all">
-                    <Copy />
-                </Button>
+                <CopyButton group="takeaway" content="" />
             </div>
             <ul className="list-disc list-inside pl-2 marker:text-xs space-y-4">
                 <li>
