@@ -3,9 +3,7 @@ import LogoIcon from "@/assets/icons/logo-icon";
 export function AuthHeader() {
     return (
         <div className="flex flex-col items-center gap-5 w-full">
-            <div className="w-14 h-14 md:w-16 md:h-16">
-                <LogoIcon color="#2B3437" />
-            </div>
+            <LogoIcon className="w-14 h-14 md:w-16 md:h-16" />
             <h1 className="text-2xl md:text-4xl font-medium text-center">
                 Welcome to Lume
             </h1>

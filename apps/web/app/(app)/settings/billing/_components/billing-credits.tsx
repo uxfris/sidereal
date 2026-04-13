@@ -11,9 +11,7 @@ export function BillingCredits() {
         <div className="grid grid-cols-3 gap-6">
             <div className="space-y-3 p-4 bg-primary rounded-lg">
                 <div className="flex items-center gap-2">
-                    <div className="w-14">
-                        <LogoIcon color="#FFFFFF" />
-                    </div>
+                    <LogoIcon className="w-14 h-14 text-primary-foreground" />
                     <div>
                         <h2 className="text-base font-semibold text-primary-foreground">
                             Your're on Free Plan
@@ -82,9 +80,7 @@ export function ManageBillingDialog() {
                     </DialogDescription>
                 </DialogHeader>
                 <div className="flex items-center gap-2 p-2 bg-secondary rounded-lg">
-                    <div className="w-14">
-                        <LogoIcon color="#2B3437" />
-                    </div>
+                    <LogoIcon className="w-14 h-14" />
                     <div>
                         <h2 className="font-semibold">
                             Your're on Studio Pro

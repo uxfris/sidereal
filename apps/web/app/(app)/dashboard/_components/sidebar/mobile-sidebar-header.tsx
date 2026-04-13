@@ -16,9 +16,7 @@ export function MobileHeader() {
         <div className="md:hidden flex items-center justify-between py-2 bg-background">
             <Button variant="ghost" size="icon" onClick={() => toggleSidebar()}><HamburgerMenu className="size-6" /></Button>
             <Link href="/" className="flex items-center gap-1">
-                <span className="w-8">
-                    <LogoIcon />
-                </span>
+                <LogoIcon />
                 <span className="text-xl font-medium">Lume</span>
             </Link>
             <DropdownUserMenu className="size-7" />
