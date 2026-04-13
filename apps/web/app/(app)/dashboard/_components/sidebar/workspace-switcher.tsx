@@ -11,15 +11,20 @@ import {
     DropdownMenuTrigger,
 } from "@workspace/ui/components/dropdown-menu"
 import { Badge } from "@workspace/ui/components/badge"
-import { ChevronDown, Plus } from "lucide-react";
-import React from "react";
+import { ChevronDown, Plus, X } from "lucide-react";
+import React, { useState } from "react";
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "@workspace/ui/components/sidebar";
 import Link from "next/link";
 import { CreditLeftCard } from "@/components/credit-left-card";
+import LogoIcon from "@/assets/icons/logo-icon";
+import { Field, FieldLabel } from "@workspace/ui/components/field";
+import { Input } from "@workspace/ui/components/input";
 
 export function WorkspaceSwitcher() {
 
     const [workspace, setWorkspace] = React.useState("Fris's Lume")
+
+    const [newWorkspaceOpen, setNewWorkspaceOpen] = useState(false)
 
     return (
         <SidebarMenu>
@@ -94,13 +99,37 @@ export function WorkspaceSwitcher() {
 
                         </div>
                         <DropdownMenuSeparator className="my-2" />
-                        <DropdownMenuItem className="gap-3 mx-1 px-2 py-2">
+                        <DropdownMenuItem className="gap-3 mx-1 px-2 py-2" onSelect={() => setNewWorkspaceOpen(true)}>
                             <span className="flex items-center justify-center w-6 h-6 bg-accent brightness-95 text-muted-foreground rounded-sm"><Plus size={16} /></span>
                             <span className="text-xs">Create new workspace</span>
                         </DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>
             </SidebarMenuItem>
+            {newWorkspaceOpen && <div className="fixed z-50 inset-0 bg-background flex items-center justify-center">
+                <div className="flex flex-col gap-6 max-w-xs">
+                    <Button variant="ghost" className="absolute top-6 right-4" onClick={() => setNewWorkspaceOpen(false)}>
+                        <X />
+                    </Button>
+                    <LogoIcon className="h-12 w-12 text-primary" />
+                    <h1 className="text-3xl font-semibold">Create a workspace</h1>
+                    <p className="text-sm">Create a new place to make meetings or collaborate with others.</p>
+                    <Field>
+                        <FieldLabel>
+                            Workspace name
+                        </FieldLabel>
+                        <Input placeholder="Enter workspace name" />
+                    </Field>
+                    <div className="flex items-center gap-3">
+                        <Button variant="secondary" className="flex-1" onClick={() => setNewWorkspaceOpen(false)}>
+                            Go back
+                        </Button>
+                        <Button className="flex-1">
+                            Create workspace
+                        </Button>
+                    </div>
+                </div>
+            </div>}
         </SidebarMenu >
     )
 }
