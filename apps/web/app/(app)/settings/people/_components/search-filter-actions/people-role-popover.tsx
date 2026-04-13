@@ -1,7 +1,5 @@
-import { CalendarMark } from "@solar-icons/react";
 import { Button } from "@workspace/ui/components/button";
-import { Field, FieldContent, FieldLabel, FieldTitle } from "@workspace/ui/components/field";
-import { Label } from "@workspace/ui/components/label";
+import { Field, FieldLabel, FieldTitle } from "@workspace/ui/components/field";
 import {
     Popover,
     PopoverContent,
@@ -11,67 +9,103 @@ import {
 } from "@workspace/ui/components/popover"
 import { RadioGroup, RadioGroupItem } from "@workspace/ui/components/radio-group";
 import { Separator } from "@workspace/ui/components/separator";
-import { ChevronDown, } from "lucide-react";
+import { cn } from "@workspace/ui/lib/utils";
+import { Check, ChevronDown, X, } from "lucide-react";
+import { useState } from "react";
 
 
-export function PeopleRolePopover() {
+export function PeopleRolePopover(
+    { filterValue, onFilterChange }: { filterValue: string, onFilterChange: (value: string) => void }
+) {
+
+    const items = [
+        {
+            value: "all",
+            label: "All roles"
+        },
+        {
+            value: "owner",
+            label: "Owner"
+        },
+        {
+            value: "member",
+            label: "Member"
+        },
+        {
+            value: "admin",
+            label: "Admin"
+        },
+        {
+            value: "guest",
+            label: "Guest"
+        },
+    ]
+
+    const [open, setOpen] = useState(false)
+
+    const normalizedValue = filterValue || "all"
+    const selected = items.find(i => i.value === normalizedValue)
+    const isDefault = normalizedValue === "all"
+
     return (
-        <Popover>
+        <Popover open={open} onOpenChange={setOpen}>
             <PopoverTrigger asChild>
-                <Button variant="outline" size="xs" className="flex-1 justify-between text-muted-foreground">
-                    All roles
-                    <ChevronDown />
+                <Button
+                    variant="outline"
+                    size="xs"
+                    className={cn(
+                        "flex-1 justify-between",
+                        isDefault
+                            ? "text-muted-foreground"
+                            : "bg-popover-foreground text-popover"
+                    )}
+                    onClick={(e) => {
+                        const target = e.target as HTMLElement
+
+                        // 👇 if clicking the X, DON'T open popover
+                        if (target.closest("[data-clear]")) return
+
+                        // otherwise open popover (your existing logic)
+                    }}
+                >
+                    {selected?.label ?? "All roles"}
+
+                    {isDefault && <ChevronDown />}
+
+                    {!isDefault && (
+                        <span
+                            data-clear
+                            className="cursor-pointer hover:opacity-60"
+                            onClick={(e) => {
+                                e.stopPropagation()
+                                onFilterChange("all")
+                            }}
+                        >
+                            <X />
+                        </span>
+                    )}
                 </Button>
             </PopoverTrigger>
-            <PopoverContent side="bottom" align="start" className="w-48 px-1">
+            <PopoverContent side="bottom" align="start" className="w-36 px-1">
                 <PopoverHeader>
                     <PopoverTitle className="px-3">
-                        Roles
+                        Role
                     </PopoverTitle>
                 </PopoverHeader>
                 <Separator />
-                <RadioGroup defaultValue="all-roles" >
-                    <FieldLabel htmlFor="all-roles" className="border-none">
-                        <Field orientation="horizontal" className="group hover:bg-secondary px-3 py-2 rounded-md">
-                            <FieldTitle className="normal-case text-sm text-popover-foreground font-medium">
-                                All roles
-                            </FieldTitle>
-                            <RadioGroupItem value="all-roles" id="all-roles" className="group-hover:data-[state=unchecked]:border-foreground" />
-                        </Field>
-                    </FieldLabel>
-                    <FieldLabel htmlFor="owner" className="border-none">
-                        <Field orientation="horizontal" className="group hover:bg-secondary px-3 py-2 rounded-md">
-                            <FieldTitle className="normal-case text-sm text-popover-foreground font-medium">
-                                Owner
-                            </FieldTitle>
-                            <RadioGroupItem value="owner" id="owner" className="group-hover:data-[state=unchecked]:border-foreground" />
-                        </Field>
-                    </FieldLabel>
-                    <FieldLabel htmlFor="member" className="border-none">
-                        <Field orientation="horizontal" className="group hover:bg-secondary px-3 py-2 rounded-md">
-                            <FieldTitle className="normal-case text-sm text-popover-foreground font-medium">
-                                Member
-                            </FieldTitle>
-                            <RadioGroupItem value="member" id="member" className="group-hover:data-[state=unchecked]:border-foreground" />
-                        </Field>
-                    </FieldLabel>
-                    <FieldLabel htmlFor="admin" className="border-none">
-                        <Field orientation="horizontal" className="group hover:bg-secondary px-3 py-2 rounded-md">
-                            <FieldTitle className="normal-case text-sm text-popover-foreground font-medium">
-                                Admin
-                            </FieldTitle>
-                            <RadioGroupItem value="admin" id="admin" className="group-hover:data-[state=unchecked]:border-foreground" />
-                        </Field>
-                    </FieldLabel>
-                    <FieldLabel htmlFor="guest" className="border-none">
-                        <Field orientation="horizontal" className="group hover:bg-secondary px-3 py-2 rounded-md">
-                            <FieldTitle className="normal-case text-sm text-popover-foreground font-medium">
-                                Guest
-                            </FieldTitle>
-                            <RadioGroupItem value="guest" id="guest" className="group-hover:data-[state=unchecked]:border-foreground" />
-                        </Field>
-                    </FieldLabel>
-                </RadioGroup>
+                {
+                    items.map((item) => (
+                        <button key={item.value}
+                            onClick={() => {
+                                onFilterChange(item.value)
+                                setOpen(false)
+                            }}
+                            className="hover:bg-secondary px-3 py-2 rounded-md flex items-center justify-between">
+                            <span className="text-sm">{item.label}</span>
+                            {normalizedValue === item.value && <Check size={14} />}
+                        </button>
+                    ))
+                }
             </PopoverContent>
         </Popover>
     )

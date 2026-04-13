@@ -8,6 +8,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { WorkspaceMember } from "@workspace/types/people";
 import { AltArrowDown } from "@solar-icons/react";
 import { formatDateOnly } from "@workspace/ui/lib/date-format";
+import { Checkbox } from "@workspace/ui/components/checkbox";
 
 /* ---------------------------------- */
 /* Helpers */
@@ -23,6 +24,28 @@ function formatRole(role: string) {
 /* ---------------------------------- */
 
 export const peopleColumns: ColumnDef<WorkspaceMember>[] = [
+    {
+        id: "select",
+        header: ({ table }) => (
+            <Checkbox
+                checked={
+                    table.getIsAllPageRowsSelected() ||
+                    (table.getIsSomePageRowsSelected() && "indeterminate")
+                }
+                onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+                aria-label="Select all"
+            />
+        ),
+        cell: ({ row }) => (
+            <Checkbox
+                checked={row.getIsSelected()}
+                onCheckedChange={(value) => row.toggleSelected(!!value)}
+                aria-label="Select row"
+            />
+        ),
+        enableSorting: false,
+        enableHiding: false,
+    },
     {
         accessorKey: "name",
 

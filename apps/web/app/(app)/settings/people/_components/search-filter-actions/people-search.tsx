@@ -2,22 +2,30 @@
 
 import { InputGroup, InputGroupAddon, InputGroupInput } from "@workspace/ui/components/input-group";
 import { MinimalisticMagnifier } from "@solar-icons/react";
-import { usePeopleTableStore } from "../../_stores/people-table-store";
+import { X } from "lucide-react";
+import { Button } from "@workspace/ui/components/button";
 
 
-export function PeopleSearch() {
+export function PeopleSearch(
+    { value, onChange }: { value: string, onChange: (value: string) => void }
+) {
 
-    const search = usePeopleTableStore((s) => s.search)
-    const setSearch = usePeopleTableStore((s) => s.setSearch)
 
     return (
         <InputGroup className="bg-input">
             <InputGroupInput
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
+                value={value}
+                onChange={(e) => onChange(e.target.value)}
                 placeholder="Search..." />
             <InputGroupAddon>
                 <MinimalisticMagnifier />
+            </InputGroupAddon>
+            <InputGroupAddon align="inline-end" className={value ? "opacity-100" : "opacity-0"}>
+                <Button
+                    onClick={() => onChange("")}
+                    size="icon" variant="ghost" className="h-fit w-fit py-1 px-1">
+                    <X />
+                </Button>
             </InputGroupAddon>
         </InputGroup>
     )

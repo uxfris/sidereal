@@ -7,9 +7,32 @@ import { Avatar, AvatarFallback } from "@workspace/ui/components/avatar";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, } from "@workspace/ui/components/dropdown-menu";
 import { WorkspaceMemberInvitation } from "@workspace/types/people";
 import { formatDateOnly } from "@workspace/ui/lib/date-format";
+import { Checkbox } from "@workspace/ui/components/checkbox";
 
 
 export const peopleInvitationColumns: ColumnDef<WorkspaceMemberInvitation>[] = [
+    {
+        id: "select",
+        header: ({ table }) => (
+            <Checkbox
+                checked={
+                    table.getIsAllPageRowsSelected() ||
+                    (table.getIsSomePageRowsSelected() && "indeterminate")
+                }
+                onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+                aria-label="Select all"
+            />
+        ),
+        cell: ({ row }) => (
+            <Checkbox
+                checked={row.getIsSelected()}
+                onCheckedChange={(value) => row.toggleSelected(!!value)}
+                aria-label="Select row"
+            />
+        ),
+        enableSorting: false,
+        enableHiding: false,
+    },
     {
         accessorKey: "name",
 
@@ -47,6 +70,13 @@ export const peopleInvitationColumns: ColumnDef<WorkspaceMemberInvitation>[] = [
                 </div>
             );
         },
+    },
+
+    {
+        accessorKey: "role",
+
+        header: '',
+        cell: ''
     },
 
     {

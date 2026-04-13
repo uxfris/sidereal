@@ -26,7 +26,14 @@ export function ShortcutProvider({ children }: { children: React.ReactNode }) {
     useEffect(() => {
 
         const handleKeyDown = (e: KeyboardEvent) => {
-            console.log("keydown", e.key, e.metaKey, e.ctrlKey)
+            const target = e.target as HTMLElement
+
+            const isTyping =
+                target.tagName === "INPUT" ||
+                target.tagName === "TEXTAREA" ||
+                target.isContentEditable
+
+            if (isTyping) return // ✅ DON'T hijack shortcuts
 
             for (const action in shortcutMap) {
                 const combo = shortcutMap[action as ShortcutAction]
