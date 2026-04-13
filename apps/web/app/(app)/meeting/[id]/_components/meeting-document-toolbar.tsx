@@ -14,6 +14,7 @@ import { Button } from "@workspace/ui/components/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@workspace/ui/components/dropdown-menu";
 import Link from "next/link";
 import { useState } from "react";
+import { MeetingDetailsDialog } from "./meeting-details-dialog";
 
 export function MeetingDocumentToolbar({ meeting }: { meeting: Meeting }) {
 
@@ -21,6 +22,7 @@ export function MeetingDocumentToolbar({ meeting }: { meeting: Meeting }) {
     const [openMove, setOpenMove] = useState(false)
     const [openCreate, setOpenCreate] = useState(false)
     const [openRename, setOpenRename] = useState(false)
+    const [openDetails, setOpenDetails] = useState(false)
 
     const createChannel = () => {
         setOpenMove(false)
@@ -79,7 +81,7 @@ export function MeetingDocumentToolbar({ meeting }: { meeting: Meeting }) {
                                     <Hashtag />
                                     Move to channel
                                 </DropdownMenuItem>
-                                <DropdownMenuItem>
+                                <DropdownMenuItem onSelect={() => setOpenDetails(true)}>
                                     <InfoCircle />
                                     Details
                                 </DropdownMenuItem>
@@ -107,6 +109,7 @@ export function MeetingDocumentToolbar({ meeting }: { meeting: Meeting }) {
             <RenameMeeting open={openRename} onOpenChange={setOpenRename} meeting={meeting} />
             <MoveMeeting open={openMove} onOpenChange={setOpenMove} meeting={meeting} onCreateChannel={createChannel} />
             <CreateChannelDialog open={openCreate} onOpenChange={setOpenCreate} />
+            <MeetingDetailsDialog open={openDetails} onOpenChange={setOpenDetails} meeting={meeting} />
         </>
     )
 }
