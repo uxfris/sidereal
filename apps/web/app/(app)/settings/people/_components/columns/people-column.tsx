@@ -110,10 +110,12 @@ export const peopleColumns: ColumnDef<WorkspaceMember>[] = [
                 <ChevronsUpDown className="ml-2 h-4 w-4" />
             </Button>
         ),
-        cell: ({ row }) => {
+        cell: ({ row, table }) => {
             const isSelf = (row.original as WorkspaceMember).isCurrentUser
+            const member = row.original
             return (
                 <PeopleRoleDropdownMenu
+                    onSelectRole={(role) => table.options.meta?.updateRole?.(member.id, role)}
                     triggerButton={
                         <span>
                             <Tooltip>

@@ -52,7 +52,7 @@ export function PeopleBulkActionBar<TData>({ table, setSelectionMode }: { table:
             {
                 selectedCount > 0 &&
                 <>
-                    <PeopleChangeRole />
+                    <PeopleChangeRole table={table} />
                     <DeletePeoplesDialog table={table} />
                     <VerticalDivider />
                     <Button

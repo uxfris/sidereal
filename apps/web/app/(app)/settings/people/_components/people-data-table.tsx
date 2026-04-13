@@ -7,7 +7,7 @@ import { useEffect, useState } from "react"
 import { PeopleSearchFilterAction } from "./search-filter-actions/people-filter-search-action"
 import { formatDateOnly } from "@workspace/ui/lib/date-format"
 import { PeopleBulkActionBar } from "./search-filter-actions/people-bulk-action-bar"
-import { WorkspaceMember } from "@workspace/types/people"
+import { WorkspaceMember, WorkspaceMemberInvitation } from "@workspace/types/people"
 
 
 interface DataTableProps<TData, TValue> {
@@ -16,6 +16,8 @@ interface DataTableProps<TData, TValue> {
 }
 
 export function PeopleDataTable<TData, TValue>({ columns, data }: DataTableProps<TData, TValue>) {
+
+    const [tableData, setTableData] = useState(data)
 
     const [sorting, setSorting] = useState<SortingState>([])
     const [globalFilter, setGlobalFilter] = useState("")
@@ -26,8 +28,30 @@ export function PeopleDataTable<TData, TValue>({ columns, data }: DataTableProps
         select: false,
     })
 
+    const updateMemberRole = (memberId: string, newRole: string) => {
+        setTableData((prev) =>
+            prev.map((member) =>
+                (member as WorkspaceMember).id === memberId
+                    ? { ...member, role: newRole }
+                    : member
+            )
+        )
+    }
+
+    const updateMultipleRoles = (role: string) => {
+        const selectedRows = table.getFilteredSelectedRowModel().rows
+
+        setTableData((prev) =>
+            prev.map((member) =>
+                selectedRows.some((row) => (row.original as WorkspaceMember).id === (member as WorkspaceMember).id)
+                    ? { ...member, role }
+                    : member
+            )
+        )
+    }
+
     const table = useReactTable({
-        data,
+        data: tableData,
         columns,
         state: {
             sorting,
@@ -54,11 +78,12 @@ export function PeopleDataTable<TData, TValue>({ columns, data }: DataTableProps
             const member = row.original as WorkspaceMember
             return !member.isCurrentUser
         },
+        meta: {
+            updateRole: updateMemberRole,
+            updateMultipleRoles: updateMultipleRoles
+        },
         globalFilterFn: (row, _columnId, filterValue) => {
             const search = String(filterValue).toLowerCase()
-
-
-
             const { name, email, role, joinedAt, invitedAt } = row.original as {
                 name: string
                 email: string
@@ -91,6 +116,7 @@ export function PeopleDataTable<TData, TValue>({ columns, data }: DataTableProps
             setRowSelection({})
         }
     }, [selectionMode])
+
 
 
 

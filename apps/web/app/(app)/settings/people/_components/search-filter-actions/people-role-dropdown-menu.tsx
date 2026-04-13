@@ -12,16 +12,17 @@ import {
 import {
     Tooltip,
     TooltipContent,
-    TooltipProvider,
     TooltipTrigger,
 } from "@workspace/ui/components/tooltip"
 import { ReactNode } from "react"
 import { ROLES } from "../../_lib/role-data"
 
 export function PeopleRoleDropdownMenu({
+    onSelectRole,
     triggerButton,
     hasHeader = false,
 }: {
+    onSelectRole: (role: string) => void
     triggerButton: ReactNode
     hasHeader?: boolean
 }) {
@@ -46,7 +47,9 @@ export function PeopleRoleDropdownMenu({
                 {ROLES.map((item) => (
                     <Tooltip key={item.id} >
                         <TooltipTrigger asChild>
-                            <DropdownMenuItem className="text-sm font-medium px-4 py-3 flex items-center justify-between gap-2">
+                            <DropdownMenuItem
+                                onSelect={() => onSelectRole?.(item.id)}
+                                className="text-sm font-medium px-4 py-3 flex items-center justify-between gap-2">
                                 <span>{item.role}</span>
 
                                 {item.isPro && (
