@@ -6,9 +6,10 @@ import { Button } from "@workspace/ui/components/button";
 import { Avatar, AvatarFallback } from "@workspace/ui/components/avatar";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, } from "@workspace/ui/components/dropdown-menu";
 import { WorkspaceMember } from "@workspace/types/people";
-import { AltArrowDown } from "@solar-icons/react";
 import { formatDateOnly } from "@workspace/ui/lib/date-format";
 import { Checkbox } from "@workspace/ui/components/checkbox";
+import { PeopleRoleDropdownMenu } from "../search-filter-actions/people-role-dropdown-menu";
+import { AltArrowDown } from "@solar-icons/react";
 
 /* ---------------------------------- */
 /* Helpers */
@@ -36,13 +37,17 @@ export const peopleColumns: ColumnDef<WorkspaceMember>[] = [
                 aria-label="Select all"
             />
         ),
-        cell: ({ row }) => (
-            <Checkbox
-                checked={row.getIsSelected()}
-                onCheckedChange={(value) => row.toggleSelected(!!value)}
-                aria-label="Select row"
-            />
-        ),
+        cell: ({ row }) => {
+            if (!row.getCanSelect()) return null
+
+            return (
+                <Checkbox
+                    checked={row.getIsSelected()}
+                    onCheckedChange={(value) => row.toggleSelected(!!value)}
+                    aria-label="Select row"
+                />
+            )
+        },
         enableSorting: false,
         enableHiding: false,
     },
@@ -104,28 +109,12 @@ export const peopleColumns: ColumnDef<WorkspaceMember>[] = [
         ),
 
         cell: ({ row }) => (
-            <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                    <Button size="sm" variant="ghost" className=" font-normal">
-                        {formatRole(row.original.role)}
-                        <AltArrowDown />
-                    </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent className="min-w-fit">
-                    <DropdownMenuItem className="text-sm font-medium px-4 py-3">
-                        Owner
-                    </DropdownMenuItem>
-                    <DropdownMenuItem className="text-sm font-medium px-4 py-3">
-                        Admin
-                    </DropdownMenuItem>
-                    <DropdownMenuItem className="text-sm font-medium px-4 py-3">
-                        Member
-                    </DropdownMenuItem>
-                    <DropdownMenuItem className="text-sm font-medium px-4 py-3">
-                        Guest
-                    </DropdownMenuItem>
-                </DropdownMenuContent>
-            </DropdownMenu>
+            <PeopleRoleDropdownMenu triggerButton={
+                <Button size="sm" variant="ghost" className=" font-normal">
+                    {formatRole(row.original.role)}
+                    <AltArrowDown />
+                </Button>
+            } />
         ),
     },
 

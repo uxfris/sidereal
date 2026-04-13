@@ -4,9 +4,10 @@ import { ColumnDef, ColumnFiltersState, flexRender, getCoreRowModel, getFiltered
 import { Button } from "@workspace/ui/components/button"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@workspace/ui/components/table"
 import { useEffect, useState } from "react"
-import React from "react"
 import { PeopleSearchFilterAction } from "./search-filter-actions/people-filter-search-action"
 import { formatDateOnly } from "@workspace/ui/lib/date-format"
+import { PeopleBulkActionBar } from "./search-filter-actions/people-bulk-action-bar"
+import { WorkspaceMember } from "@workspace/types/people"
 
 
 interface DataTableProps<TData, TValue> {
@@ -14,12 +15,12 @@ interface DataTableProps<TData, TValue> {
     data: TData[]
 }
 
-export function PeopleDataTable<TData, TValue>({ columns, data }: DataTableProps<TValue, TData>) {
+export function PeopleDataTable<TData, TValue>({ columns, data }: DataTableProps<TData, TValue>) {
 
-    const [sorting, setSorting] = React.useState<SortingState>([])
-    const [globalFilter, setGlobalFilter] = React.useState("")
-    const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([])
-    const [rowSelection, setRowSelection] = React.useState({})
+    const [sorting, setSorting] = useState<SortingState>([])
+    const [globalFilter, setGlobalFilter] = useState("")
+    const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
+    const [rowSelection, setRowSelection] = useState({})
     const [selectionMode, setSelectionMode] = useState(false)
     const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({
         select: false,
@@ -48,6 +49,10 @@ export function PeopleDataTable<TData, TValue>({ columns, data }: DataTableProps
             pagination: {
                 pageSize: 8
             }
+        },
+        enableRowSelection: (row) => {
+            const member = row.original as WorkspaceMember
+            return !member.isCurrentUser
         },
         globalFilterFn: (row, _columnId, filterValue) => {
             const search = String(filterValue).toLowerCase()
@@ -134,7 +139,7 @@ export function PeopleDataTable<TData, TValue>({ columns, data }: DataTableProps
                             {rows.length ?
                                 (
                                     <>
-                                        {table.getRowModel().rows.map((row) => (
+                                        {rows.map((row) => (
                                             <TableRow
                                                 key={row.id}
                                                 data-state={row.getIsSelected() && "selected"}
@@ -191,6 +196,7 @@ export function PeopleDataTable<TData, TValue>({ columns, data }: DataTableProps
                     </div>
                 </div>
             </div>
+            {selectionMode && <PeopleBulkActionBar table={table} setSelectionMode={setSelectionMode} />}
         </div>
 
     )
