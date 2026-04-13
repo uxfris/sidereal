@@ -10,6 +10,9 @@ import { formatDateOnly } from "@workspace/ui/lib/date-format";
 import { Checkbox } from "@workspace/ui/components/checkbox";
 import { PeopleRoleDropdownMenu } from "../search-filter-actions/people-role-dropdown-menu";
 import { AltArrowDown } from "@solar-icons/react";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@workspace/ui/components/tooltip";
+import { ROLES } from "../../_lib/role-data";
+import { cn } from "@workspace/ui/lib/utils";
 
 /* ---------------------------------- */
 /* Helpers */
@@ -107,15 +110,42 @@ export const peopleColumns: ColumnDef<WorkspaceMember>[] = [
                 <ChevronsUpDown className="ml-2 h-4 w-4" />
             </Button>
         ),
+        cell: ({ row }) => {
+            const isSelf = (row.original as WorkspaceMember).isCurrentUser
+            return (
+                <PeopleRoleDropdownMenu
+                    triggerButton={
+                        <span>
+                            <Tooltip>
+                                <TooltipTrigger asChild>
+                                    <span className={cn("inline-block", isSelf ? " cursor-not-allowed" : "cursor-pointer")}>
+                                        <Button
+                                            size="sm"
+                                            variant="ghost"
+                                            className="font-normal"
+                                            disabled={isSelf}
+                                        >
+                                            <span className="flex items-center gap-1">
+                                                {formatRole(row.original.role)}
+                                                <AltArrowDown />
+                                            </span>
+                                        </Button>
+                                    </span>
+                                </TooltipTrigger>
+                                <TooltipContent side="top" className="border">
+                                    <p className="max-w-xs text-xs">
+                                        {isSelf
+                                            ? "You cannot change your own role."
+                                            : ROLES.find((r) => r.id === row.original.role)?.description}
+                                    </p>
+                                </TooltipContent>
+                            </Tooltip>
+                        </span>
 
-        cell: ({ row }) => (
-            <PeopleRoleDropdownMenu triggerButton={
-                <Button size="sm" variant="ghost" className=" font-normal">
-                    {formatRole(row.original.role)}
-                    <AltArrowDown />
-                </Button>
-            } />
-        ),
+                    }
+                />
+            )
+        },
     },
 
     {

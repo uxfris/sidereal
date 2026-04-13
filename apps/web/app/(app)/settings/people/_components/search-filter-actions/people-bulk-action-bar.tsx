@@ -8,7 +8,6 @@ import { SmartKbd } from "@workspace/ui/components/smart-kbd";
 import { Table } from "@tanstack/react-table";
 import { useShortcutRegister } from "@workspace/ui/components/shortcut-provider";
 import { useEffect } from "react";
-import { TrashBin2 } from "@solar-icons/react";
 import { DeletePeoplesDialog } from "./people-delete-dialog";
 import { PeopleChangeRole } from "./people-change-role-dialog";
 
