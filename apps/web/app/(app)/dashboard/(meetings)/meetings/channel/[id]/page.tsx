@@ -70,7 +70,7 @@ const meetings: Meeting[] = [
 export default function MeetingChannel() {
     return (
         <div className="relative h-full flex flex-col overflow-hidden gap-6">
-            <div className="flex items-center gap-3 px-10 pt-10">
+            <div className="hidden md:flex items-center gap-3 px-4 md:px-10 pt-4 md:pt-10">
                 <Link href="/dashboard/meetings" >
                     <ArrowLeft />
                 </Link>
@@ -82,7 +82,7 @@ export default function MeetingChannel() {
                 <MeetingChannelEmpty />
                 :
                 <>
-                    <div className="overflow-y-auto px-10 pb-10 space-y-10">
+                    <div className="overflow-y-auto px-4 md:px-10 pb-10 space-y-4 md:space-y-10">
                         <div className="space-y-3">
                             <MeetingsProvider meetings={meetings}>
                                 <MeetingSearchFilter />
