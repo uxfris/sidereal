@@ -8,7 +8,7 @@ export function BillingCredits() {
 
 
     return (
-        <div className="grid grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             <div className="space-y-3 p-4 bg-primary rounded-lg">
                 <div className="flex items-center gap-2">
                     <LogoIcon className="w-14 h-14 text-primary-foreground" />
@@ -33,7 +33,7 @@ export function BillingCredits() {
                 </div>
                 <ManageBillingDialog />
             </div>
-            <div className="col-span-2 flex flex-col gap-3">
+            <div className="lg:col-span-2 flex flex-col gap-6 md:gap-3">
                 <div className="space-y-4 p-4 bg-card rounded-lg h-full">
                     <div className="flex items-center justify-between">
                         <h3 className="font-semibold">

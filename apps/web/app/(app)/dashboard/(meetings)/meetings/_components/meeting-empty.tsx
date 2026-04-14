@@ -19,8 +19,8 @@ export function MeetingEmpty() {
 
 
     return (
-        <div className="px-10 pb-10 h-full">
-            <div className="flex flex-col items-center justify-center gap-8 h-full pb-10 bg-card rounded-md">
+        <div className="px-4 md:px-10 pb-4 md:py-10 h-full">
+            <div className="flex flex-col items-center justify-center text-center gap-8 px-16 h-full pb-10 bg-card rounded-md">
                 <LogoIcon className="w-12 h-12" />
                 <h1 className="text-xl font-semibold">
                     Meetings you created will appear here

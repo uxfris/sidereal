@@ -10,7 +10,9 @@ export function MeetingChannelButtons() {
                 { id: "2", label: "Design Reviews" },
 
             ].map((channel) => (
-                <Button key={channel.id} variant="outline" className="shrink-0" asChild>
+                <Button key={channel.id} variant="outline"
+                    className="shrink-0 flex-1 md:flex-none"
+                    asChild>
                     <Link href={`/meetings/${channel.id}`}>
                         <Hashtag />
                         {channel.label}

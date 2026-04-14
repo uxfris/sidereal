@@ -16,7 +16,8 @@ export function WorkspaceAvatarSetting() {
     return (
         <SettingSection
             title="Avatar"
-            description="Set an avatar to your workspace.">
+            description="Set an avatar to your workspace."
+            className="flex-row">
             <div className="relative w-10 h-10 rounded-sm overflow-hidden">
                 <div className="bg-primary w-full h-full flex items-center justify-center">
                     <span className="text-sm font-medium text-primary-foreground">

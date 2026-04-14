@@ -249,13 +249,13 @@ export const workspacePeopleInvitationMock: WorkspacePeopleInvitationTable = [
 export default function People() {
 
     return (
-        <div className="flex flex-col gap-8 p-12">
+        <div className="flex flex-col gap-4 md:gap-8 px-4 pt-20 md:p-12">
             <SettingHeader
                 title="People"
                 description="Inviting people to Fris's Lume gives access to workspace shared projects and credits. You have 1 builder in this workspace."
             />
             <Tabs defaultValue="all" className="space-y-4">
-                <TabsList className="gap-2">
+                <TabsList className="gap-2 w-fit">
                     <TabsTrigger value="all" className="px-4">
                         All
                     </TabsTrigger>

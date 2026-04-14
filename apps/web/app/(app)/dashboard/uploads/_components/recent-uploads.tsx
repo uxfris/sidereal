@@ -67,7 +67,7 @@ const MOCK_UPLOADS: Upload[] = [
 
 export function RecentUploads() {
     return (
-        <div className="space-y-6">
+        <div className="space-y-4 md:space-y-6">
             <div className="flex items-center justify-between">
                 <h2 className="text-lg font-semibold">
                     Queue & Recent Uploads
@@ -76,7 +76,7 @@ export function RecentUploads() {
                     Clear History
                 </Button>}
             </div>
-            <Card>
+            <Card className="py-2 md:py-3 px-0 md:px-2">
                 <CardContent className="px-2">
                     {MOCK_UPLOADS.length === 0 && <UploadEmpty />}
                     {MOCK_UPLOADS.map((upload) => {

@@ -9,7 +9,7 @@ import { cn } from "@workspace/ui/lib/utils";
 
 export function BillingPlan() {
     return (
-        <div className="grid grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {pricingPlans.map((plan) => (
                 <Card key={plan.id} className="py-8">
                     <CardHeader className="px-8">
@@ -31,15 +31,15 @@ export function BillingPlan() {
                                 </p>
                             </div>
                             <div className="space-y-6">
-                                {<Separator className={cn(plan.id !== "studio-pro" && "opacity-0")} />}
-                                <div className={cn("flex items-center gap-2 px-8", plan.id !== "studio-pro" && "opacity-0")}>
+                                {<Separator className={cn(plan.id !== "studio-pro" && "hidden md:block opacity-0")} />}
+                                <div className={cn("flex items-center gap-2 px-8", plan.id !== "studio-pro" && "hidden md:block opacity-0")}>
                                     <Switch disabled={plan.id !== "studio-pro"} />
                                     <span className="flex-1 text-sm font-medium">Annual</span>
                                     <Badge>
                                         Save $50
                                     </Badge>
                                 </div>
-                                <Separator />
+                                {<Separator className={cn(plan.id !== "studio-pro" && "hidden md:block")} />}
                             </div>
                             <div className="px-8">
                                 <Button disabled={plan.currentPlan || plan.price === 0} variant="outline" className="w-full">

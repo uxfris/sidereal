@@ -8,21 +8,23 @@ import { TwoFactorAuthSetting } from "./_components/two-factor-auth-setting";
 import { SettingHeader } from "../_components/setting-header";
 
 export default function Account() {
-    return <div className="flex flex-col gap-8 p-12">
-        <SettingHeader
-            title="Account settings"
-            description="Personalize how other see and interact with you on Lume."
-        />
-        <Card className="py-2">
-            <CardContent className="px-5">
-                <AccountAvatarSetting />
-                <AccountNameSetting />
-                <AccountEmailSetting />
-            </CardContent>
-        </Card>
-        <PushNotificationSetting />
-        <TwoFactorAuthSetting />
-        <DeleteAccount />
-    </div>
+    return (
+        <div className="flex flex-col gap-4 md:gap-8 px-4 py-20 md:p-12">
+            <SettingHeader
+                title="Account settings"
+                description="Personalize how other see and interact with you on Lume."
+            />
+            <Card className="py-2">
+                <CardContent className="px-5">
+                    <AccountAvatarSetting />
+                    <AccountNameSetting />
+                    <AccountEmailSetting />
+                </CardContent>
+            </Card>
+            <PushNotificationSetting />
+            <TwoFactorAuthSetting />
+            <DeleteAccount />
+        </div>
+    )
 }
 

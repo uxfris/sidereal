@@ -94,13 +94,13 @@ export function MeetingDocumentTranscript() {
 
     return (
         <section className="space-y-4 pb-32">
-            <div className="flex justify-between">
+            <div className="flex flex-col md:flex-row justify-between gap-2">
                 <h2 className="text-lg font-semibold">
                     Smart Transcript
                 </h2>
                 {/* Search and Edit */}
                 <div className="flex items-center gap-3">
-                    <InputGroup className="bg-input w-64">
+                    <InputGroup className="bg-input w-64 flex-1">
                         <InputGroupInput placeholder="Find in transcript..." />
                         <InputGroupAddon className="w-5">
                             <MinimalisticMagnifier />
@@ -125,16 +125,21 @@ export function MeetingDocumentTranscript() {
                 const isMessageActive = message.sentences.some((s) =>
                     isSentenceActive(currentTime, s))
                 return (
-                    <div key={message.id} className={cn("flex gap-2 px-6 py-4 -mx-6 rounded-md", isMessageActive && "bg-primary/5")}>
-                        <div className="w-16 flex-none pt-1">
+                    <div key={message.id} className={cn("flex gap-2 px-6 py-4 lg:-mx-6 rounded-md", isMessageActive && "bg-primary/5")}>
+                        <div className="hidden md:block w-16 flex-none pt-1">
                             <p className="text-xs text-muted-foreground">
                                 {message.timestamp}
                             </p>
                         </div>
                         <div className="space-y-2">
-                            <p className="text-xs font-semibold uppercase">
-                                {message.speaker}
-                            </p>
+                            <div className="flex items-center gap-2">
+                                <p className="text-xs font-semibold uppercase">
+                                    {message.speaker}
+                                </p>
+                                <p className="md:hidden text-xs text-muted-foreground">
+                                    {message.timestamp}
+                                </p>
+                            </div>
                             <p className="text-[15px] leading-6">
                                 {message.sentences.map((sentence) => {
                                     const isActive = isSentenceActive(currentTime, sentence)

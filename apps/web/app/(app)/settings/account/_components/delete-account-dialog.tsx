@@ -55,7 +55,7 @@ export function DeleteAccountDialog({ open, onOpenChange, onContinue }: { open: 
                         This action is permanent and cannot be undone
                     </DialogDescription>
                 </DialogHeader>
-                <div className="space-y-4 p-4 bg-destructive/30 rounded-md border border-destructive">
+                <div className="space-y-2 p-4 bg-destructive/30 rounded-md border border-destructive">
                     <h2 className="text-base font-medium text-destructive">
                         This will permanently delete:
                     </h2>

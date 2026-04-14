@@ -26,7 +26,7 @@ export function RecentUploadItem({ item, className }: { item: Upload, className?
 
 
     return (
-        <div className={cn("flex items-center justify-between gap-6 py-4 hover:bg-secondary rounded-md px-4", className)}>
+        <div className={cn("flex items-center justify-between gap-4 md:gap-6 py-4 hover:bg-secondary rounded-md px-4", className)}>
             <div className={cn("w-12 h-12 flex items-center justify-center rounded-md",
                 type === "video" && "bg-accent-2",
                 type === "audio" && "bg-accent-3",
@@ -62,11 +62,11 @@ export function RecentUploadItem({ item, className }: { item: Upload, className?
             </Button>}
             {
                 status === "processed" &&
-                <Badge variant="outline">
+                <Badge variant="outline" className="w-fit px-1 md:px-2">
                     <span>
                         <CheckCircle />
                     </span>
-                    Processed
+                    <span className="hidden md:block">Processed</span>
                 </Badge>
             }
         </div>

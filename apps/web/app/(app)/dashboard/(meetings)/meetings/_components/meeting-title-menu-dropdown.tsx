@@ -14,7 +14,7 @@ export function TitleMenuDropdown() {
                 <DropdownMenuTrigger asChild>
                     <MenuDots weight="Bold" className="cursor-pointer" />
                 </DropdownMenuTrigger>
-                <DropdownMenuContent className="min-w-fit">
+                <DropdownMenuContent className="w-[--radix-popper-anchor-width]">
                     <DropdownMenuItem onSelect={() => setDialogOpen(true)} className="text-sm font-medium px-4 py-3">
                         <Plus />
                         Add Channel

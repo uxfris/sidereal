@@ -9,6 +9,7 @@ import {
     PopoverTrigger,
 } from "@workspace/ui/components/popover"
 import { Separator } from "@workspace/ui/components/separator";
+import { cn } from "@workspace/ui/lib/utils";
 import { ChevronDown, } from "lucide-react";
 
 // Mock data
@@ -26,11 +27,12 @@ const MOCK_SOURCES = [
 ]
 
 
-export function MeetingSourcePopover() {
+export function MeetingSourcePopover({ isCreatedByMe }: { isCreatedByMe: boolean | undefined }) {
     return (
         <Popover>
             <PopoverTrigger asChild>
-                <Button variant="outline" size="xs" className="flex-1 justify-between text-muted-foreground">
+                <Button variant="outline" size="xs"
+                    className={cn("justify-between text-muted-foreground", !isCreatedByMe && "col-span-2 md:col-span-1 ")}>
                     Any source
                     <ChevronDown />
                 </Button>

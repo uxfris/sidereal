@@ -7,8 +7,8 @@ import { Input } from "@workspace/ui/components/input";
 
 export function FetchFromLink() {
     return (
-        <div className="flex flex-col flex-2 bg-secondary p-6 rounded-md">
-            <div className="flex-1 space-y-4">
+        <div className="flex flex-col md:flex-2 gap-8 bg-secondary p-6 rounded-md">
+            <div className="md:flex-1 space-y-4">
                 <div className="flex items-center gap-2">
                     <LinkMinimalistic size={20} />
                     <h2 className="text-lg font-semibold">

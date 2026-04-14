@@ -11,7 +11,7 @@ export function DropdownUserMenu({ className }: { className?: string }) {
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
-                <SidebarMenuButton className="w-auto items-center justify-center">
+                <SidebarMenuButton className="w-8 items-center justify-center rounded-full">
                     <Avatar className={cn("size-5", className)}>
                         <AvatarImage
                             src={"https://assets.lummi.ai/assets/Qmeh9r8a3AE8dQyCTSLiqVKLgu6HKEvJWaEwxMUMyDqHn5?auto=format&w=150"}
@@ -22,8 +22,8 @@ export function DropdownUserMenu({ className }: { className?: string }) {
             </DropdownMenuTrigger>
             <DropdownMenuContent
                 className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg"
-                side={"top"}
-                align="start"
+                side="bottom"
+                align="end"
                 sideOffset={4}>
                 <DropdownMenuLabel className="py-2 font-normal">
                     <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">

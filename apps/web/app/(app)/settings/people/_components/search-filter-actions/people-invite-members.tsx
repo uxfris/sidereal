@@ -37,7 +37,9 @@ export function PeopleInviteMembers() {
     return (
         <Dialog open={open} onOpenChange={(open) => setOpen(open)}>
             <DialogTrigger asChild>
-                <Button size="xs">
+                <Button
+                    className="flex-1"
+                    size="xs">
                     <UserPlus />
                     Invite members
                 </Button>

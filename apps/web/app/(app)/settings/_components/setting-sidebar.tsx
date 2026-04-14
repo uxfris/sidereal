@@ -2,9 +2,6 @@
 
 import {
     AltArrowLeft,
-    Card,
-    UserCircle,
-    UsersGroupRounded,
 } from "@solar-icons/react";
 import {
     Avatar,
@@ -12,59 +9,10 @@ import {
     AvatarImage,
 } from "@workspace/ui/components/avatar";
 import Link from "next/link";
-import { ReactNode } from "react";
 import { usePathname } from "next/navigation";
 import { cn } from "@workspace/ui/lib/utils";
+import { sections, SidebarItem, SidebarSection } from "../people/_lib/sidebar-data";
 
-type SidebarItem = {
-    label: string;
-    href: string;
-    icon?: ReactNode;
-    avatar?: {
-        src?: string;
-        fallback: string;
-    };
-    exact?: boolean;
-};
-
-type SidebarSection = {
-    title: string;
-    items: SidebarItem[];
-};
-
-const sections: SidebarSection[] = [
-    {
-        title: "Workspace",
-        items: [
-            {
-                label: "Fris's Sidereal",
-                href: "/settings/workspace",
-                avatar: { fallback: "F" },
-                exact: true,
-            },
-            {
-                label: "People",
-                href: "/settings/people",
-                icon: <UsersGroupRounded />,
-            },
-            {
-                label: "Plans & credits",
-                href: "/settings/billing",
-                icon: <Card />,
-            },
-        ],
-    },
-    {
-        title: "Account",
-        items: [
-            {
-                label: "Fris El",
-                href: "/settings/account",
-                icon: <UserCircle />,
-            },
-        ],
-    },
-];
 
 // --- matching logic ---
 function isActivePath(
@@ -72,18 +20,25 @@ function isActivePath(
     href: string,
     exact?: boolean
 ) {
+    if (pathname === "/settings" && href === "/settings/workspace") {
+        return true;
+    }
+
     if (exact) return pathname === href;
+
     return pathname === href || pathname.startsWith(href + "/");
 }
 
 function SidebarItemRow({
     item,
     pathname,
+    isLayout
 }: {
     item: SidebarItem;
     pathname: string;
+    isLayout: boolean;
 }) {
-    const active = isActivePath(pathname, item.href, item.exact);
+    const active = isLayout ? isActivePath(pathname, item.href, item.exact) : false;
 
     return (
         <li className="group/menu-item relative">
@@ -122,9 +77,11 @@ function SidebarItemRow({
 function SidebarSectionBlock({
     section,
     pathname,
+    isLayout,
 }: {
     section: SidebarSection;
     pathname: string;
+    isLayout: boolean
 }) {
     const sectionId = `section-${section.title
         .toLowerCase()
@@ -146,6 +103,7 @@ function SidebarSectionBlock({
                             key={item.label}
                             item={item}
                             pathname={pathname}
+                            isLayout={isLayout}
                         />
                     ))}
                 </ul>
@@ -154,22 +112,25 @@ function SidebarSectionBlock({
     );
 }
 
-export function SettingSidebar() {
+export function SettingSidebar({ isLayout = true }: { isLayout?: boolean }) {
     const pathname = usePathname();
 
     return (
-        <aside className="hidden md:block w-[273px] bg-sidebar text-sidebar-foreground px-3 py-4 space-y-4">
-            <Link href="/dashboard" className="w-fit pl-2 pr-4 py-2 rounded-md flex items-center justify-start gap-2 mb-4 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground">
+        <aside
+            className={cn("bg-sidebar text-sidebar-foreground px-3 py-4 space-y-4",
+                isLayout ? "hidden md:block w-[273px] " : "")}>
+            {isLayout && <Link href="/dashboard" className="w-fit pl-2 pr-4 py-2 rounded-md flex items-center justify-start gap-2 mb-4 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground">
                 <AltArrowLeft />
                 <span className="text-sm font-medium">
                     Go back
                 </span>
-            </Link>
+            </Link>}
             {sections.map((section) => (
                 <SidebarSectionBlock
                     key={section.title}
                     section={section}
                     pathname={pathname}
+                    isLayout={isLayout}
                 />
             ))}
         </aside>

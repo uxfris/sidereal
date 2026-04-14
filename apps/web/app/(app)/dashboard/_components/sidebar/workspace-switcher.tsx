@@ -39,7 +39,7 @@ export function WorkspaceSwitcher() {
                             <ChevronDown className="ml-auto group-data-[state=collapsed]:hidden" />
                         </SidebarMenuButton>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent className="py-2 shadow-md ring-border w-[--radix-popper-anchor-width]" >
+                    <DropdownMenuContent className="py-2 shadow-md ring-border " >
                         <div className="flex flex-col items-center gap-4 px-1">
                             {/* Workspace */}
                             <div className="flex items-center w-full gap-3">

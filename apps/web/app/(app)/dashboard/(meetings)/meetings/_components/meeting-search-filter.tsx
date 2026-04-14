@@ -18,21 +18,23 @@ import { cn } from "@workspace/ui/lib/utils";
 
 export function MeetingSearchFilter({ isCreatedByMe }: { isCreatedByMe?: boolean }) {
     return (
-        <div className="flex items-center gap-3">
-            <InputGroup className={cn("bg-input", isCreatedByMe ? "w-96" : "w-64")}>
+        <div className="flex items-start lg:items-center gap-3 flex-wrap lg:flex-nowrap">
+            <InputGroup className={cn("bg-input shrink-0", isCreatedByMe ? "w-full lg:w-96" : "w-full lg:w-64")}>
                 <InputGroupInput placeholder="Search meetings..." />
                 <InputGroupAddon className="w-5">
                     <MinimalisticMagnifier />
                 </InputGroupAddon>
             </InputGroup>
-            <div className="flex-1 flex items-center gap-2">
+            <div className={cn("w-full grid gap-2", isCreatedByMe ? "grid-cols-2 lg:grid-cols-5" : "grid-cols-2 lg:grid-cols-6")}>
                 {!isCreatedByMe && <MeetingHostPopover />}
                 <MeetingParticipantPopover />
                 <MeetingTimePopover />
                 <MeetingDurationPopover />
-                <MeetingSourcePopover />
-                <MeetingSelectionButton />
-                <MeetingViewButton />
+                <MeetingSourcePopover isCreatedByMe={isCreatedByMe} />
+                <div className="flex items-center gap-2">
+                    <MeetingSelectionButton />
+                    <MeetingViewButton />
+                </div>
             </div>
         </div>
     )

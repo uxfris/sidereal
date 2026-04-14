@@ -158,12 +158,12 @@ const MOCK_INTEGRATION: Integration[] = [
 
 export default function Integrations() {
     return (
-        <div className="flex-1 flex flex-col overflow-hidden pt-10 gap-10">
-            <h1 className="text-base font-semibold px-10">
+        <div className="flex-1 flex flex-col overflow-hidden pt-4 md:pt-10 gap-4 md:gap-10">
+            <h1 className="hidden md:block text-base font-semibold px-4 md:px-10">
                 Integrations
             </h1>
             <Tabs defaultValue="all" className="flex-1 flex flex-col min-h-0 overflow-hidden">
-                <TabsList className="mx-10 shrink-0">
+                <TabsList className="mx-4 md:mx-10 shrink-0 max-w-full md:max-w-fit flex-nowrap justify-start overflow-x-auto scroll-smooth no-scrollbar">
                     <TabsTrigger value="all" className="px-6">
                         All
                     </TabsTrigger>

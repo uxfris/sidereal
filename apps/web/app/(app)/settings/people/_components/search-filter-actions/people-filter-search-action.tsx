@@ -16,8 +16,8 @@ export function PeopleSearchFilterAction(
 
 ) {
     return (
-        <div className="flex justify-between">
-            <div className="flex items-center gap-2">
+        <div className="flex flex-col lg:flex-row justify-between gap-2">
+            <div className="flex flex-col lg:flex-row items-center gap-2">
                 <PeopleSearch value={searchValue} onChange={onSearchChange} />
                 <PeopleRolePopover filterValue={filterValue} onFilterChange={onFilterChange} />
             </div>

@@ -16,7 +16,8 @@ export function AccountAvatarSetting() {
     return (
         <SettingSection
             title="Avatar"
-            description="Set your profile avatar.">
+            description="Set your profile avatar."
+            className="flex-row">
             <div className="relative w-10 h-10 rounded-sm overflow-hidden">
                 <div className="bg-primary w-full h-full flex items-center justify-center">
                     <span className="text-sm font-medium text-primary-foreground">

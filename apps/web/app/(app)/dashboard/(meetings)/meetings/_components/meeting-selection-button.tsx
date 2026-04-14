@@ -13,10 +13,12 @@ export function MeetingSelectionButton() {
         <TooltipProvider delayDuration={700}>
             <Tooltip>
                 <TooltipTrigger asChild >
-                    <Button variant={selectionMode ? "default" : "outline"} size="icon-xs" onClick={() => {
-                        clearSelection()
-                        setSelectionMode(!selectionMode)
-                    }}>
+                    <Button
+                        className="hidden md:flex"
+                        variant={selectionMode ? "default" : "outline"} size="icon-xs" onClick={() => {
+                            clearSelection()
+                            setSelectionMode(!selectionMode)
+                        }}>
                         <div className={cn("w-4 h-4 rounded-sm border border-dashed", selectionMode ? "border-primary-foreground" : "border-muted-foreground")} />
                     </Button>
                 </TooltipTrigger>

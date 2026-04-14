@@ -11,7 +11,9 @@ export function PeopleExport() {
     }
 
     return (
-        <Button size="xs" variant="secondary" onClick={exportCSV}>
+        <Button
+            className="flex-1"
+            size="xs" variant="secondary" onClick={exportCSV}>
             <DownloadMinimalistic />
             Export
         </Button>

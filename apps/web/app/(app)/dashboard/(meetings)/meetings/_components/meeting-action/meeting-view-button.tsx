@@ -11,7 +11,7 @@ export function MeetingViewButton() {
     const setMeetingView = useMeetingView(v => v.setMeetingView)
 
     return (
-        <div className="flex items-center gap-1.5 p-1 bg-secondary rounded-md">
+        <div className="hidden md:flex w-fit items-center gap-1.5 p-1 bg-secondary rounded-md">
             <Button
                 variant="ghost"
                 size="icon"

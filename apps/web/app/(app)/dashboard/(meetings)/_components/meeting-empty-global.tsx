@@ -23,7 +23,7 @@ export function MeetingEmptyGlobal({ variant }: { variant: Variant }) {
     const { description, showBrowse } = contentMap[variant]
 
     return (
-        <div className="px-10 pb-10 h-full">
+        <div className="px-4 md:px-10 pb-4 md:py-10 h-full">
             <div className="flex flex-col items-center justify-center gap-8 h-full pb-10 bg-card rounded-md">
                 <LogoIcon className="w-12 h-12" />
                 <h1 className="text-xl font-semibold max-w-64 text-center">

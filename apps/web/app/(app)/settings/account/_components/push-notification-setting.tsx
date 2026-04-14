@@ -18,7 +18,8 @@ export function PushNotificationSetting() {
                         description="Enable Automated AI notes after every session."
                         borderBottom={false}
                         childrenWidth="w-9"
-                        className="items-start"
+                        className="items-start flex-row"
+                        isChild={true}
                     >
                         <Switch />
                     </SettingSection>
@@ -27,7 +28,8 @@ export function PushNotificationSetting() {
                         description="Weekly creative analytics and project progress."
                         borderBottom={false}
                         childrenWidth="w-9"
-                        className="items-start"
+                        className="items-start flex-row"
+                        isChild={true}
                     >
                         <Switch />
                     </SettingSection>
@@ -36,7 +38,8 @@ export function PushNotificationSetting() {
                         description="When someone mentions you or invites you."
                         borderBottom={false}
                         childrenWidth="w-9"
-                        className="items-start"
+                        className="items-start flex-row"
+                        isChild={true}
                     >
                         <Switch />
                     </SettingSection>

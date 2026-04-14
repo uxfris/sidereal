@@ -20,7 +20,9 @@ export function PeopleLinkInvite() {
     return (
         <Dialog>
             <DialogTrigger asChild>
-                <Button size="xs" variant="secondary">
+                <Button
+                    className="flex-1"
+                    size="xs" variant="secondary">
                     <Link />
                     Invite link
                 </Button>

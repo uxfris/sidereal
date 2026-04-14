@@ -7,7 +7,7 @@ import { ShareMeetingDialog } from "@/app/(app)/dashboard/_components/meetings/m
 import { CopyButton } from "@/components/copy-button";
 import { CreditLeftCard } from "@/components/credit-left-card";
 import { Hashtag } from "@solar-icons/react";
-import { AltArrowDown, AltArrowLeft, InfoCircle, Pen, Share, Star } from "@solar-icons/react/ssr";
+import { AltArrowDown, AltArrowLeft, InfoCircle, LockKeyhole, Pen, Share, Star } from "@solar-icons/react/ssr";
 import { Meeting } from "@workspace/types/meetings";
 import { Badge } from "@workspace/ui/components/badge";
 import { Button } from "@workspace/ui/components/button";
@@ -29,20 +29,13 @@ export function MeetingDocumentToolbar({ meeting }: { meeting: Meeting }) {
         setOpenCreate(true)
     }
 
-    const [copied, setCopied] = useState(false)
-
-    const handleCopy = () => {
-        setCopied(true)
-        setTimeout(() => setCopied(false), 1500);
-    }
-
     return (
         <>
             <div className="fixed top-0 inset-x-0 z-50 bg-card w-full">
-                <div className="flex items-center justify-between pt-1 px-5">
+                <div className="flex items-center justify-between pt-2 px-5 gap-5">
                     <DropdownMenu>
                         <DropdownMenuTrigger className="flex items-center gap-2 cursor-pointer py-2">
-                            <span className="text-sm font-medium">Q4 Strategy Planning</span>
+                            <span className="text-sm font-medium text-start line-clamp-1">Q4 Strategy Planning</span>
                             <AltArrowDown />
                         </DropdownMenuTrigger>
                         <DropdownMenuContent className="sm:min-w-56 space-y-2">
@@ -94,9 +87,11 @@ export function MeetingDocumentToolbar({ meeting }: { meeting: Meeting }) {
                         </DropdownMenuContent>
                     </DropdownMenu>
                     <div className="flex items-center gap-1">
-                        <span className="text-sm text-muted-foreground-2 font-medium px-1">Edited Mar 30</span>
-                        <Button variant="ghost" size="sm" onClick={() => setOpenShare(true)}>
+                        <span className="hidden md:block text-sm text-muted-foreground-2 font-medium px-4">Edited Mar 30</span>
+                        <Button variant="outline" size="sm" onClick={() => setOpenShare(true)}>
+                            <LockKeyhole />
                             Share
+                            <AltArrowDown />
                         </Button>
                         <CopyButton content="" />
                         <Button variant="ghost" size="icon-sm">

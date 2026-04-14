@@ -54,7 +54,7 @@ export function PeopleRolePopover(
                     variant="outline"
                     size="xs"
                     className={cn(
-                        "flex-1 justify-between",
+                        "lg:flex-1 justify-between w-full",
                         isDefault
                             ? "text-muted-foreground"
                             : "bg-popover-foreground text-popover"

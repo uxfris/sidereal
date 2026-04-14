@@ -24,10 +24,13 @@ export function WorkspaceNameSetting() {
                 title="Name"
                 description="Your full workspace name, as visible to others."
             >
-                <Input
-                    value={value}
-                    onChange={(e) => setValue(e.target.value)}
-                    placeholder="Enter workspace name" className="h-12" />
+                <div className="flex flex-col gap-2 items-end">
+                    <Input
+                        value={value}
+                        onChange={(e) => setValue(e.target.value)}
+                        placeholder="Enter workspace name" className="h-10" />
+                    <p className="text-xs text-muted-foreground-2">14/50 characters</p>
+                </div>
             </SettingSection>
             <UnsavedChangeAction visible={isDirty} onCancel={handleCancel} onUpdate={handleUpdate} />
         </>

@@ -13,7 +13,7 @@ export function MobileHeader() {
     const { toggleSidebar } = useSidebar()
 
     return (
-        <div className="md:hidden flex items-center justify-between py-2 bg-background">
+        <div className="md:hidden flex items-center justify-between py-2 bg-background px-2">
             <Button variant="ghost" size="icon" onClick={() => toggleSidebar()}><HamburgerMenu className="size-6" /></Button>
             <Link href="/" className="flex items-center gap-1">
                 <LogoIcon />

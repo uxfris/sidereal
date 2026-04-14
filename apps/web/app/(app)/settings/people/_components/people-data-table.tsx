@@ -8,6 +8,7 @@ import { PeopleSearchFilterAction } from "./search-filter-actions/people-filter-
 import { formatDateOnly } from "@workspace/ui/lib/date-format"
 import { PeopleBulkActionBar } from "./search-filter-actions/people-bulk-action-bar"
 import { WorkspaceMember, WorkspaceMemberInvitation } from "@workspace/types/people"
+import { cn } from "@workspace/ui/lib/utils"
 
 
 interface DataTableProps<TData, TValue> {
@@ -196,7 +197,7 @@ export function PeopleDataTable<TData, TValue>({ columns, data }: DataTableProps
                         </TableBody>
                     </Table>
                 </div>
-                <div className="flex items-center justify-between">
+                <div className={cn("flex items-center justify-between", totalRows < 8 && "hidden")}>
                     <p className="text-xs text-muted-foreground">
                         {totalRows === 0
                             ? "No results"

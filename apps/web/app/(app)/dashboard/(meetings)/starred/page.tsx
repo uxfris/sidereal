@@ -65,26 +65,21 @@ const meetings: Meeting[] = [
 
 
 export default function Starred() {
+    if (meetings.length === 0) return <MeetingEmptyGlobal variant="starred" />
     return (
         <div className="relative h-full flex flex-col overflow-hidden gap-6">
-            <div className="flex items-center gap-3 px-10 pt-10">
+            <div className="hidden md:flex items-center gap-3 px-4 md:px-10 pt-4 md:pt-10">
                 <h1 className="text-base font-semibold">Starred Meetings</h1>
             </div>
-            {
-                meetings.length === 0 ?
-                    <MeetingEmptyGlobal variant="starred" />
-                    :
-                    <>
-                        <div className="overflow-y-auto px-10 pb-10 space-y-10">
-                            <div className="space-y-3">
-                                <MeetingsProvider meetings={meetings}>
-                                    <MeetingSearchFilter />
-                                </MeetingsProvider>
-                            </div>
-                            <MeetingView meetings={meetings} />
-                        </div>
-                        <MeetingBulkActionBar meetings={meetings} isStarred={true} />
-                    </>}
+            <div className="overflow-y-auto px-4 md:px-10 pb-10 space-y-4 md:space-y-10">
+                <div className="space-y-3">
+                    <MeetingsProvider meetings={meetings}>
+                        <MeetingSearchFilter />
+                    </MeetingsProvider>
+                </div>
+                <MeetingView meetings={meetings} />
+            </div>
+            <MeetingBulkActionBar meetings={meetings} isStarred={true} />
         </div>
     )
 }

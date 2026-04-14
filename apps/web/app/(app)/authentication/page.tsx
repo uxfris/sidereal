@@ -26,7 +26,7 @@ export default function AuthenticationPage() {
         <div className="flex items-center justify-center min-h-screen">
             <div className="flex flex-col gap-9 px-4 py-16 mx-4 w-full md:max-w-126.5 bg-card rounded-md items-center">
                 <AuthHeader />
-                <div className="flex flex-col gap-3 px-12 w-full">
+                <div className="flex flex-col gap-3 px-4 md:px-12 w-full">
                     <AuthButtons providers={AUTH_PROVIDERS.filter(p => p.id === "email" ? !showEmail : true)
                         .map(provider => ({
                             ...provider,

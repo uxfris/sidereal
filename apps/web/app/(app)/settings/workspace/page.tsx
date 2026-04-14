@@ -6,7 +6,7 @@ import { LeaveWorkspace } from "./_components/leave-workspace";
 import { SettingHeader } from "../_components/setting-header";
 
 export default function Workspace() {
-    return <div className="flex flex-col gap-8 px-10 p-12">
+    return <div className="flex flex-col gap-4 md:gap-8 px-4 py-20 md:p-12">
         <SettingHeader
             title="Workspace settings"
             description="Workspace allow you to collaborate on projects in real time."

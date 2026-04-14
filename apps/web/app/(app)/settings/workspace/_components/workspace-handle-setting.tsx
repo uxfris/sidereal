@@ -13,7 +13,7 @@ export function WorkspaceHandleSetting() {
             borderBottom={false}>
             <Dialog>
                 <DialogTrigger asChild>
-                    <Button variant="outline" size="xl" className="text-sm">
+                    <Button variant="outline" size="sm" className="text-sm">
                         Set handle
                     </Button>
                 </DialogTrigger>
