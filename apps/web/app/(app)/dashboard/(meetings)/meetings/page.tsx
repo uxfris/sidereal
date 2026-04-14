@@ -1,5 +1,5 @@
 import { TitleMenuDropdown } from "./_components/meeting-title-menu-dropdown";
-import { MeetingSearchFilter } from "./_components/meeting-search-filter";
+import { MeetingToolbar } from "./_components/meeting-toolbar";
 import { MeetingChannelButtons } from "./_components/meeting-channel-buttons";
 import { MeetingView } from "./_components/meeting-view";
 import { MeetingBulkActionBar } from "./_components/meeting-bulk-action-bar";
@@ -77,7 +77,7 @@ export default function Meeting() {
             <div className="overflow-y-auto px-4 md:px-10 pb-4 md:pb-10 space-y-10">
                 <div className="space-y-3">
                     <MeetingsProvider meetings={meetings}>
-                        <MeetingSearchFilter />
+                        <MeetingToolbar />
                     </MeetingsProvider>
                     <MeetingChannelButtons />
                 </div>

@@ -16,7 +16,7 @@ import { MeetingViewButton } from "./meeting-action/meeting-view-button";
 import { cn } from "@workspace/ui/lib/utils";
 
 
-export function MeetingSearchFilter({ isCreatedByMe }: { isCreatedByMe?: boolean }) {
+export function MeetingToolbar({ isCreatedByMe }: { isCreatedByMe?: boolean }) {
     return (
         <div className="flex items-start lg:items-center gap-3 flex-wrap lg:flex-nowrap">
             <InputGroup className={cn("bg-input shrink-0", isCreatedByMe ? "w-full lg:w-96" : "w-full lg:w-64")}>

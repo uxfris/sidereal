@@ -1,6 +1,6 @@
 import { Meeting } from "@workspace/types/meetings";
 import { MeetingsProvider } from "../meetings/_hooks/use-meeting-context";
-import { MeetingSearchFilter } from "../meetings/_components/meeting-search-filter";
+import { MeetingToolbar } from "../meetings/_components/meeting-toolbar";
 import { MeetingView } from "../meetings/_components/meeting-view";
 import { MeetingBulkActionBar } from "../meetings/_components/meeting-bulk-action-bar";
 import { MeetingEmptyGlobal } from "../_components/meeting-empty-global";
@@ -74,7 +74,7 @@ export default function Starred() {
             <div className="overflow-y-auto px-4 md:px-10 pb-10 space-y-4 md:space-y-10">
                 <div className="space-y-3">
                     <MeetingsProvider meetings={meetings}>
-                        <MeetingSearchFilter />
+                        <MeetingToolbar />
                     </MeetingsProvider>
                 </div>
                 <MeetingView meetings={meetings} />

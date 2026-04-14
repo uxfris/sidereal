@@ -1,6 +1,6 @@
 import { Meeting } from "@workspace/types/meetings"
 import { MeetingsProvider } from "../../_hooks/use-meeting-context"
-import { MeetingSearchFilter } from "../../_components/meeting-search-filter"
+import { MeetingToolbar } from "../../_components/meeting-toolbar"
 import { MeetingView } from "../../_components/meeting-view"
 import { MeetingBulkActionBar } from "../../_components/meeting-bulk-action-bar"
 import { MeetingChannelEmpty } from "../_components/meeting-channel-empty"
@@ -85,7 +85,7 @@ export default function MeetingChannel() {
                     <div className="overflow-y-auto px-4 md:px-10 pb-10 space-y-4 md:space-y-10">
                         <div className="space-y-3">
                             <MeetingsProvider meetings={meetings}>
-                                <MeetingSearchFilter />
+                                <MeetingToolbar />
                             </MeetingsProvider>
                         </div>
                         <MeetingView meetings={meetings} />
