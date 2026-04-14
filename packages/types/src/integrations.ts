@@ -2,9 +2,11 @@ import { z } from "zod";
 
 export const IntegrationCategoryEnum = z.enum([
     "all",
-    "video",
+    "Calendar & Scheduling",
     "communication",
-    "productivity"
+    "Project Management",
+    "Knowledge / Docs",
+    "CRM / Sales"
 ])
 
 export const IntegrationStatusEnum = z.enum([
@@ -20,7 +22,6 @@ export const IntegrationSchema = z.object({
     category: IntegrationCategoryEnum,
     logo: z.string(), // path or URL
     status: IntegrationStatusEnum,
-    actionLabel: z.string(), // e.g. "Connect"
     featured: z.boolean().optional(),
 });
 
