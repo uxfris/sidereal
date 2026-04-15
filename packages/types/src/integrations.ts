@@ -1,12 +1,11 @@
 import { z } from "zod";
 
 export const IntegrationCategoryEnum = z.enum([
-    "all",
-    "Calendar & Scheduling",
-    "communication",
-    "Project Management",
-    "Knowledge / Docs",
-    "CRM / Sales"
+    "Work Management",
+    "Team communication",
+    "Knowledge Base",
+    "Product & Engineering",
+    "Revenue & Automation"
 ])
 
 export const IntegrationStatusEnum = z.enum([
