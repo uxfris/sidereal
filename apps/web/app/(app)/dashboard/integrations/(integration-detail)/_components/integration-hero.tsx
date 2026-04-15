@@ -1,4 +1,5 @@
 import { Badge } from "@workspace/ui/components/badge";
+import { cn } from "@workspace/ui/lib/utils";
 import Image from "next/image";
 
 const statusVariant = {
@@ -9,6 +10,9 @@ const statusVariant = {
 export function IntegrationHero(
     { icon, platform, description, status }: { icon: string, platform: string, description: string, status: "connected" | "disconnected" }
 ) {
+
+    const isConnected = status === "connected"
+
     return (
         <div className="flex items-center gap-4">
             <Image src={icon} alt="" width={48} height={48} />
@@ -20,7 +24,7 @@ export function IntegrationHero(
                     </p>
                 </div>
                 <div className="flex items-center gap-1">
-                    <Badge variant="secondary" className="border-muted-foreground/20">
+                    <Badge variant={isConnected ? "default" : "secondary"} className={cn(!isConnected && "border-muted-foreground/20")}>
                         <span className="w-1.5 h-1.5 rounded-full bg-muted-foreground" />
                         {statusVariant[status]}</Badge>
                 </div>

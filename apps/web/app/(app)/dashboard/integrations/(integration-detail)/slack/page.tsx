@@ -4,6 +4,12 @@ import { IntegrationConnectCard } from "../_components/integration-connect-card"
 import { IntegrationFeatureCard } from "../_components/integration-features";
 import { IntegrationSlackPreview } from "./_components/integration-slack-preview";
 import { IntegrationHeader } from "../_components/integration-header";
+import { IntegrationDisconnectCard } from "../_components/integration-disconnect-card";
+import { IntegrationSlackIssueCard } from "./_components/integration-slack-issue-card";
+import { IntegrationSlackSettings } from "./_components/integration-slack-settings";
+import { IntegrationSlackRecentActivity } from "./_components/integration-slack-recent-activity";
+import { Button } from "@workspace/ui/components/button";
+import Link from "next/link";
 
 const SLACK_INTEGRATION_FEATURES = [
     {
@@ -31,23 +37,40 @@ const SLACK_INTEGRATION_FEATURES = [
 
 export default function Integration() {
     const platform = "Slack"
+    const connectionStatus = "connected"
+    const isConnected = connectionStatus === "connected"
     return (
-        <div className="p-10 space-y-9 overflow-y-scroll">
+        <div className="p-10 space-y-5 overflow-y-scroll">
             <IntegrationHeader platform={platform} />
-            <div className="space-y-9 mx-auto max-w-[640px]">
+            <div className="space-y-5 mx-auto max-w-[640px]">
                 <IntegrationHero
                     icon="/vectors/slack.svg"
                     platform={platform}
                     description="Send meeting summaries and action items directly to project channels"
-                    status="disconnected"
+                    status={connectionStatus}
                 />
-                <IntegrationConnectCard
-                    platform={platform}
-                    description="Connect your Slack workspace to automatically post summaries, action items, and decisions — no more copy-pasting notes after every meeting."
-
-                />
-                <IntegrationFeatureCard features={SLACK_INTEGRATION_FEATURES} />
-                <IntegrationSlackPreview />
+                {!isConnected &&
+                    <>
+                        <IntegrationConnectCard
+                            platform={platform}
+                            description="Connect your Slack workspace to automatically post summaries, action items, and decisions — no more copy-pasting notes after every meeting." />
+                        <IntegrationFeatureCard features={SLACK_INTEGRATION_FEATURES} />
+                        <IntegrationSlackPreview />
+                    </>
+                }
+                {isConnected &&
+                    <>
+                        <IntegrationDisconnectCard email="jane@acme.com" />
+                        <IntegrationSlackIssueCard />
+                        <IntegrationSlackSettings />
+                        <IntegrationSlackRecentActivity />
+                    </>
+                }
+                <div className="flex items-center gap-5 text-xs text-muted-foreground">
+                    <span>By Slack Technologies</span>
+                    <span>OAuth 2.0</span>
+                    <Link href="https://slack.com/integrations" target="_blank" rel="noopener noreferrer">Documentation</Link>
+                </div>
             </div>
         </div >
     )
