@@ -1,7 +1,6 @@
 import { Integration } from "@workspace/types/integrations";
 import { IntegrationItem } from "./integration-item";
 import Link from "next/link";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@workspace/ui/components/tooltip";
 
 
 export function IntegrationsView({ integrations }: { integrations: Integration[] }) {
@@ -15,7 +14,7 @@ export function IntegrationsView({ integrations }: { integrations: Integration[]
                         )
                     }
                     return (
-                        <Link key={integration.id} href={`/integration/${integration.id}`}>
+                        <Link key={integration.id} href={`/dashboard/integrations/${integration.id}`}>
                             <IntegrationItem integration={integration} />
                         </Link>
                     )

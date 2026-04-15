@@ -6,7 +6,6 @@ import { MeetingBulkActionBar } from "../../_components/meeting-bulk-action-bar"
 import { MeetingChannelEmpty } from "../_components/meeting-channel-empty"
 import { ChannelTitleMenuDropdown } from "../_components/meeting-channel-title-menu-dropdown"
 import { ArrowLeft } from "@solar-icons/react/ssr"
-import { Button } from "@workspace/ui/components/button"
 import Link from "next/link"
 
 

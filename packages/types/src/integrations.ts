@@ -25,3 +25,4 @@ export const IntegrationSchema = z.object({
 });
 
 export type Integration = z.infer<typeof IntegrationSchema>
+
