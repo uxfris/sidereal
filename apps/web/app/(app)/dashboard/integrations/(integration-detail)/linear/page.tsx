@@ -1,7 +1,7 @@
 import { CalendarMark, Document, Notes, SquareShareLine, Tag, UserCheckRounded } from "@solar-icons/react/ssr";
 import { IntegrationHero } from "../_components/integration-hero";
 import { IntegrationConnectCard } from "../_components/integration-connect-card";
-import { IntegrationFeatureCard } from "../_components/integration-features";
+import { IntegrationFeatures } from "../_components/integration-features";
 import { IntegrationHeader } from "../_components/integration-header";
 import { IntegrationDisconnectCard } from "../_components/integration-disconnect-card";
 import { IntegrationLinearSettings } from "./_components/integration-linear-settings";
@@ -69,7 +69,7 @@ export default function Integration() {
     const connectionStatus = "connected"
     const isConnected = connectionStatus === "connected"
     return (
-        <div className="p-10 space-y-5 overflow-y-scroll">
+        <div className="p-4 md:p-10 space-y-5 overflow-y-scroll">
             <IntegrationHeader platform={platform} />
             <div className="space-y-5 mx-auto max-w-[640px]">
                 <IntegrationHero
@@ -83,7 +83,7 @@ export default function Integration() {
                         <IntegrationConnectCard
                             platform={platform}
                             description="Connect your Linear account to start automatically pushing issues from every meeting. You can choose the destination project and configure assignees after connecting." />
-                        <IntegrationFeatureCard features={LINEAR_INTEGRATION_FEATURES} />
+                        <IntegrationFeatures features={LINEAR_INTEGRATION_FEATURES} />
                     </>
                 }
                 {isConnected &&
@@ -94,7 +94,7 @@ export default function Integration() {
                         <IntegrationRecentActivityCard activities={MOCK_LINEAR_RECENT_ACTIVITY} />
                     </>
                 }
-                <div className="flex items-center gap-5 text-xs text-muted-foreground">
+                <div className="flex flex-wrap items-center gap-5 text-xs text-muted-foreground">
                     <span>By Linear Orbit, Inc.</span>
                     <span>OAuth 2.0</span>
                     <Link href="https://linear.app/developers/oauth-2-0-authentication" target="_blank" rel="noopener noreferrer">Documentation</Link>

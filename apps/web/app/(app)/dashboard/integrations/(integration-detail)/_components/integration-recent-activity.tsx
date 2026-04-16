@@ -21,9 +21,10 @@ export function IntegrationRecentActivityCard({ activities }: { activities: Inte
                                         {activity.description && <p className="text-xs">
                                             {activity.description}
                                         </p>}
+                                        <span className="md:hidden text-xs text-muted-foreground">{activity.timestamp}</span>
                                     </div>
                                 </div>
-                                <span className="text-xs text-muted-foreground">{activity.timestamp}</span>
+                                <span className="hidden md:block text-xs text-muted-foreground">{activity.timestamp}</span>
                             </div>
                             {index !== activities.length - 1 && <Separator />}
                         </div>

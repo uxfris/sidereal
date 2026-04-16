@@ -6,7 +6,7 @@ export function IntegrationHeader(
     { platform }: { platform: string }
 ) {
     return (
-        <div className="flex items-center gap-3 -ml-4">
+        <div className="hidden md:flex items-center gap-3 -ml-4">
             <Button variant="ghost" asChild>
                 <Link href="/dashboard/integrations">
                     <ArrowLeft />

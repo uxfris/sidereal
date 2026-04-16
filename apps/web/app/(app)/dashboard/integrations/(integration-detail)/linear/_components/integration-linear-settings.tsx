@@ -1,9 +1,9 @@
-import { Badge } from "@workspace/ui/components/badge";
 import { Button } from "@workspace/ui/components/button";
 import { Card, CardContent } from "@workspace/ui/components/card";
 import { Separator } from "@workspace/ui/components/separator";
 import { Switch } from "@workspace/ui/components/switch";
 import { IntegrationSettingItem } from "../../_components/integration-setting-item";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@workspace/ui/components/select";
 
 export function IntegrationLinearSettings() {
     return (
@@ -43,17 +43,34 @@ export function IntegrationLinearSettings() {
                         label="Default priority"
                         description="For issues without urgency context"
                         trailing={
-                            <div className="flex items-center gap-2">
-                                <Button variant="outline" size="xs">
-                                    Urgent
-                                </Button>
-                                <Button variant="outline" size="xs">
-                                    Medium
-                                </Button>
-                                <Button variant="outline" size="xs">
-                                    Low
-                                </Button>
-                            </div>
+                            <>
+                                <div className="hidden md:flex items-center gap-2">
+                                    <Button variant="outline" size="xs">
+                                        Urgent
+                                    </Button>
+                                    <Button variant="secondary" size="xs">
+                                        Medium
+                                    </Button>
+                                    <Button variant="outline" size="xs">
+                                        Low
+                                    </Button>
+                                </div>
+                                <div className="md:hidden">
+                                    <Select defaultValue="medium">
+                                        <SelectTrigger size="sm" className="text-xs">
+                                            <SelectValue />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            <SelectGroup>
+                                                <SelectItem value="urgent">Urgent</SelectItem>
+                                                <SelectItem value="medium">Medium</SelectItem>
+                                                <SelectItem value="low">Low</SelectItem>
+                                            </SelectGroup>
+                                        </SelectContent>
+                                    </Select>
+
+                                </div>
+                            </>
                         }
                     />
 

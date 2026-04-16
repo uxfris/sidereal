@@ -1,7 +1,7 @@
 import { Card, CardContent } from "@workspace/ui/components/card";
 import { IntegrationFeature } from "../_types/integration-feature.js";
 
-export function IntegrationFeatureCard(
+export function IntegrationFeatures(
     { features }: { features: IntegrationFeature[] }
 ) {
     return (
@@ -13,7 +13,7 @@ export function IntegrationFeatureCard(
                         <CardContent className="flex items-center gap-4">
                             <div
                                 style={{ backgroundColor: feature.palette }}
-                                className={"w-12 h-12 rounded-lg flex items-center justify-center"}>
+                                className={" shrink-0 w-12 h-12 rounded-lg flex items-center justify-center"}>
                                 <feature.icon className="text-2xl text-black" />
                             </div>
                             <div className="space-y-1">

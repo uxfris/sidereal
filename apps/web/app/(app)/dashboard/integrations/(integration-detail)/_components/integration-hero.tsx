@@ -16,7 +16,7 @@ export function IntegrationHero(
     return (
         <div className="flex items-center gap-4">
             <Image src={icon} alt="" width={48} height={48} />
-            <div className="flex flex-1 items-start justify-between">
+            <div className="flex flex-col md:flex-row flex-1 items-start justify-between gap-4">
                 <div className="flex-1 space-y-px">
                     <h2 className="text-3xl font-semibold">{platform}</h2>
                     <p className="text-sm text-muted-foreground">
