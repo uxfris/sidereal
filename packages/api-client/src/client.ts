@@ -1,7 +1,5 @@
 // packages/api-client/src/client.ts
 
-import { env } from "apps/web/config/env"
-
 import { z } from "zod";
 
 export const ApiErrorSchema = z.object({
@@ -47,8 +45,8 @@ async function request<T>(url: string, options: RequestOptions = {}): Promise<T>
 
     const baseUrl =
         typeof window === 'undefined'
-            ? env.API_URL // server-side
-            : env.NEXT_PUBLIC_API_URL // client-side
+            ? process.env.API_URL // server-side
+            : process.env.NEXT_PUBLIC_API_URL // client-side
 
     const fullUrl = buildUrl(`${baseUrl}${url}`, params)
 
