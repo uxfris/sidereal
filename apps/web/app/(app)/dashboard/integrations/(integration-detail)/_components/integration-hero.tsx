@@ -8,7 +8,7 @@ const statusVariant = {
 }
 
 export function IntegrationHero(
-    { icon, platform, description, status }: { icon: string, platform: string, description: string, status: "connected" | "disconnected" }
+    { icon, platform, tagline, status }: { icon: string, platform: string, tagline: string, status: "connected" | "disconnected" }
 ) {
 
     const isConnected = status === "connected"
@@ -20,12 +20,12 @@ export function IntegrationHero(
                 <div className="flex-1 space-y-px">
                     <h2 className="text-3xl font-semibold">{platform}</h2>
                     <p className="text-sm text-muted-foreground">
-                        {description}
+                        {tagline}
                     </p>
                 </div>
                 <div className="flex items-center gap-1">
                     <Badge variant={isConnected ? "default" : "secondary"} className={cn(!isConnected && "border-muted-foreground/20")}>
-                        <span className="w-1.5 h-1.5 rounded-full bg-muted-foreground" />
+                        <span className="w-1.5 h-1.5 rounded-full bg-muted-foreground dark:bg-white" />
                         {statusVariant[status]}</Badge>
                 </div>
             </div>

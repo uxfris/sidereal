@@ -26,3 +26,12 @@ export const IntegrationSchema = z.object({
 
 export type Integration = z.infer<typeof IntegrationSchema>
 
+
+export const IntegrationRecentActivitySchema = z.object({
+    id: z.string(),
+    title: z.string(),
+    description: z.string().optional(),
+    timestamp: z.string(),
+})
+
+export type IntegrationRecentActivity = z.infer<typeof IntegrationRecentActivitySchema>

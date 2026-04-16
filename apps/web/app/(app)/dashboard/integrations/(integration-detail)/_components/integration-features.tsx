@@ -14,7 +14,7 @@ export function IntegrationFeatureCard(
                             <div
                                 style={{ backgroundColor: feature.palette }}
                                 className={"w-12 h-12 rounded-lg flex items-center justify-center"}>
-                                <feature.icon className="text-2xl" />
+                                <feature.icon className="text-2xl text-black" />
                             </div>
                             <div className="space-y-1">
                                 <h4 className="text-sm font-semibold">{feature.title}</h4>

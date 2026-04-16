@@ -7,9 +7,9 @@ import { IntegrationHeader } from "../_components/integration-header";
 import { IntegrationDisconnectCard } from "../_components/integration-disconnect-card";
 import { IntegrationSlackIssueCard } from "./_components/integration-slack-issue-card";
 import { IntegrationSlackSettings } from "./_components/integration-slack-settings";
-import { IntegrationSlackRecentActivity } from "./_components/integration-slack-recent-activity";
-import { Button } from "@workspace/ui/components/button";
 import Link from "next/link";
+import { IntegrationRecentActivity } from "@workspace/types/integrations";
+import { IntegrationRecentActivityCard } from "../_components/integration-recent-activity";
 
 const SLACK_INTEGRATION_FEATURES = [
     {
@@ -35,6 +35,36 @@ const SLACK_INTEGRATION_FEATURES = [
     },
 ]
 
+
+const MOCK_SLACK_RECENT_ACTIVITY: IntegrationRecentActivity[] = [
+    {
+        id: "1",
+        title: "Summary posted to #product — Sprint Retrospective",
+        description: "3 action items with @mentions",
+        timestamp: "Just now",
+    },
+    {
+        id: "2",
+        title: "Summary posted to #engineering — Weekly Sync",
+        description: "2 action items with @mentions",
+        timestamp: "2 hr ago",
+    },
+    {
+        id: "3",
+        title: "Post failed — All Hands",
+        description: "Bot removed from #product",
+        timestamp: "Yesterday",
+    },
+    {
+        id: "4",
+        title: "Summary posted to #product — Tech Review",
+        description: "DM also sent to organizer",
+        timestamp: "2 days ago",
+    },
+]
+
+
+
 export default function Integration() {
     const platform = "Slack"
     const connectionStatus = "connected"
@@ -46,7 +76,7 @@ export default function Integration() {
                 <IntegrationHero
                     icon="/vectors/slack.svg"
                     platform={platform}
-                    description="Send meeting summaries and action items directly to project channels"
+                    tagline="Send meeting summaries and action items directly to project channels"
                     status={connectionStatus}
                 />
                 {!isConnected &&
@@ -60,10 +90,10 @@ export default function Integration() {
                 }
                 {isConnected &&
                     <>
-                        <IntegrationDisconnectCard email="jane@acme.com" />
+                        <IntegrationDisconnectCard label="Connected as" value="jane@acme.com" />
                         <IntegrationSlackIssueCard />
                         <IntegrationSlackSettings />
-                        <IntegrationSlackRecentActivity />
+                        <IntegrationRecentActivityCard activities={MOCK_SLACK_RECENT_ACTIVITY} />
                     </>
                 }
                 <div className="flex items-center gap-5 text-xs text-muted-foreground">
