@@ -1,9 +1,5 @@
-import { MinimalisticMagnifier } from "@solar-icons/react";
-import { IntegrationCategoryEnum } from "@workspace/types/integrations";
-import { Avatar, AvatarFallback, AvatarImage } from "@workspace/ui/components/avatar";
+import { IntegrationStatusEnum } from "@workspace/types/integrations";
 import { Button } from "@workspace/ui/components/button";
-import { Checkbox } from "@workspace/ui/components/checkbox";
-import { InputGroup, InputGroupAddon, InputGroupInput } from "@workspace/ui/components/input-group";
 import {
     Popover,
     PopoverContent,
@@ -15,29 +11,30 @@ import { Separator } from "@workspace/ui/components/separator";
 import { Check, ChevronDown, } from "lucide-react";
 
 
-export function IntegrationCategoryPopover() {
+export function IntegrationStatusPopover() {
     return (
         <Popover>
             <PopoverTrigger asChild>
                 <Button variant="outline" size="xs" className="w-full md:w-fit justify-between text-muted-foreground">
-                    Any integration
+                    Any status
                     <ChevronDown />
                 </Button>
             </PopoverTrigger>
-            <PopoverContent side="bottom" align="start" className="w-56 px-1">
+            <PopoverContent side="bottom" align="start" className="w-40 px-1">
                 <PopoverHeader>
                     <PopoverTitle className="px-3">
-                        Integration category
+                        Status
                     </PopoverTitle>
                 </PopoverHeader>
                 <Separator />
                 <div>
                     {
-                        IntegrationCategoryEnum.options.map((category) => (
-                            <div key={category} className="flex items-center p-3 hover:bg-secondary rounded-md">
-                                <span className="flex-1">{category}</span>
+                        IntegrationStatusEnum.options.map((status) => (
+                            <div key={status} className="flex items-center p-3 hover:bg-secondary rounded-md">
+                                <span className="flex-1">{status}</span>
                                 <Check size={16} />
-                            </div>))
+                            </div>
+                        ))
                     }
                 </div>
             </PopoverContent>

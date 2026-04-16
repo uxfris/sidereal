@@ -1,12 +1,11 @@
 import { z } from "zod";
 
 export const IntegrationCategoryEnum = z.enum([
-    "all",
-    "Calendar & Scheduling",
-    "communication",
-    "Project Management",
-    "Knowledge / Docs",
-    "CRM / Sales"
+    "Work Management",
+    "Team communication",
+    "Knowledge Base",
+    "Product & Engineering",
+    "Revenue & Automation"
 ])
 
 export const IntegrationStatusEnum = z.enum([
@@ -26,3 +25,13 @@ export const IntegrationSchema = z.object({
 });
 
 export type Integration = z.infer<typeof IntegrationSchema>
+
+
+export const IntegrationRecentActivitySchema = z.object({
+    id: z.string(),
+    title: z.string(),
+    description: z.string().optional(),
+    timestamp: z.string(),
+})
+
+export type IntegrationRecentActivity = z.infer<typeof IntegrationRecentActivitySchema>

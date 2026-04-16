@@ -6,9 +6,9 @@ import {
     InputGroupAddon,
     InputGroupInput,
 } from "@workspace/ui/components/input-group"
-import { cn } from "@workspace/ui/lib/utils";
 import { IntegrationViewButton } from "./integration-view-button";
 import { IntegrationCategoryPopover } from "./integration-category-popover";
+import { IntegrationStatusPopover } from "./integration-status-popover";
 
 
 export function IntegrationToolbar() {
@@ -22,6 +22,7 @@ export function IntegrationToolbar() {
                     </InputGroupAddon>
                 </InputGroup>
                 <IntegrationCategoryPopover />
+                <IntegrationStatusPopover />
             </div>
             <IntegrationViewButton />
         </div>
