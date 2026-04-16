@@ -8,7 +8,7 @@ import { Input } from "@workspace/ui/components/input"
 import { TrashBin2, UserPlus } from "@solar-icons/react"
 import { cn } from "@workspace/ui/lib/utils"
 import { TaskAssigneeMenu } from "./task-assignee-menu"
-import { ActionItem, UserSummary } from "@workspace/types/task"
+import { ActionItem, UserSummary } from "@workspace/types"
 
 type TaskItemProps = {
     item: ActionItem

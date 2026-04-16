@@ -1,4 +1,4 @@
-import { Meeting } from "@workspace/types/meetings";
+import { Meeting } from "@workspace/types";
 import { Button } from "@workspace/ui/components/button";
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@workspace/ui/components/dialog";
 import { toast } from "sonner";

@@ -5,9 +5,9 @@ import { Button } from "@workspace/ui/components/button"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@workspace/ui/components/table"
 import { useEffect, useState } from "react"
 import { PeopleSearchFilterAction } from "./search-filter-actions/people-filter-search-action"
-import { formatDateOnly } from "@workspace/ui/lib/date-format"
+import { formatDateOnly } from "@/lib/date-format"
 import { PeopleBulkActionBar } from "./search-filter-actions/people-bulk-action-bar"
-import { WorkspaceMember, WorkspaceMemberInvitation } from "@workspace/types/people"
+import { WorkspaceMember } from "@workspace/types"
 import { cn } from "@workspace/ui/lib/utils"
 
 

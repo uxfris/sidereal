@@ -1,4 +1,4 @@
-import { IntegrationStatusEnum } from "@workspace/types/integrations";
+import { IntegrationStatusEnum } from "@workspace/types";
 import { Button } from "@workspace/ui/components/button";
 import {
     Popover,

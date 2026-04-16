@@ -1,10 +1,10 @@
 import { Badge } from "@workspace/ui/components/badge"
 
-import { formatDate } from "@workspace/ui/lib/date-format"
+import { formatDate } from "@/lib/date-format"
 import { Tooltip, TooltipContent, TooltipTrigger } from "@workspace/ui/components/tooltip"
 import { cn } from "@workspace/ui/lib/utils"
 import { useState } from "react"
-import { ActionItem, UserSummary } from "@workspace/types/task"
+import { ActionItem, UserSummary } from "@workspace/types"
 import { TaskSync } from "./task-sync"
 import { SendTaskSelectionDialog } from "./send-task-selection-dialog"
 import { SendTaskDialog } from "./send-task-dialog"

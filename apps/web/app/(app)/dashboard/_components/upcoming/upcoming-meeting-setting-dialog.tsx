@@ -1,3 +1,5 @@
+"use client"
+
 import { SelectInput } from "@/components/select-input"
 import { CalendarAdd, Global, Letter, Lock, SettingsMinimalistic } from "@solar-icons/react"
 import { Button } from "@workspace/ui/components/button"

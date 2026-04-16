@@ -4,7 +4,7 @@ import { PeopleSearchFilterAction } from "./_components/search-filter-actions/pe
 import { PeopleDataTable } from "./_components/people-data-table";
 import { peopleColumns } from "./_components/columns/people-column";
 
-import { WorkspacePeopleInvitationTable, WorkspacePeopleTable } from "@workspace/types/people";
+import { WorkspacePeopleInvitationTable, WorkspacePeopleTable } from "@workspace/types";
 import { peopleInvitationColumns } from "./_components/columns/people-invitation-column";
 import { InvitationEmpty } from "./_components/people-invitation-empty";
 

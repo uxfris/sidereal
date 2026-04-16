@@ -1,7 +1,5 @@
 // packages/api-client/src/client.ts
 
-import { env } from "apps/web/config/env"
-
 import { z } from "zod";
 
 export const ApiErrorSchema = z.object({
@@ -19,7 +17,6 @@ type RequestOptions = {
     headers?: HeadersInit
     params?: Record<string, string | number | boolean | undefined>
     cache?: RequestCache
-    next?: NextFetchRequestConfig
 }
 
 function buildUrl(url: string, params?: RequestOptions['params']) {
@@ -42,13 +39,12 @@ async function request<T>(url: string, options: RequestOptions = {}): Promise<T>
         headers,
         params,
         cache = 'no-store',
-        next,
     } = options
 
     const baseUrl =
         typeof window === 'undefined'
-            ? env.API_URL // server-side
-            : env.NEXT_PUBLIC_API_URL // client-side
+            ? process.env.API_URL // server-side
+            : process.env.NEXT_PUBLIC_API_URL // client-side
 
     const fullUrl = buildUrl(`${baseUrl}${url}`, params)
 
@@ -60,8 +56,7 @@ async function request<T>(url: string, options: RequestOptions = {}): Promise<T>
         },
         credentials: 'include', // IMPORTANT for cookie auth
         body: body ? JSON.stringify(body) : undefined,
-        cache,
-        next,
+        cache
     })
 
     if (!res.ok) {

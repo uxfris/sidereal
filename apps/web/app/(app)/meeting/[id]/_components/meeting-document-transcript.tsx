@@ -9,7 +9,7 @@ import {
 import { Button } from "@workspace/ui/components/button";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@workspace/ui/components/tooltip";
 
-import { Conversation, Sentence } from "@workspace/types/conversations"
+import { Conversation, Sentence } from "@workspace/types"
 import { cn } from "@workspace/ui/lib/utils";
 import { useState } from "react";
 

@@ -1,7 +1,7 @@
 "use client"
 
-import { useShortcut } from "@workspace/ui/hooks/use-shortcut"
-import { ShortcutAction } from "@workspace/ui/types/shortcuts"
+import { useShortcut } from "@/hooks/use-shortcut"
+import { ShortcutAction } from "@/types/shortcuts"
 
 
 export function SmartKbd({ action }: { action: ShortcutAction }) {

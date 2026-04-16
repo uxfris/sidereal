@@ -10,7 +10,7 @@ import { Input } from "@workspace/ui/components/input"
 import { MinimalisticMagnifier } from "@solar-icons/react"
 import MeetingItem from "../meetings/meeting-item"
 import { useDebounce } from "@workspace/ui/hooks/use-debouce"
-import { Meeting } from "@workspace/types/meetings"
+import { Meeting } from "@workspace/types"
 
 
 

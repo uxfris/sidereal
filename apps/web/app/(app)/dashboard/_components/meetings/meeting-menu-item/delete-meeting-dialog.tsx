@@ -1,4 +1,4 @@
-import { Meeting } from "@workspace/types/meetings";
+import { Meeting } from "@workspace/types";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@workspace/ui/components/alert-dialog";
 import { toast } from "sonner";
 

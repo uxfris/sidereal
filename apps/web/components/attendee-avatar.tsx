@@ -1,5 +1,5 @@
 import { SanitizedHtml } from "@/lib/sanitized-html"
-import { Attendee } from "@workspace/types/meetings"
+import { Attendee } from "@workspace/types"
 import { Avatar, AvatarFallback, AvatarGroup, AvatarGroupCount, AvatarImage } from "@workspace/ui/components/avatar"
 
 export function AttendeeAvatar({ attendees, extra }: { attendees: Attendee[], extra?: number }) {

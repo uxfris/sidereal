@@ -1,81 +1,15 @@
-"use client"
-
 import { UpcomingMeetingItem } from "./upcoming-meeting-item"
 import { UpcomingMeetingSettingDialog } from "./upcoming-meeting-setting-dialog"
 import { UpcomingMeetingsEmpty } from "./upcoming-meetings-empty"
 import { ScheduleNewMeetingButton } from "./schedule-new-meeting-button"
-import { UpcomingMeetingGroup } from "@workspace/types/meetings"
-
-// ── Mock data ──────────────────────────────────────────
-const groups: UpcomingMeetingGroup[] = [
-    {
-        label: "TODAY",
-        meetings: [
-            {
-                id: "1",
-                title: "Design Review: V2 Specs",
-                timestamp: "2:30 PM",
-                duration: "60m",
-                platform: "Google Meet",
-                action: "join",
-                attendees: [
-                    { id: "a", initials: "A" },
-                    { id: "b", initials: "B" },
-                ],
-                extraAttendees: 2,
-            },
-            {
-                id: "2",
-                title: "Product Sync",
-                timestamp: "4:00 PM",
-                duration: "30m",
-                platform: "Zoom",
-                action: "prepare",
-                attendees: [{ id: "c", initials: "C" }],
-                extraAttendees: 5,
-            },
-            {
-                id: "3",
-                title: "Product Sync",
-                timestamp: "4:00 PM",
-                duration: "30m",
-                platform: "Zoom",
-                action: "prepare",
-                attendees: [{ id: "c", initials: "C" }],
-                extraAttendees: 5,
-            },
-            {
-                id: "4",
-                title: "Product Sync",
-                timestamp: "4:00 PM",
-                duration: "30m",
-                platform: "Zoom",
-                action: "prepare",
-                attendees: [{ id: "c", initials: "C" }],
-                extraAttendees: 5,
-            },
-        ],
-    },
-    {
-        label: "TOMORROW",
-        meetings: [
-            {
-                id: "3",
-                title: "Weekly Engineering Huddle",
-                timestamp: "9:30 AM",
-                duration: "45m",
-                platform: "Google Meet",
-                action: "prepare",
-                attendees: [{ id: "d", initials: "D" }],
-                extraAttendees: 5,
-            },
-        ],
-    },
-]
+import { meetingApi } from "@workspace/api-client"
 
 
 
-export function UpcomingMeetings() {
+export async function UpcomingMeetings() {
+
+    const groups = await meetingApi.getUpcomingMeetings()
+
     const total = groups.reduce((acc, g) => acc + g.meetings.length, 0)
 
     return (

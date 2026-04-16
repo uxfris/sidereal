@@ -1,4 +1,4 @@
-import { Meeting } from "@workspace/types/meetings";
+import { Meeting } from "@workspace/types";
 import { MeetingsProvider } from "../meetings/_hooks/use-meeting-context";
 import { MeetingToolbar } from "../meetings/_components/meeting-toolbar";
 import { MeetingView } from "../meetings/_components/meeting-view";

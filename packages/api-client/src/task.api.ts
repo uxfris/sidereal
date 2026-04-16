@@ -1,4 +1,4 @@
-import { ActionItem, TasksGroup, UserSummary } from "@workspace/types/task"
+import { ActionItem, TasksGroup, UserSummary } from "@workspace/types"
 
 const MOCK_TASK_GROUPS: TasksGroup[] = [
     {
@@ -117,8 +117,6 @@ const MOCK_ASSIGNEES: UserSummary[] = [
         avatarUrl: "https://i.pravatar.cc/150?img=1"
     }
 ]
-
-//Mock data
 
 export const taskApi = {
 

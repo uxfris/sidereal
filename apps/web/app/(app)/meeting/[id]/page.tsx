@@ -5,7 +5,7 @@ import { MeetingDocumentTakeaway } from "./_components/meeting-document-takeaway
 import { MeetingDocumentActionItem } from "./_components/meeting-document-action-item";
 import { MeetingDocumentTranscript } from "./_components/meeting-document-transcript";
 import { MeetingMediaPlayerBar } from "./_components/meeting-media-player-bar";
-import { Meeting } from "@workspace/types/meetings";
+import { Meeting } from "@workspace/types";
 
 const MOCK_MEETING: Meeting =
 {

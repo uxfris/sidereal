@@ -8,7 +8,7 @@ import { IntegrationDisconnectCard } from "../_components/integration-disconnect
 import { IntegrationSlackIssueCard } from "./_components/integration-slack-issue-card";
 import { IntegrationSlackSettings } from "./_components/integration-slack-settings";
 import Link from "next/link";
-import { IntegrationRecentActivity } from "@workspace/types/integrations";
+import { IntegrationRecentActivity } from "@workspace/types";
 import { IntegrationRecentActivityCard } from "../_components/integration-recent-activity";
 
 const SLACK_INTEGRATION_FEATURES = [

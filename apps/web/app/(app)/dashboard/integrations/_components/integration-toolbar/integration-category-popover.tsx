@@ -1,5 +1,5 @@
 import { MinimalisticMagnifier } from "@solar-icons/react";
-import { IntegrationCategoryEnum } from "@workspace/types/integrations";
+import { IntegrationCategoryEnum } from "@workspace/types";
 import { Avatar, AvatarFallback, AvatarImage } from "@workspace/ui/components/avatar";
 import { Button } from "@workspace/ui/components/button";
 import { Checkbox } from "@workspace/ui/components/checkbox";

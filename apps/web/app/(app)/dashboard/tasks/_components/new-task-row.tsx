@@ -5,7 +5,7 @@ import { Input } from "@workspace/ui/components/input"
 import { Button } from "@workspace/ui/components/button"
 import { UserPlus } from "@solar-icons/react"
 import type { RefObject } from "react"
-import { UserSummary } from "@workspace/types/task"
+import { UserSummary } from "@workspace/types"
 import { TaskAssigneeMenu } from "./task-assignee-menu"
 import { Avatar, AvatarFallback, AvatarImage } from "@workspace/ui/components/avatar"
 

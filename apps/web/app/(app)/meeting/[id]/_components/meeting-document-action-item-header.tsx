@@ -4,16 +4,12 @@
 import { SendTaskDialog } from "@/app/(app)/dashboard/tasks/_components/send-task-dialog";
 import { SendTaskSelectionDialog } from "@/app/(app)/dashboard/tasks/_components/send-task-selection-dialog";
 import { Badge } from "@workspace/ui/components/badge";
-import { Button } from "@workspace/ui/components/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@workspace/ui/components/tooltip";
-import { cn } from "@workspace/ui/lib/utils"
 import { useState } from "react"
 import { toast } from "sonner"
 
 import { TaskSync } from "@/app/(app)/dashboard/tasks/_components/task-sync";
-import { Copy } from "@solar-icons/react";
-import { Check } from "lucide-react";
-import { ActionItem } from "@workspace/types/task";
+import { ActionItem } from "@workspace/types";
 import { CopyButton } from "@/components/copy-button";
 
 

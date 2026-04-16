@@ -1,4 +1,4 @@
-import type { IntegrationRecentActivity } from "@workspace/types/integrations";
+import type { IntegrationRecentActivity } from "@workspace/types";
 import { Card, CardContent } from "@workspace/ui/components/card";
 import { Separator } from "@workspace/ui/components/separator";
 

@@ -1,4 +1,4 @@
-import { Integration } from "@workspace/types/integrations"
+import { Integration } from "@workspace/types"
 import { IntegrationsView } from "./_components/integrations-view";
 import { IntegrationToolbar } from "./_components/integration-toolbar/integration-toolbar";
 

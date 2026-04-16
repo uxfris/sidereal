@@ -4,9 +4,9 @@ import { ThemeProvider } from "@/components/theme-provider"
 import { cn } from "@workspace/ui/lib/utils";
 import { TooltipProvider } from "@workspace/ui/components/tooltip";
 import { PlatformProvider } from "@workspace/ui/components/platform-provider";
-import { ShortcutProvider } from "@workspace/ui/components/shortcut-provider";
+import { ShortcutProvider } from "@/components/shortcut-provider";
 import { Toaster } from "@workspace/ui/components/sonner";
-import { getPlatform } from "@workspace/ui/lib/platform";
+import { getPlatform } from "@/lib/platform";
 
 const fontSans = Geist({
     subsets: ["latin"],

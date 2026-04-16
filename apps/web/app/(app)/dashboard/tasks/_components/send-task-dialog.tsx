@@ -10,7 +10,7 @@ import {
 import { Separator } from "@workspace/ui/components/separator"
 import { Field, FieldLabel } from "@workspace/ui/components/field"
 import { SelectInput } from "@/components/select-input"
-import { ActionItem } from "@workspace/types/task"
+import { ActionItem } from "@workspace/types"
 import Image from "next/image"
 
 type SendTaskDialogProps = {
