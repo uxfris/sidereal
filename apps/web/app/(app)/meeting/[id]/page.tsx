@@ -25,7 +25,7 @@ const MOCK_MEETING: Meeting =
 export default function MeetingDetail() {
     return (
         <main className="pt-24 px-4 md:px-6 bg-card">
-            <div className="mx-auto max-w-900 space-y-12 ">
+            <div className="mx-auto max-w-[700px] space-y-12 ">
                 <header>
                     <MeetingDocumentToolbar meeting={MOCK_MEETING} />
                     <MeetingDocumentHeader />

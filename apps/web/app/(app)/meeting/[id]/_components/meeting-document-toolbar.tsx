@@ -88,10 +88,8 @@ export function MeetingDocumentToolbar({ meeting }: { meeting: Meeting }) {
                     </DropdownMenu>
                     <div className="flex items-center gap-1">
                         <span className="hidden md:block text-sm text-muted-foreground-2 font-medium px-4">Edited Mar 30</span>
-                        <Button variant="outline" size="sm" onClick={() => setOpenShare(true)}>
-                            <LockKeyhole />
+                        <Button variant="ghost" size="sm" onClick={() => setOpenShare(true)}>
                             Share
-                            <AltArrowDown />
                         </Button>
                         <CopyButton content="" />
                         <Button variant="ghost" size="icon-sm">

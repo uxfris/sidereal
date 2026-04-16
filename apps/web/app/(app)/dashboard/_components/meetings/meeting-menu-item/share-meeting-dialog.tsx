@@ -33,11 +33,12 @@ export function ShareMeetingDialog({ meeting, open, onOpenChange, }: { meeting: 
                             Embed
                         </TabsTrigger>
                     </TabsList>
-                    <TabsContent value="share" className="space-y-5 pt-8">
+                    <TabsContent value="share" className="space-y-2 pt-4">
                         <div className="flex items-center gap-3">
-                            <InputGroup className="bg-input">
+                            <InputGroup autoFocus className="bg-input border-2 border-primary">
                                 <InputGroupInput
-                                    placeholder="Name or Email"
+                                    placeholder="Email or group, separated by comma"
+
                                 />
                                 <InputGroupAddon>
                                     <MinimalisticMagnifier />
@@ -47,21 +48,33 @@ export function ShareMeetingDialog({ meeting, open, onOpenChange, }: { meeting: 
                                 Invite
                             </Button>
                         </div>
-                        <div className="space-y-3">
-                            <h3 className="text-xs font-medium text-muted-foreground">
-                                Teammates with access
-                            </h3>
-                            <div className="overflow-y-auto max-h-48">
+                        <div className="space-y-3 pt-2">
+                            <div className="overflow-y-auto max-h-48 space-y-1">
                                 {[1, 2, 3].map((user) => (
-                                    <div key={user} className="flex items-center p-3 hover:bg-secondary rounded-md">
+                                    <div key={user} className="flex items-center rounded-md">
                                         <div className="flex flex-1 items-center gap-2">
-                                            <Avatar size="sm">
+                                            <Avatar>
                                                 <AvatarImage src="" />
                                                 <AvatarFallback>{"FE"}</AvatarFallback>
                                             </Avatar>
-                                            <p className="text-xs font-medium text-popover-foreground line-clamp-1">{"Fris EL"}</p>
+                                            <div>
+                                                <p className="text-xs font-medium text-popover-foreground line-clamp-1">
+                                                    {"Fris EL (You)"}</p>
+                                                <p className="text-xs">fris@lume.com</p>
+                                            </div>
                                         </div>
-                                        <span className="text-xs text-muted-foreground-2">Host</span>
+                                        <Select defaultValue="edit">
+                                            <SelectTrigger className="border-none">
+                                                <SelectValue />
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                                <SelectGroup>
+                                                    <SelectItem value="full-access">Full access</SelectItem>
+                                                    <SelectItem value="edit">Can Edit</SelectItem>
+                                                    <SelectItem value="view">Can view</SelectItem>
+                                                </SelectGroup>
+                                            </SelectContent>
+                                        </Select>
                                     </div>
                                 ))}
                             </div>

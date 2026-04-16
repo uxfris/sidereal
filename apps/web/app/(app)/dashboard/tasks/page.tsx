@@ -15,8 +15,8 @@ export default async function Tasks() {
     return (
         <div className="flex flex-col overflow-hidden gap-4 md:gap-8 pt-4 md:pt-10">
             <h1 className="text-base font-semibold px-4 md:px-10">Tasks</h1>
-            <Tabs defaultValue="all" className="gap-4 h-full">
-                <div className="relative px-4 md:px-10 overflow-x-auto md:overflow-visible h-12 overflow-y-visible no-scrollbar">
+            <Tabs defaultValue="all" className="h-full gap-0">
+                <div className="relative px-4 md:px-10 overflow-x-auto md:overflow-visible h-9 overflow-y-visible no-scrollbar">
                     <div className="absolute left-0 right-0 bottom-0 h-px w-full bg-border" />
                     <TabsList variant="line" className="relative w-max justify-start gap-6">
                         <TabsTrigger value="all">All</TabsTrigger>
