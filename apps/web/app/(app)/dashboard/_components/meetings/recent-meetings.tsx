@@ -2,7 +2,7 @@ import { Button } from "@workspace/ui/components/button"
 import MeetingItem from "./meeting-item"
 import { cn } from "@workspace/ui/lib/utils"
 import { EmptyState } from "@/components/empty-state"
-import { meetingApi } from "@workspace/api-client/meeting.api"
+import { meetingApi } from "@workspace/api-client"
 
 
 export async function RecentMeetings() {

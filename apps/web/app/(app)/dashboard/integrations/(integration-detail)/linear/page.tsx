@@ -8,7 +8,7 @@ import { IntegrationLinearSettings } from "./_components/integration-linear-sett
 import Link from "next/link";
 import { IntegrationLinearStatCard } from "./_components/integration-linear-stat-card";
 import { IntegrationRecentActivityCard } from "../_components/integration-recent-activity";
-import type { IntegrationRecentActivity } from "@workspace/types/integrations";
+import type { IntegrationRecentActivity } from "@workspace/types";
 
 const LINEAR_INTEGRATION_FEATURES = [
     {

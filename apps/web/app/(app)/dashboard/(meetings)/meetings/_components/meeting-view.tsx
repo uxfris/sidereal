@@ -1,6 +1,6 @@
 "use client"
 
-import { Meeting } from "@workspace/types/meetings"
+import { Meeting } from "@workspace/types"
 import MeetingItem from "../../../_components/meetings/meeting-item"
 import { useMeetingSelection } from "../_stores/meeting-selection-store"
 import { useState } from "react"

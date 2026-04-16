@@ -2,8 +2,8 @@
 
 import { createContext, useContext, useEffect, useRef } from "react"
 import { usePlatform } from "@workspace/ui/components/platform-provider"
-import { getShortcutMap } from "@workspace/ui/lib/shortcut-maps"
-import { ShortcutAction } from "@workspace/ui/types/shortcuts"
+import { getShortcutMap } from "@/lib/shortcut-maps"
+import { ShortcutAction } from "@/types/shortcuts"
 
 type HandlerMap = Partial<Record<ShortcutAction, () => void>>
 

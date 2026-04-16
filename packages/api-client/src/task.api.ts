@@ -1,4 +1,4 @@
-import { ActionItem, TasksGroup, UserSummary } from "@workspace/types/task"
+import { ActionItem, TasksGroup, UserSummary } from "@workspace/types"
 
 const MOCK_TASK_GROUPS: TasksGroup[] = [
     {

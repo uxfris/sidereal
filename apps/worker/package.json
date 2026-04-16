@@ -10,6 +10,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@lume/database": "workspace:^"
+    "@workspace/database": "workspace:^"
   }
 }

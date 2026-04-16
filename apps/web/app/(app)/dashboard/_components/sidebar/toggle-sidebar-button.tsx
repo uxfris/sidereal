@@ -1,7 +1,7 @@
 import { SidebarMinimalistic } from "@solar-icons/react";
 import { Button } from "@workspace/ui/components/button";
 import { useSidebar } from "@workspace/ui/components/sidebar";
-import { SmartKbd } from "@workspace/ui/components/smart-kbd";
+import { SmartKbd } from "@/components/smart-kbd";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@workspace/ui/components/tooltip";
 
 export function ToggleSidebarButton({ tooltip, className }: { tooltip: string, className: string }) {

@@ -1,6 +1,6 @@
 "use client";
 
-import { Meeting } from "@workspace/types/meetings";
+import { Meeting } from "@workspace/types";
 import { createContext, ReactNode, useContext } from "react";
 
 const MeetingsContext = createContext<Meeting[] | undefined>(undefined);

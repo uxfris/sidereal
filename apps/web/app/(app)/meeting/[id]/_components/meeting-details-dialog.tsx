@@ -1,5 +1,4 @@
-import { Hashtag } from "@solar-icons/react";
-import { Meeting } from "@workspace/types/meetings";
+import { Meeting } from "@workspace/types";
 import { Button } from "@workspace/ui/components/button";
 import { Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@workspace/ui/components/dialog";
 import { Separator } from "@workspace/ui/components/separator";

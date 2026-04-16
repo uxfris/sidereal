@@ -2,8 +2,8 @@ import { CheckCircle, Clapperboard, CloseCircle, Document, FileSmile, Soundwave,
 import { Button } from "@workspace/ui/components/button";
 import { Progress } from "@workspace/ui/components/progress";
 import { toast } from "sonner";
-import { Upload } from "@workspace/types/upload"
-import { formatTimeAgoIntl } from "@workspace/ui/lib/date-format";
+import { Upload } from "@workspace/types"
+import { formatTimeAgoIntl } from "@/lib/date-format";
 import { Badge } from "@workspace/ui/components/badge";
 import { cn } from "@workspace/ui/lib/utils";
 

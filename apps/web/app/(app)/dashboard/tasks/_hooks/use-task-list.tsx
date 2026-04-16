@@ -1,8 +1,8 @@
 import { useState } from "react"
 import { toast } from "sonner"
 import { useNewTaskForm } from "./use-task-form"
-import { ActionItem, TasksGroup, UserSummary } from "@workspace/types/task"
-import { taskApi } from "@workspace/api-client/task.api"
+import { ActionItem, TasksGroup, UserSummary } from "@workspace/types"
+import { taskApi } from "@workspace/api-client"
 
 export function useTaskList(
     tasksGroup: TasksGroup

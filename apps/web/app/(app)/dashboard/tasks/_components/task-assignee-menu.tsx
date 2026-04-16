@@ -6,7 +6,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "@workspace/ui/component
 import { UserPlus } from "@solar-icons/react"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@workspace/ui/components/dropdown-menu"
 import { cn } from "@workspace/ui/lib/utils"
-import { UserSummary } from "@workspace/types/task"
+import { UserSummary } from "@workspace/types"
 import { useAssignees } from "../_hooks/use-task-assigness"
 
 

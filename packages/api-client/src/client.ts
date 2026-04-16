@@ -17,7 +17,6 @@ type RequestOptions = {
     headers?: HeadersInit
     params?: Record<string, string | number | boolean | undefined>
     cache?: RequestCache
-    next?: NextFetchRequestConfig
 }
 
 function buildUrl(url: string, params?: RequestOptions['params']) {
@@ -40,7 +39,6 @@ async function request<T>(url: string, options: RequestOptions = {}): Promise<T>
         headers,
         params,
         cache = 'no-store',
-        next,
     } = options
 
     const baseUrl =
@@ -58,8 +56,7 @@ async function request<T>(url: string, options: RequestOptions = {}): Promise<T>
         },
         credentials: 'include', // IMPORTANT for cookie auth
         body: body ? JSON.stringify(body) : undefined,
-        cache,
-        next,
+        cache
     })
 
     if (!res.ok) {

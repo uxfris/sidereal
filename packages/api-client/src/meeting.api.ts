@@ -1,4 +1,4 @@
-import { Meeting, UpcomingMeetingGroup } from "@workspace/types/meetings";
+import { Meeting, UpcomingMeetingGroup } from "@workspace/types";
 
 
 // ── Mock data ──────────────────────────────────────────

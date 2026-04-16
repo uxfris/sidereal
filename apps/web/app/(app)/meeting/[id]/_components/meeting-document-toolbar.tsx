@@ -8,7 +8,7 @@ import { CopyButton } from "@/components/copy-button";
 import { CreditLeftCard } from "@/components/credit-left-card";
 import { Hashtag } from "@solar-icons/react";
 import { AltArrowDown, AltArrowLeft, InfoCircle, LockKeyhole, Pen, Share, Star } from "@solar-icons/react/ssr";
-import { Meeting } from "@workspace/types/meetings";
+import { Meeting } from "@workspace/types";
 import { Badge } from "@workspace/ui/components/badge";
 import { Button } from "@workspace/ui/components/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@workspace/ui/components/dropdown-menu";

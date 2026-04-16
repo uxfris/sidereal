@@ -1,18 +1,16 @@
 {
     "extends": "../../tsconfig.json",
     "compilerOptions": {
+        "moduleResolution": "bundler",
         "noEmit": true,
         "composite": false,
-        "baseUrl": ".",
         "paths": {
-            "@workspace/database": [
-                "./src"
+            "@workspace/types/*": [
+                "./src/*"
             ]
-        },
-        "moduleResolution": "bundler",
+        }
     },
     "include": [
-        "src",
-        "prisma"
+        "src"
     ]
 }

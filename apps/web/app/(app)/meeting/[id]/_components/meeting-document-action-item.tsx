@@ -1,6 +1,6 @@
 "use client"
 
-import { ActionItem, UserSummary } from "@workspace/types/task"
+import { ActionItem, UserSummary } from "@workspace/types"
 import { MeetingDocumentActionItemHeader } from "./meeting-document-action-item-header"
 import { MeetingDocumentActionItemRow } from "./meeting-document-action-item-row"
 import { Button } from "@workspace/ui/components/button"

@@ -2,7 +2,7 @@ import { UpcomingMeetingItem } from "./upcoming-meeting-item"
 import { UpcomingMeetingSettingDialog } from "./upcoming-meeting-setting-dialog"
 import { UpcomingMeetingsEmpty } from "./upcoming-meetings-empty"
 import { ScheduleNewMeetingButton } from "./schedule-new-meeting-button"
-import { meetingApi } from "@workspace/api-client/meeting.api"
+import { meetingApi } from "@workspace/api-client"
 
 
 

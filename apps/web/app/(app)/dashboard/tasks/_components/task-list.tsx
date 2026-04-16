@@ -11,7 +11,7 @@ import { TaskListHeader } from "./task-list-header"
 import { TaskItem } from "./task-item"
 import { NewTaskRow } from "./new-task-row"
 import { useTaskList } from "../_hooks/use-task-list"
-import { TasksGroup } from "@workspace/types/task"
+import { TasksGroup } from "@workspace/types"
 
 export function TaskList({ tasksGroup }: { tasksGroup: TasksGroup }) {
     const {

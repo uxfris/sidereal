@@ -5,8 +5,8 @@ import { ChevronsUpDown, MoreHorizontal, } from "lucide-react";
 import { Button } from "@workspace/ui/components/button";
 import { Avatar, AvatarFallback } from "@workspace/ui/components/avatar";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, } from "@workspace/ui/components/dropdown-menu";
-import { WorkspaceMemberInvitation } from "@workspace/types/people";
-import { formatDateOnly } from "@workspace/ui/lib/date-format";
+import { WorkspaceMemberInvitation } from "@workspace/types";
+import { formatDateOnly } from "@/lib/date-format";
 import { Checkbox } from "@workspace/ui/components/checkbox";
 
 

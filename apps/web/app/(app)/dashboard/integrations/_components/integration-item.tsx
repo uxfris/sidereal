@@ -2,7 +2,7 @@ import { Badge } from "@workspace/ui/components/badge";
 import { Card, CardContent } from "@workspace/ui/components/card";
 import { CircleCheck } from "lucide-react";
 import Image from "next/image";
-import { Integration } from "@workspace/types/integrations";
+import { Integration } from "@workspace/types";
 import Link from "next/link";
 import { cn } from "@workspace/ui/lib/utils";
 

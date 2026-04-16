@@ -2,7 +2,7 @@
 
 
 import Link from "next/link"
-import { Meeting } from "@workspace/types/meetings"
+import { Meeting } from "@workspace/types"
 import { MeetingCard } from "./meeting-card"
 
 type MeetingItemProps = {

@@ -2,7 +2,7 @@
 
 import { Button } from "@workspace/ui/components/button";
 import { Card, CardContent } from "@workspace/ui/components/card";
-import { Upload } from "@workspace/types/upload"
+import { Upload } from "@workspace/types"
 import Link from "next/link";
 import { UploadEmpty } from "./upload-empty";
 import { RecentUploadItem } from "./recent-upload-item";

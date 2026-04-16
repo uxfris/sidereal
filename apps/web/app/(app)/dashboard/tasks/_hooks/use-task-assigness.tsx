@@ -1,6 +1,6 @@
 "use client"
 
-import { UserSummary } from "@workspace/types/task";
+import { UserSummary } from "@workspace/types";
 import { createContext, ReactNode, useContext } from "react";
 
 const AssigneesContext = createContext<UserSummary[] | undefined>(undefined)

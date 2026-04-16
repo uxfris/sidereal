@@ -1,5 +1,5 @@
 import { Hashtag, MenuDots, Share, SquareTopDown, Text, TrashBin2 } from "@solar-icons/react/ssr";
-import { Meeting } from "@workspace/types/meetings";
+import { Meeting } from "@workspace/types";
 import { Button } from "@workspace/ui/components/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@workspace/ui/components/dropdown-menu";
 import Link from "next/link";

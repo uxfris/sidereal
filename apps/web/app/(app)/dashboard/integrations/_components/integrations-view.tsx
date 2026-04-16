@@ -1,4 +1,4 @@
-import { Integration } from "@workspace/types/integrations";
+import { Integration } from "@workspace/types";
 import { IntegrationItem } from "./integration-item";
 import Link from "next/link";
 

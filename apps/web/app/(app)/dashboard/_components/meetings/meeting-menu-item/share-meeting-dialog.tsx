@@ -1,5 +1,5 @@
 import { Global, Hourglass, LinkMinimalistic, MinimalisticMagnifier } from "@solar-icons/react";
-import { Meeting } from "@workspace/types/meetings";
+import { Meeting } from "@workspace/types";
 import { Avatar, AvatarFallback, AvatarImage } from "@workspace/ui/components/avatar";
 import { Button } from "@workspace/ui/components/button";
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@workspace/ui/components/dialog";

@@ -1,4 +1,4 @@
-import { ShortcutMap } from "@workspace/ui/types/shortcuts";
+import { ShortcutMap } from "@/types/shortcuts";
 import { Platform } from "@workspace/ui/components/platform-provider";
 
 const macShortcuts: ShortcutMap = {

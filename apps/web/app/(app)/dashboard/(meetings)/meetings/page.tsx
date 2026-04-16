@@ -3,7 +3,7 @@ import { MeetingToolbar } from "./_components/meeting-toolbar";
 import { MeetingChannelButtons } from "./_components/meeting-channel-buttons";
 import { MeetingView } from "./_components/meeting-view";
 import { MeetingBulkActionBar } from "./_components/meeting-bulk-action-bar";
-import type { Meeting } from "@workspace/types/meetings";
+import type { Meeting } from "@workspace/types";
 import { MeetingsProvider } from "./_hooks/use-meeting-context";
 import { MeetingEmpty } from "./_components/meeting-empty";
 
