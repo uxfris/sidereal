@@ -1,3 +1,7 @@
+-- CreateExtension
+CREATE EXTENSION IF NOT EXISTS "vector";
+CREATE EXTENSION IF NOT EXISTS "pg_trgm";
+
 -- CreateEnum
 CREATE TYPE "MeetingStatus" AS ENUM ('UPLOADED', 'PROCESSING', 'TRANSCRIBED', 'SUMMARIZED', 'FAILED');
 
@@ -53,6 +57,3 @@ ALTER TABLE "Meeting" ADD CONSTRAINT "Meeting_userId_fkey" FOREIGN KEY ("userId"
 
 -- AddForeignKey
 ALTER TABLE "MeetingChunk" ADD CONSTRAINT "MeetingChunk_meetingId_fkey" FOREIGN KEY ("meetingId") REFERENCES "Meeting"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
-CREATE EXTENSION IF NOT EXISTS vector;
-CREATE EXTENSION IF NOT EXISTS pg_trgm;

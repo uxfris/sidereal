@@ -1,8 +1,15 @@
 {
-    "extends": "../../tsconfig.base.json",
+    "extends": "../../tsconfig.json",
     "compilerOptions": {
+        "baseUrl": ".",
+        "paths": {
+            "@lume/database": [
+                "./src"
+            ]
+        },
         "strict": true,
-        "moduleResolution": "Bundler"
+        "moduleResolution": "bundler",
+        "module": "ESNext"
     },
     "include": [
         "src",
