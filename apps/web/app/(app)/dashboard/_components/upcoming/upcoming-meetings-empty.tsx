@@ -1,4 +1,4 @@
-import { CalendarMinimalistic } from "@solar-icons/react";
+import { CalendarMinimalistic } from "@solar-icons/react/ssr";
 import { Card } from "@workspace/ui/components/card";
 import { ScheduleNewMeetingButton } from "./schedule-new-meeting-button";
 

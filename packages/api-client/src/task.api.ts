@@ -118,8 +118,6 @@ const MOCK_ASSIGNEES: UserSummary[] = [
     }
 ]
 
-//Mock data
-
 export const taskApi = {
 
     async fetchTasksGroup(): Promise<TasksGroup[]> {
