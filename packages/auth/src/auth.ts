@@ -25,6 +25,11 @@ export function createAuth(config: AuthConfig) {
         secret: config.betterAuthSecret,
         trustedOrigins: config.trustedOrigins,
 
+        emailAndPassword: {
+            enabled: true,
+            requireEmailVerification: false
+        },
+
         socialProviders: {
             google: {
                 clientId: config.google.clientId,
