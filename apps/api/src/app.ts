@@ -18,8 +18,8 @@ export async function buildApp() {
     })
 
     await app.register(swaggerPlugin)
-    app.register(betterAuthPlugin)
-    app.register(sessionPlugin)
+    await app.register(betterAuthPlugin)
+    await app.register(sessionPlugin)
     await app.register(multipartPlugin)
     await app.register(rateLimitPlugin)
 

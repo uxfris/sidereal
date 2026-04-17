@@ -54,34 +54,3 @@ export function createAuth(config: AuthConfig) {
         }
     })
 }
-
-
-export const auth = betterAuth({
-    database: prismaAdapter(prisma, { provider: "postgresql" }),
-
-    baseURL: "http://localhost:3001",
-    trustedOrigins: ["http://localhost:3000"],
-
-    socialProviders: {
-        google: {
-            clientId: "dummy",
-            clientSecret: "dummy",
-            scope: [
-                "openid",
-                "email",
-                "profile",
-                "https://www.googleapis.com/auth/calendar.readonly"
-            ]
-        },
-        microsoft: {
-            clientId: "dummy",
-            clientSecret: "dummy",
-            scope: [
-                "openid",
-                "email",
-                "profile",
-                "https://graph.microsoft.com/Calendars.Read"
-            ]
-        },
-    }
-});

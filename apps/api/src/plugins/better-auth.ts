@@ -1,6 +1,7 @@
 import fp from "fastify-plugin";
-import { createAuth } from "packages/auth/src";
+import { createAuth } from "@workspace/auth";
 import { env } from "../config/env";
+import { fromNodeHeaders } from "better-auth/node";
 
 export default fp(async (app) => {
 
@@ -22,55 +23,35 @@ export default fp(async (app) => {
 
     app.route({
         method: ["GET", "POST"],
-        url: "api/auth/*",
+        url: "/api/auth/*",
         async handler(request, reply) {
             try {
-                const protocol = request.headers["x-forwarded-proto"] || request.protocol
-                const url = new URL(request.url, `${protocol}://${request.headers.host}`)
+                // Construct request URL
+                const url = new URL(request.url, `http://${request.headers.host}`);
 
-                const headers = new Headers()
-                for (const [key, value] of Object.entries(headers)) {
-                    if (!value) continue
-
-                    if (Array.isArray(value)) {
-                        value.forEach((v) => headers.append(key, v))
-                    }
-                    else {
-                        headers.set(key, value)
-                    }
-                }
-
-                let body: BodyInit | undefined;
-
-                if (request.method !== "GET" && request.body) {
-                    body = JSON.stringify(request.body)
-                    headers.set("content-type", "application/json")
-                }
-
-                const webRequest = new Request(url.toString(), {
+                // Convert Fastify headers to standard Headers object
+                const headers = fromNodeHeaders(request.headers);
+                // Create Fetch API-compatible request
+                const req = new Request(url.toString(), {
                     method: request.method,
-                    headers: headers,
-                    body: body
-                })
+                    headers,
+                    ...(request.body ? { body: JSON.stringify(request.body) } : {}),
+                });
+                // Process authentication request
+                const response = await auth.handler(req);
 
-                const response = await auth.handler(webRequest)
-
-                reply.status(response.status)
-
-                response.headers.forEach((value, key) => {
-                    reply.header(key, value)
-                })
-
-                const text = await response.text()
-
-                return reply.send(text)
-
+                // Forward response to client
+                reply.status(response.status);
+                response.headers.forEach((value, key) => reply.header(key, value));
+                reply.send(response.body ? await response.text() : null);
             } catch (error) {
-                request.log.error(error)
-                return reply.status(500).send({
-                    error: "AUTH_HANDLER_ERROR"
-                })
+                app.log.error(`Authentication Error: ${error}`);
+                reply.status(500).send({
+                    error: "Internal authentication error",
+                    code: "AUTH_FAILURE"
+                });
             }
         }
+
     })
 })

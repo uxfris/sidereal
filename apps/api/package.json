@@ -19,6 +19,7 @@
     "@fastify/swagger-ui": "^5.2.5",
     "@workspace/auth": "workspace:*",
     "@workspace/database": "workspace:*",
+    "better-auth": "^1.6.5",
     "dotenv": "^16.0.0",
     "fastify": "^5.8.5",
     "fastify-plugin": "^5.1.0",
