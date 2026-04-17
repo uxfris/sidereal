@@ -41,10 +41,8 @@ async function request<T>(url: string, options: RequestOptions = {}): Promise<T>
         cache = 'no-store',
     } = options
 
-    const baseUrl =
-        typeof window === 'undefined'
-            ? process.env.API_URL // server-side
-            : process.env.NEXT_PUBLIC_API_URL // client-side
+    const baseUrl = "" //Make it empty, already handled by proxy
+
 
     const fullUrl = buildUrl(`${baseUrl}${url}`, params)
 

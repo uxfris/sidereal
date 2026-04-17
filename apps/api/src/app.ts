@@ -5,7 +5,7 @@ import multipartPlugin from "./plugins/multipart";
 import { registerRoute } from "./routes";
 import { registerErrorHandler } from "./middleware/error-handler";
 import rateLimitPlugin from "./plugins/rate-limit";
-import corsPlugin from "./plugins/cors";
+// import corsPlugin from "./plugins/cors";
 
 
 export async function buildApp() {
@@ -17,7 +17,7 @@ export async function buildApp() {
         }
     })
 
-    await app.register(corsPlugin)
+    // await app.register(corsPlugin)
     await app.register(swaggerPlugin)
     await app.register(authPlugin)
     await app.register(multipartPlugin)

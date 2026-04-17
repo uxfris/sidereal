@@ -14,13 +14,13 @@ export default function AuthenticationPage() {
     const { form, showEmail, setShowEmail, requireAgreement, validateEmailForm } = useAuthForm()
     const { loadingProvider, error, handleAuth } = useAuthController()
 
-    const handleEmailSubmit = async (data: { email: string }) => {
+    // const handleEmailSubmit = async (data: { email: string }) => {
 
-        const ok = await validateEmailForm()
-        if (!ok) return
+    //     const ok = await validateEmailForm()
+    //     if (!ok) return
 
-        await handleAuth("email", () => loginWithEmail(data.email), '/dashboard')
-    }
+    //     await handleAuth("email", () => loginWithEmail(data.email), '/dashboard')
+    // }
 
     return (
         <div className="flex items-center justify-center min-h-screen">
@@ -47,10 +47,10 @@ export default function AuthenticationPage() {
                             loading: loadingProvider === provider.id
                         }))
                     } />
-                    {showEmail && (
+                    {/* {showEmail && (
                         <EmailForm form={form} onSubmit={form.handleSubmit(handleEmailSubmit)} />
                     )}
-                    {error && <div className="text-red-500 text-sm mt-2">{error}</div>}
+                    {error && <div className="text-red-500 text-sm mt-2">{error}</div>} */}
                 </div>
                 <TermCheckbox form={form} />
             </div>

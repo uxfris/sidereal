@@ -15,7 +15,16 @@ const nextConfig = {
     '@workspace/utils',
     '@workspace/types',
     '@workspace/api-client'
-  ]
+  ],
+  async rewrites() {
+    return [
+      {
+        source: '/api/:path*',
+        // destination: 'https://lumelabs-api.vercel.app/:path*',
+        destination: 'http://localhost:3001/:path*',
+      },
+    ]
+  },
 }
 
 export default nextConfig

@@ -5,7 +5,8 @@ const envSchema = z.object({
     PORT: z.coerce.number().default(3001),
     HOST: z.string().default("0.0.0.0"),
     JWT_SECRET: z.string().min(32),
-    NODE_ENV: z.enum(["development", "production", "test"]).default("development")
+    NODE_ENV: z.enum(["development", "production", "test"]).default("development"),
+    APP_URL: z.string()
 })
 
 export const env = envSchema.parse(process.env)
