@@ -3,6 +3,12 @@ import type { FastifyRequest, FastifyReply } from "fastify";
 
 declare module "fastify" {
     interface FastifyInstance {
-        authenticate: (request: FastifyRequest, reply: FastifyReply) => Promise<void>;
+        auth: ReturnType<typeof import("@workspace/auth").createAuth>
+        verifySession: any
+    }
+
+    interface FastifyRequest {
+        user?: any
+        session?: any
     }
 }

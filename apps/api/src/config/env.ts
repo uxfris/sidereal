@@ -6,7 +6,17 @@ const envSchema = z.object({
     HOST: z.string().default("0.0.0.0"),
     JWT_SECRET: z.string().min(32),
     NODE_ENV: z.enum(["development", "production", "test"]).default("development"),
-    APP_URL: z.string()
+    APP_URL: z.string(),
+
+    AUTH_URL: z.string(),
+    BETTER_AUTH_SECRET: z.string(),
+    FRONTEND_URL: z.string(),
+
+    GOOGLE_CLIENT_ID: z.string(),
+    GOOGLE_CLIENT_SECRET: z.string(),
+
+    MICROSOFT_CLIENT_ID: z.string(),
+    MICROSOFT_CLIENT_SECRET: z.string(),
 })
 
 export const env = envSchema.parse(process.env)
