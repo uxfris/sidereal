@@ -1,13 +1,13 @@
 {
     "extends": "../../tsconfig.json",
     "compilerOptions": {
-        "outDir": "dist",
         "module": "esnext",
         "moduleResolution": "bundler",
-        "esModuleInterop": true,
-        "types": [
-            "node"
-        ]
+        "paths": {
+            "@workspace/auth/*": [
+                "./src/*"
+            ]
+        }
     },
     "include": [
         "src"
