@@ -118,3 +118,24 @@ enum MeetingStatus {
   SUMMARIZED
   FAILED
 }
+
+model Upload {
+  id     String @id @default(cuid())
+  userId String
+
+  key    String
+  status UploadStatus @default(PENDING)
+
+  meetingId String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum UploadStatus {
+  PENDING
+  UPLOADED
+  PROCESSING
+  FAILED
+  COMPLETED
+}
