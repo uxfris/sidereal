@@ -1,11 +1,11 @@
 import { FastifyInstance } from "fastify";
 import { prisma } from "@workspace/database";
-import { createIngestionQueue } from "@workspace/queue";
+import { getIngestionQueue } from "../../queues/ingestion.queue";
 
-const queue = createIngestionQueue(process.env.REDIS_URL!);
 
 
 export async function uploadCompleteRoute(app: FastifyInstance) {
+    const queue = getIngestionQueue();
     app.post(
         "/upload/complete",
         { preHandler: app.verifySession },

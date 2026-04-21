@@ -9,8 +9,8 @@ export function TermCheckbox({ form }: any) {
             name="agreed"
             control={form.control}
             render={({ field }) => (
-                <FieldGroup className="w-full gap-2">
-                    <Field orientation="horizontal" className="w-auto">
+                <FieldGroup className="w-full gap-2 px-4 md:px-12">
+                    <Field orientation="horizontal" className="">
                         <Checkbox
                             checked={field.value}
                             onCheckedChange={(v) => field.onChange(v === true)}

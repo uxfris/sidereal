@@ -2,17 +2,16 @@
 
 import React from "react"
 import { AuthHeader } from "./components/auth-header"
-import { EmailForm } from "./components/email-form"
 import { TermCheckbox } from "./components/term-checkbox"
 import { useAuthForm } from "./hooks/use-auth-form"
 import { AuthButtons } from "./components/auth-buttons"
-import { loginWithEmail, loginWithGoogle, loginWithMicrosoft } from "./services/auth.service"
+import { loginWithGoogle, loginWithMicrosoft } from "./services/auth.service"
 import { useAuthController } from "./hooks/use-auth-controller"
 import { AUTH_PROVIDERS } from "./config/auth-providers"
 
 export default function AuthenticationPage() {
     const { form, showEmail, setShowEmail, requireAgreement, validateEmailForm } = useAuthForm()
-    const { loadingProvider, error, handleAuth } = useAuthController()
+    const { loadingProvider, handleAuth } = useAuthController()
 
     // const handleEmailSubmit = async (data: { email: string }) => {
 
