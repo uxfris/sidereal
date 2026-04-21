@@ -6,6 +6,8 @@ import { registerErrorHandler } from "./middleware/error-handler";
 import rateLimitPlugin from "./plugins/rate-limit";
 import betterAuthPlugin from "./plugins/better-auth";
 import sessionPlugin from "./plugins/session";
+import corsPlugin from "./plugins/cors";
+import { registerBullBoard } from "./plugins/bullboard";
 
 
 export async function buildApp() {
@@ -22,7 +24,9 @@ export async function buildApp() {
     await app.register(sessionPlugin)
     await app.register(multipartPlugin)
     await app.register(rateLimitPlugin)
+    await app.register(corsPlugin)
 
+    await registerBullBoard(app)
     await registerRoute(app)
     await registerErrorHandler(app)
 

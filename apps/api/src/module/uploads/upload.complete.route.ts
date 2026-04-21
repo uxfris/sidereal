@@ -1,7 +1,11 @@
 import { FastifyInstance } from "fastify";
 import { prisma } from "@workspace/database";
+import { getIngestionQueue } from "../../queues/ingestion.queue";
+
+
 
 export async function uploadCompleteRoute(app: FastifyInstance) {
+    const queue = getIngestionQueue();
     app.post(
         "/upload/complete",
         { preHandler: app.verifySession },
@@ -32,10 +36,20 @@ export async function uploadCompleteRoute(app: FastifyInstance) {
                 }
             })
 
-            await queue.add("process-upload", {
+
+            await queue.add("process-ingestion", {
                 meetingId: meeting.id,
-                s3Key: upload.key
-            })
+                source: "UPLOAD",
+                artifact: {
+                    s3Key: upload.key,
+                    kind: upload.fileType,
+                    fileName: upload.fileName,
+                    // contentType: "video/mp4",
+                    contentType: upload.fileType,
+                },
+                title: title || "Untitled Meeting",
+            });
+
 
             return {
                 meetingId: meeting.id,

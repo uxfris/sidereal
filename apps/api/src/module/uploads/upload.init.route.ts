@@ -9,7 +9,7 @@ export async function uploadInitRoute(app: FastifyInstance) {
             preHandler: [app.verifySession]
         },
         async (req) => {
-            const { fileType } = req.body as { fileType: string }
+            const { fileType, fileName } = req.body as { fileType: string, fileName: string }
 
             const user = req.user
 
@@ -24,7 +24,9 @@ export async function uploadInitRoute(app: FastifyInstance) {
                 data: {
                     id: presigned.uploadId,
                     userId: user.id,
-                    key: presigned.key
+                    key: presigned.key,
+                    fileType,
+                    fileName
                 }
             })
 

@@ -50,6 +50,7 @@ export function createAuth(config: AuthConfig) {
                     "openid",
                     "email",
                     "profile",
+                    "offline_access",
 
                     //Microsoft Graph calendar
                     "https://graph.microsoft.com/Calendars.Read"

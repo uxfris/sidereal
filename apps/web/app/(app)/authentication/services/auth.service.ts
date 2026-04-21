@@ -1,33 +1,17 @@
-export async function loginWithGoogle() {
-    try {
-        console.log("Logging in with Google...");
+import { authClient } from "@/lib/auth-client"
 
-        await new Promise((resolve) => setTimeout(resolve, 1000));
+const APP_URL = process.env.NEXT_PUBLIC_APP_URL
 
-        return { success: true }
-    } catch (error) {
-        throw new Error("Failed to login with Google")
-    }
+export function loginWithMicrosoft() {
+    authClient.signIn.social({
+        provider: "microsoft",
+        callbackURL: `${APP_URL}/dashboard`,
+    })
 }
 
-export async function loginWithMicrosoft() {
-    try {
-        console.log("Logging in with Microsoft...");
-        await new Promise((resolve) => setTimeout(resolve, 1000));
-        return { success: true }
-    } catch (error) {
-        throw new Error("Failed to login with Microsoft")
-    }
-}
-
-export async function loginWithEmail(email: string) {
-    try {
-        console.log("Logging in with Email:", email);
-
-        await new Promise((resolve) => setTimeout(resolve, 1000));
-
-        return { success: true }
-    } catch (error) {
-        throw new Error("Failed to login with Email")
-    }
+export function loginWithGoogle() {
+    return authClient.signIn.social({
+        provider: "google",
+        callbackURL: `${APP_URL}/dashboard`,
+    })
 }
