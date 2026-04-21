@@ -1,6 +1,7 @@
 import { prismaAdapter } from "@better-auth/prisma-adapter"
 import { betterAuth } from "better-auth"
 import { prisma } from "@workspace/database"
+import { ensurePersonalWorkspace } from "./workspace-bootstrap"
 
 type AuthConfig = {
   baseUrl: string
@@ -24,6 +25,11 @@ export function createAuth(config: AuthConfig) {
     baseURL: config.baseUrl,
     secret: config.betterAuthSecret,
     trustedOrigins: config.trustedOrigins,
+
+    emailAndPassword: {
+      enabled: true,
+      requireEmailVerification: false,
+    },
 
     socialProviders: {
       google: {
@@ -50,6 +56,20 @@ export function createAuth(config: AuthConfig) {
           //Microsoft Graph calendar
           "https://graph.microsoft.com/Calendars.Read",
         ],
+      },
+    },
+
+    databaseHooks: {
+      user: {
+        create: {
+          after: async (user) => {
+            await ensurePersonalWorkspace({
+              id: user.id,
+              name: user.name,
+              email: user.email,
+            })
+          },
+        },
       },
     },
   })

@@ -15,7 +15,7 @@ export default fp(async (app) => {
             }
 
             request.user = session.user;
-            request.session = session;
+            request.session = session.session;
         } catch (err) {
             request.log.error(err);
 
