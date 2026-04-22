@@ -11,6 +11,29 @@ export const ApiErrorSchema = z.object({
 });
 export type ApiError = z.infer<typeof ApiErrorSchema>;
 
+const ACTIVE_WORKSPACE_STORAGE_KEY = "active_workspace_id"
+let inMemoryActiveWorkspaceId: string | null = null
+
+export function setActiveWorkspaceId(workspaceId: string | null) {
+    inMemoryActiveWorkspaceId = workspaceId
+    if (typeof window !== "undefined") {
+        if (workspaceId) {
+            window.localStorage.setItem(ACTIVE_WORKSPACE_STORAGE_KEY, workspaceId)
+        } else {
+            window.localStorage.removeItem(ACTIVE_WORKSPACE_STORAGE_KEY)
+        }
+    }
+}
+
+export function getActiveWorkspaceId(): string | null {
+    if (inMemoryActiveWorkspaceId) return inMemoryActiveWorkspaceId
+    if (typeof window === "undefined") return null
+
+    const persisted = window.localStorage.getItem(ACTIVE_WORKSPACE_STORAGE_KEY)
+    inMemoryActiveWorkspaceId = persisted
+    return persisted
+}
+
 type RequestOptions = {
     method?: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE'
     body?: unknown
@@ -45,11 +68,15 @@ async function request<T>(url: string, options: RequestOptions = {}): Promise<T>
 
 
     const fullUrl = buildUrl(`${baseUrl}${url}`, params)
+    const activeWorkspaceId = getActiveWorkspaceId()
 
     const res = await fetch(fullUrl, {
         method,
         headers: {
             'Content-Type': 'application/json',
+            ...(activeWorkspaceId
+                ? { 'x-workspace-id': activeWorkspaceId }
+                : {}),
             ...headers,
         },
         credentials: 'include', // IMPORTANT for cookie auth
