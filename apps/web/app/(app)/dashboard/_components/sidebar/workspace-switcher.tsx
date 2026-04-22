@@ -1,3 +1,5 @@
+ "use client"
+
 import { Bolt, Settings, UserPlusRounded } from "@solar-icons/react";
 import { Button } from "@workspace/ui/components/button";
 import {
@@ -12,19 +14,104 @@ import {
 } from "@workspace/ui/components/dropdown-menu"
 import { Badge } from "@workspace/ui/components/badge"
 import { ChevronDown, Plus, X } from "lucide-react";
-import React, { useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "@workspace/ui/components/sidebar";
 import Link from "next/link";
 import { CreditLeftCard } from "@/components/credit-left-card";
 import LogoIcon from "@/assets/icons/logo-icon";
 import { Field, FieldLabel } from "@workspace/ui/components/field";
 import { Input } from "@workspace/ui/components/input";
+import { workspaceApi } from "@workspace/api-client";
+import type { WorkspaceMembership } from "@workspace/types";
+
+const ACTIVE_WORKSPACE_KEY = "active_workspace_id"
+
+function getInitial(name: string): string {
+    return name.trim().charAt(0).toUpperCase() || "W"
+}
 
 export function WorkspaceSwitcher() {
+    const [workspace, setWorkspace] = React.useState("")
+    const [workspaces, setWorkspaces] = useState<WorkspaceMembership[]>([])
+    const [loading, setLoading] = useState(true)
+    const [creating, setCreating] = useState(false)
+    const [newWorkspaceName, setNewWorkspaceName] = useState("")
+    const [error, setError] = useState<string | null>(null)
 
-    const [workspace, setWorkspace] = React.useState("Fris's Lume")
+    const activeWorkspace = useMemo(
+        () => workspaces.find((item) => item.id === workspace) ?? workspaces[0],
+        [workspace, workspaces]
+    )
+
+    useEffect(() => {
+        let mounted = true
+
+        async function load() {
+            try {
+                const data = await workspaceApi.getMe()
+                if (!mounted) return
+
+                setWorkspaces(data.workspaces)
+
+                const persisted =
+                    typeof window !== "undefined"
+                        ? window.localStorage.getItem(ACTIVE_WORKSPACE_KEY)
+                        : null
+
+                const selectedId =
+                    data.workspaces.find((item) => item.id === persisted)?.id ||
+                    data.activeWorkspaceId ||
+                    data.workspaces[0]?.id ||
+                    ""
+
+                setWorkspace(selectedId)
+            } catch {
+                if (!mounted) return
+                setError("Unable to load your workspaces.")
+            } finally {
+                if (mounted) setLoading(false)
+            }
+        }
+
+        load()
+
+        return () => {
+            mounted = false
+        }
+    }, [])
 
     const [newWorkspaceOpen, setNewWorkspaceOpen] = useState(false)
+
+    function handleWorkspaceChange(nextWorkspaceId: string) {
+        setWorkspace(nextWorkspaceId)
+        if (typeof window !== "undefined") {
+            window.localStorage.setItem(ACTIVE_WORKSPACE_KEY, nextWorkspaceId)
+        }
+    }
+
+    async function handleCreateWorkspace() {
+        const name = newWorkspaceName.trim()
+        if (!name) return
+
+        setCreating(true)
+        setError(null)
+        try {
+            const created = await workspaceApi.create(name)
+            const next: WorkspaceMembership = {
+                ...created,
+                role: "OWNER",
+                joinedAt: new Date().toISOString(),
+            }
+            setWorkspaces((curr) => [next, ...curr])
+            handleWorkspaceChange(created.id)
+            setNewWorkspaceName("")
+            setNewWorkspaceOpen(false)
+        } catch {
+            setError("Failed to create workspace.")
+        } finally {
+            setCreating(false)
+        }
+    }
 
     return (
         <SidebarMenu>
@@ -33,9 +120,13 @@ export function WorkspaceSwitcher() {
                     <DropdownMenuTrigger asChild>
                         <SidebarMenuButton className="bg-background py-3">
                             <div className="flex aspect-square size-8 items-center justify-center">
-                                <span className="flex items-center justify-center rounded-[4px] bg-primary text-primary-foreground size-6 text-center text-xs font-medium -ml-4" aria-hidden="true">F</span>
+                                <span className="flex items-center justify-center rounded-[4px] bg-primary text-primary-foreground size-6 text-center text-xs font-medium -ml-4" aria-hidden="true">
+                                    {getInitial(activeWorkspace?.name ?? "Workspace")}
+                                </span>
                             </div>
-                            <span className="flex-1 truncate font-medium group-data-[state=collapsed]:hidden">Fris's Lume</span>
+                            <span className="flex-1 truncate font-medium group-data-[state=collapsed]:hidden">
+                                {activeWorkspace?.name ?? "Workspace"}
+                            </span>
                             <ChevronDown className="ml-auto group-data-[state=collapsed]:hidden" />
                         </SidebarMenuButton>
                     </DropdownMenuTrigger>
@@ -44,10 +135,12 @@ export function WorkspaceSwitcher() {
                             {/* Workspace */}
                             <div className="flex items-center w-full gap-3">
                                 {/* Avatar */}
-                                <div className="flex items-center justify-center rounded-[4px] bg-primary text-primary-foreground w-9 h-9 text-center font-medium" aria-hidden="true">F</div>
+                                <div className="flex items-center justify-center rounded-[4px] bg-primary text-primary-foreground w-9 h-9 text-center font-medium" aria-hidden="true">
+                                    {getInitial(activeWorkspace?.name ?? "Workspace")}
+                                </div>
                                 {/* Workspace name */}
                                 <div className="flex flex-col gap-0.5">
-                                    <span className="text-sm font-medium">Fris's Lume</span>
+                                    <span className="text-sm font-medium">{activeWorkspace?.name ?? "Workspace"}</span>
                                     <div className="flex items-center justify-center gap-1">
                                         <span className="text-xs text-muted-foreground">Free Plan</span>
                                         <span className="w-1 h-1 bg-muted-foreground rounded-full"></span>
@@ -87,14 +180,22 @@ export function WorkspaceSwitcher() {
                         {/* Workspaces */}
                         <div className="flex flex-col gap-3 py-2">
                             <DropdownMenuLabel className="px-4">All workspace</DropdownMenuLabel>
-                            <DropdownMenuRadioGroup value={workspace} onValueChange={setWorkspace}>
-                                <DropdownMenuRadioItem value={"Fris's Lume"} className="mx-1 px-2 py-2">
-                                    <div className="flex items-center gap-2">
-                                        <span className="flex items-center justify-center rounded-[4px] bg-primary text-primary-foreground! w-6 h-6 text-center text-xs font-medium" aria-hidden="true">F</span>
-                                        <span className="text-xs">Fris's Lume</span>
-                                        <Badge variant="secondary">Free</Badge>
-                                    </div>
-                                </DropdownMenuRadioItem>
+                            <DropdownMenuRadioGroup value={workspace} onValueChange={handleWorkspaceChange}>
+                                {loading && <p className="px-4 text-xs text-muted-foreground">Loading...</p>}
+                                {!loading && workspaces.length === 0 && (
+                                    <p className="px-4 text-xs text-muted-foreground">No workspace yet.</p>
+                                )}
+                                {!loading && workspaces.map((item) => (
+                                    <DropdownMenuRadioItem key={item.id} value={item.id} className="mx-1 px-2 py-2">
+                                        <div className="flex items-center gap-2">
+                                            <span className="flex items-center justify-center rounded-[4px] bg-primary text-primary-foreground! w-6 h-6 text-center text-xs font-medium" aria-hidden="true">
+                                                {getInitial(item.name)}
+                                            </span>
+                                            <span className="text-xs">{item.name}</span>
+                                            {item.role === "OWNER" && <Badge variant="secondary">Owner</Badge>}
+                                        </div>
+                                    </DropdownMenuRadioItem>
+                                ))}
                             </DropdownMenuRadioGroup>
 
                         </div>
@@ -118,14 +219,23 @@ export function WorkspaceSwitcher() {
                         <FieldLabel>
                             Workspace name
                         </FieldLabel>
-                        <Input placeholder="Enter workspace name" />
+                        <Input
+                            placeholder="Enter workspace name"
+                            value={newWorkspaceName}
+                            onChange={(event) => setNewWorkspaceName(event.target.value)}
+                        />
                     </Field>
+                    {error && <p className="text-xs text-destructive">{error}</p>}
                     <div className="flex items-center gap-3">
                         <Button variant="secondary" className="flex-1" onClick={() => setNewWorkspaceOpen(false)}>
                             Go back
                         </Button>
-                        <Button className="flex-1">
-                            Create workspace
+                        <Button
+                            className="flex-1"
+                            onClick={handleCreateWorkspace}
+                            disabled={creating || newWorkspaceName.trim().length === 0}
+                        >
+                            {creating ? "Creating..." : "Create workspace"}
                         </Button>
                     </div>
                 </div>

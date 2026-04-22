@@ -24,7 +24,7 @@ export const updateWorkspaceBodySchema = z.object({
 export const workspaceSummarySchema = WorkspaceSummarySchema
 
 export const createInvitationBodySchema = z.object({
-  email: z.string().email(),
+  email: z.email(),
   role: ApiInviteRoleSchema.default("MEMBER"),
 })
 
