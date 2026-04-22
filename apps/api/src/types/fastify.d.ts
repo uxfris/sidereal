@@ -13,6 +13,7 @@ declare module "fastify" {
     auth: Auth
     verifySession: preHandlerAsyncHookHandler
     requireWorkspace: preHandlerAsyncHookHandler
+    requireWorkspaceFromParams: preHandlerAsyncHookHandler
     requireRole: (
       roles: WorkspaceRole | WorkspaceRole[],
     ) => preHandlerAsyncHookHandler
