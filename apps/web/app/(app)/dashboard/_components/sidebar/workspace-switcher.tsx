@@ -14,7 +14,7 @@ import {
 } from "@workspace/ui/components/dropdown-menu"
 import { Badge } from "@workspace/ui/components/badge"
 import { ChevronDown, Plus, X } from "lucide-react"
-import React, { useEffect, useMemo, useState } from "react"
+import React, { useEffect, useState } from "react"
 import {
   SidebarMenu,
   SidebarMenuButton,
@@ -22,9 +22,7 @@ import {
 } from "@workspace/ui/components/sidebar"
 import Link from "next/link"
 import { CreditLeftCard } from "@/components/credit-left-card"
-import {
-  workspaceApi,
-} from "@workspace/api-client"
+import { workspaceApi } from "@workspace/api-client"
 import type { WorkspaceMembership } from "@workspace/types"
 import { NewWorkspacePage } from "./new-workspace-page"
 import {
@@ -43,10 +41,8 @@ export function WorkspaceSwitcher() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
-  const activeWorkspace = useMemo(
-    () => workspaces.find((item) => item.id === workspace) ?? workspaces[0],
-    [workspace, workspaces]
-  )
+  const activeWorkspace =
+    workspaces.find((item) => item.id === workspace) ?? workspaces[0]
 
   useEffect(() => {
     let mounted = true
