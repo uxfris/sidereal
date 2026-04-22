@@ -20,7 +20,6 @@ export async function buildApp() {
     },
   })
 
-  await app.register(swaggerPlugin)
   await app.register(fastifySensible)
   await app.register(betterAuthPlugin)
   await app.register(sessionPlugin)
@@ -31,6 +30,7 @@ export async function buildApp() {
 
   registerZod(app)
   await registerErrorHandler(app)
+  await app.register(swaggerPlugin)
   await registerRoute(app)
 
   return app

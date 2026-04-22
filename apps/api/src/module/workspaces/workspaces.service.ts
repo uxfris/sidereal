@@ -1,12 +1,16 @@
 import { createHash, randomBytes } from "node:crypto"
-import { prisma } from "@workspace/database"
 import type { Workspace, WorkspaceRole } from "@workspace/database"
+import { ensurePersonalWorkspace } from "@workspace/auth"
+import { workspacesRepo } from "./workspaces.repo"
 
 const INVITE_EXPIRY_MS = 7 * 24 * 60 * 60 * 1000
 const MAX_SLUG_ATTEMPTS = 5
 const PRISMA_UNIQUE = "P2002"
 
 export type InviteRole = Exclude<WorkspaceRole, "OWNER">
+export type WorkspaceMembershipWithWorkspace = Awaited<
+  ReturnType<typeof workspacesRepo.listMembershipsForUser>
+>[number]
 
 function slugify(input: string): string {
   const cleaned = input
@@ -33,12 +37,18 @@ function normalizeEmail(email: string): string {
   return email.trim().toLowerCase()
 }
 
-export async function listWorkspacesForUser(userId: string) {
-  return prisma.workspaceMember.findMany({
-    where: { userId },
-    include: { workspace: true },
-    orderBy: { joinedAt: "asc" },
+export async function listWorkspacesForUser(user: {
+  id: string
+  name?: string | null
+  email: string
+}) {
+  await ensurePersonalWorkspace({
+    id: user.id,
+    name: user.name,
+    email: user.email,
   })
+
+  return workspacesRepo.listMembershipsForUser(user.id)
 }
 
 export async function createWorkspace(userId: string, name: string): Promise<Workspace> {
@@ -48,19 +58,7 @@ export async function createWorkspace(userId: string, name: string): Promise<Wor
   for (let attempt = 0; attempt < MAX_SLUG_ATTEMPTS; attempt++) {
     const slug = `${baseSlug}-${randomSuffix(6)}`
     try {
-      return await prisma.$transaction(async (tx) => {
-        const workspace = await tx.workspace.create({
-          data: { name: trimmed, slug },
-        })
-        await tx.workspaceMember.create({
-          data: {
-            workspaceId: workspace.id,
-            userId,
-            role: "OWNER",
-          },
-        })
-        return workspace
-      })
+      return await workspacesRepo.createWorkspaceWithOwner(userId, trimmed, slug)
     } catch (err) {
       const code = (err as { code?: string }).code
       if (code === PRISMA_UNIQUE && attempt < MAX_SLUG_ATTEMPTS - 1) continue
@@ -76,19 +74,14 @@ export async function updateWorkspaceName(
   userId: string,
   name: string,
 ): Promise<{ ok: true; workspace: Workspace } | { ok: false; error: "NOT_FOUND" | "FORBIDDEN" }> {
-  const membership = await prisma.workspaceMember.findFirst({
-    where: { workspaceId, userId },
-  })
+  const membership = await workspacesRepo.findMembershipWithWorkspace(workspaceId, userId)
 
   if (!membership) return { ok: false, error: "NOT_FOUND" }
   if (membership.role !== "OWNER" && membership.role !== "ADMIN") {
     return { ok: false, error: "FORBIDDEN" }
   }
 
-  const workspace = await prisma.workspace.update({
-    where: { id: workspaceId },
-    data: { name: name.trim() },
-  })
+  const workspace = await workspacesRepo.updateWorkspaceName(workspaceId, name.trim())
 
   return { ok: true, workspace }
 }
@@ -111,9 +104,10 @@ export async function createOrRefreshInvitation(
         | "INVITE_ALREADY_ACCEPTED"
     }
 > {
-  const membership = await prisma.workspaceMember.findFirst({
-    where: { workspaceId, userId: inviterUserId },
-  })
+  const membership = await workspacesRepo.findMembershipWithWorkspace(
+    workspaceId,
+    inviterUserId,
+  )
 
   if (!membership) return { ok: false, error: "NOT_FOUND" }
   if (membership.role !== "OWNER" && membership.role !== "ADMIN") {
@@ -126,28 +120,17 @@ export async function createOrRefreshInvitation(
     return { ok: false, error: "SELF_INVITE" }
   }
 
-  const existingUser = await prisma.user.findUnique({
-    where: { email },
-    select: { id: true },
-  })
+  const existingUser = await workspacesRepo.findUserByEmail(email)
 
   if (existingUser) {
-    const alreadyMember = await prisma.workspaceMember.findUnique({
-      where: {
-        workspaceId_userId: {
-          workspaceId,
-          userId: existingUser.id,
-        },
-      },
-    })
+    const alreadyMember = await workspacesRepo.findMemberByWorkspaceAndUser(
+      workspaceId,
+      existingUser.id,
+    )
     if (alreadyMember) return { ok: false, error: "ALREADY_MEMBER" }
   }
 
-  const prior = await prisma.invitation.findUnique({
-    where: {
-      workspaceId_email: { workspaceId, email },
-    },
-  })
+  const prior = await workspacesRepo.findInvitationByWorkspaceAndEmail(workspaceId, email)
 
   if (prior?.acceptedAt) {
     return { ok: false, error: "INVITE_ALREADY_ACCEPTED" }
@@ -157,26 +140,13 @@ export async function createOrRefreshInvitation(
   const tokenHash = hashInviteToken(rawToken)
   const expiresAt = new Date(Date.now() + INVITE_EXPIRY_MS)
 
-  const invitation = await prisma.invitation.upsert({
-    where: {
-      workspaceId_email: { workspaceId, email },
-    },
-    create: {
-      workspaceId,
-      email,
-      role,
-      tokenHash,
-      invitedByUserId: inviterUserId,
-      expiresAt,
-    },
-    update: {
-      role,
-      tokenHash,
-      invitedByUserId: inviterUserId,
-      expiresAt,
-      acceptedAt: null,
-      revokedAt: null,
-    },
+  const invitation = await workspacesRepo.upsertInvitation({
+    workspaceId,
+    email,
+    role,
+    tokenHash,
+    invitedByUserId: inviterUserId,
+    expiresAt,
   })
 
   return {
@@ -204,9 +174,7 @@ export async function acceptInvitation(
     }
 > {
   const tokenHash = hashInviteToken(rawToken)
-  const invitation = await prisma.invitation.findUnique({
-    where: { tokenHash },
-  })
+  const invitation = await workspacesRepo.findInvitationByTokenHash(tokenHash)
 
   if (!invitation) return { ok: false, error: "INVITE_NOT_FOUND" }
   if (invitation.revokedAt) return { ok: false, error: "INVITE_REVOKED" }
@@ -218,21 +186,14 @@ export async function acceptInvitation(
     return { ok: false, error: "EMAIL_MISMATCH" }
   }
 
-  const existingMember = await prisma.workspaceMember.findUnique({
-    where: {
-      workspaceId_userId: {
-        workspaceId: invitation.workspaceId,
-        userId,
-      },
-    },
-  })
+  const existingMember = await workspacesRepo.findMemberByWorkspaceAndUser(
+    invitation.workspaceId,
+    userId,
+  )
 
   if (existingMember) {
     if (!invitation.acceptedAt) {
-      await prisma.invitation.update({
-        where: { id: invitation.id },
-        data: { acceptedAt: new Date() },
-      })
+      await workspacesRepo.markInvitationAccepted(invitation.id, new Date())
     }
     return {
       ok: true,
@@ -245,18 +206,12 @@ export async function acceptInvitation(
     return { ok: false, error: "INVITE_ALREADY_USED" }
   }
 
-  await prisma.$transaction(async (tx) => {
-    await tx.workspaceMember.create({
-      data: {
-        workspaceId: invitation.workspaceId,
-        userId,
-        role: invitation.role,
-      },
-    })
-    await tx.invitation.update({
-      where: { id: invitation.id },
-      data: { acceptedAt: new Date() },
-    })
+  await workspacesRepo.acceptInvitationAndCreateMembership({
+    invitationId: invitation.id,
+    workspaceId: invitation.workspaceId,
+    userId,
+    role: invitation.role,
+    acceptedAt: new Date(),
   })
 
   return {

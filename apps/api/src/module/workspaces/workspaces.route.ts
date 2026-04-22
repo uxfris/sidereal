@@ -1,17 +1,17 @@
 import type { FastifyPluginAsyncZod } from "fastify-type-provider-zod"
-import { z } from "zod"
-import { ensurePersonalWorkspace } from "@workspace/auth"
 import * as workspacesService from "./workspaces.service"
-
-const inviteRoleSchema = z.enum(["ADMIN", "MEMBER", "GUEST"])
-
-const workspaceListItemSchema = z.object({
-  id: z.string(),
-  name: z.string(),
-  slug: z.string(),
-  role: z.enum(["OWNER", "ADMIN", "MEMBER", "GUEST"]),
-  joinedAt: z.string(),
-})
+import {
+  acceptInvitationResponseSchema,
+  createInvitationBodySchema,
+  createInvitationResponseSchema,
+  createWorkspaceBodySchema,
+  errorResponseSchema,
+  invitationTokenParamsSchema,
+  listWorkspacesResponseSchema,
+  updateWorkspaceBodySchema,
+  workspaceParamsSchema,
+  workspaceSummarySchema,
+} from "./workspaces.schema"
 
 export const workspacesRoutes: FastifyPluginAsyncZod = async (app) => {
   app.get(
@@ -22,22 +22,16 @@ export const workspacesRoutes: FastifyPluginAsyncZod = async (app) => {
         tags: ["Workspaces"],
         summary: "List workspaces the current user belongs to",
         response: {
-          200: z.object({
-            workspaces: z.array(workspaceListItemSchema),
-          }),
+          200: listWorkspacesResponseSchema,
         },
       },
     },
     async (request) => {
-      await ensurePersonalWorkspace({
+      const rows = await workspacesService.listWorkspacesForUser({
         id: request.user!.id,
         name: request.user!.name,
         email: request.user!.email,
       })
-
-      const rows = await workspacesService.listWorkspacesForUser(
-        request.user!.id
-      )
 
       return {
         workspaces: rows.map((m) => ({
@@ -58,9 +52,10 @@ export const workspacesRoutes: FastifyPluginAsyncZod = async (app) => {
       schema: {
         tags: ["Workspaces"],
         summary: "Create a new workspace",
-        body: z.object({
-          name: z.string().min(1).max(120),
-        }),
+        body: createWorkspaceBodySchema,
+        response: {
+          201: workspaceSummarySchema,
+        },
       },
     },
     async (request, reply) => {
@@ -87,10 +82,13 @@ export const workspacesRoutes: FastifyPluginAsyncZod = async (app) => {
       schema: {
         tags: ["Workspaces"],
         summary: "Update workspace name",
-        params: z.object({ id: z.string().min(1) }),
-        body: z.object({
-          name: z.string().min(1).max(120),
-        }),
+        params: workspaceParamsSchema,
+        body: updateWorkspaceBodySchema,
+        response: {
+          200: workspaceSummarySchema,
+          403: errorResponseSchema,
+          404: errorResponseSchema,
+        },
       },
     },
     async (request, reply) => {
@@ -126,11 +124,15 @@ export const workspacesRoutes: FastifyPluginAsyncZod = async (app) => {
       schema: {
         tags: ["Workspaces"],
         summary: "Create or refresh a workspace invitation",
-        params: z.object({ id: z.string().min(1) }),
-        body: z.object({
-          email: z.email(),
-          role: inviteRoleSchema.default("MEMBER"),
-        }),
+        params: workspaceParamsSchema,
+        body: createInvitationBodySchema,
+        response: {
+          201: createInvitationResponseSchema,
+          400: errorResponseSchema,
+          403: errorResponseSchema,
+          404: errorResponseSchema,
+          409: errorResponseSchema,
+        },
       },
     },
     async (request, reply) => {
@@ -172,9 +174,14 @@ export const invitationsAcceptRoute: FastifyPluginAsyncZod = async (app) => {
       schema: {
         tags: ["Invitations"],
         summary: "Accept a workspace invitation",
-        params: z.object({
-          token: z.string().min(1),
-        }),
+        params: invitationTokenParamsSchema,
+        response: {
+          200: acceptInvitationResponseSchema,
+          400: errorResponseSchema,
+          403: errorResponseSchema,
+          404: errorResponseSchema,
+          410: errorResponseSchema,
+        },
       },
     },
     async (request, reply) => {

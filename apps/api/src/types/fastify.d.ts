@@ -1,9 +1,11 @@
 import "fastify"
-import type {
-  preHandlerAsyncHookHandler,
-} from "fastify"
+import type { preHandlerAsyncHookHandler } from "fastify"
 import type { createAuth } from "@workspace/auth"
-import type { Workspace, WorkspaceMember, WorkspaceRole } from "@workspace/database"
+import type {
+  Workspace,
+  WorkspaceMember,
+  WorkspaceRole,
+} from "@workspace/database"
 
 type Auth = ReturnType<typeof createAuth>
 type SessionData = NonNullable<Awaited<ReturnType<Auth["api"]["getSession"]>>>
@@ -15,7 +17,7 @@ declare module "fastify" {
     requireWorkspace: preHandlerAsyncHookHandler
     requireWorkspaceFromParams: preHandlerAsyncHookHandler
     requireRole: (
-      roles: WorkspaceRole | WorkspaceRole[],
+      roles: WorkspaceRole | WorkspaceRole[]
     ) => preHandlerAsyncHookHandler
   }
   interface FastifyRequest {
