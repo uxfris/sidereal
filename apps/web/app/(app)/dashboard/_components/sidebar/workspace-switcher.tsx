@@ -26,23 +26,22 @@ import { workspaceApi } from "@workspace/api-client"
 import type { WorkspaceMembership } from "@workspace/types"
 import { NewWorkspacePage } from "./new-workspace-page"
 import {
-  getCurrentWorkspaceId,
   resolveInitialWorkspaceId,
-  setCurrentWorkspaceId,
 } from "@/lib/workspace"
+import { useCurrentWorkspace } from "@/hooks/use-current-workspace"
 
 function getInitial(name: string): string {
   return name.trim().charAt(0).toUpperCase() || "W"
 }
 
 export function WorkspaceSwitcher() {
-  const [workspace, setWorkspace] = React.useState("")
+  const { workspaceId, setWorkspaceId } = useCurrentWorkspace()
   const [workspaces, setWorkspaces] = useState<WorkspaceMembership[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
   const activeWorkspace =
-    workspaces.find((item) => item.id === workspace) ?? workspaces[0]
+    workspaces.find((item) => item.id === workspaceId) ?? workspaces[0]
 
   useEffect(() => {
     let mounted = true
@@ -57,11 +56,10 @@ export function WorkspaceSwitcher() {
         const selectedId = resolveInitialWorkspaceId({
           workspaces: data.workspaces,
           activeWorkspaceId: data.activeWorkspaceId,
-          persistedWorkspaceId: getCurrentWorkspaceId(),
+          persistedWorkspaceId: workspaceId,
         })
 
-        setWorkspace(selectedId)
-        setCurrentWorkspaceId(selectedId || null)
+        setWorkspaceId(selectedId || null)
       } catch {
         if (!mounted) return
         setError("Unable to load your workspaces.")
@@ -80,8 +78,7 @@ export function WorkspaceSwitcher() {
   const [newWorkspaceOpen, setNewWorkspaceOpen] = useState(false)
 
   function handleWorkspaceChange(nextWorkspaceId: string) {
-    setWorkspace(nextWorkspaceId)
-    setCurrentWorkspaceId(nextWorkspaceId)
+    setWorkspaceId(nextWorkspaceId)
   }
 
   return (
@@ -179,7 +176,7 @@ export function WorkspaceSwitcher() {
                 All workspace
               </DropdownMenuLabel>
               <DropdownMenuRadioGroup
-                value={workspace}
+                value={workspaceId ?? ""}
                 onValueChange={handleWorkspaceChange}
               >
                 {loading && (
