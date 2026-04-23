@@ -32,6 +32,7 @@ model User {
   invitesSent Invitation[]      @relation("InvitedBy")
 
   @@unique([email])
+  @@index([id])
   @@map("user")
 }
 
@@ -47,6 +48,8 @@ model Session {
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([token])
+  @@index([userId])
+  @@index([expiresAt])
   @@map("session")
 }
 

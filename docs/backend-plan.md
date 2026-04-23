@@ -19,14 +19,14 @@ You don't need to understand every word on day one. Re-read this doc at the star
 
 Your backend is really **three** cooperating processes plus some managed services:
 
-| Process | Runtime | Role |
-|---|---|---|
-| `apps/api` | Node (Fastify) | Answers HTTP requests from the web app. Fast, stateless, never does slow work itself. |
-| `apps/worker` | Node (BullMQ) | Picks up slow jobs (transcribe, diarize, summarize) from a Redis queue and runs them. |
-| `services/whisper` | Python (FastAPI) | A tiny HTTP wrapper around Whisper + pyannote. Worker calls it over HTTP. |
-| PostgreSQL | Managed | Source of truth for everything. |
-| Redis | Managed | Job queue (BullMQ) + ephemeral caches. |
-| S3 | Managed | Large binary blobs (audio, video). The DB stores only the key. |
+| Process            | Runtime          | Role                                                                                  |
+| ------------------ | ---------------- | ------------------------------------------------------------------------------------- |
+| `apps/api`         | Node (Fastify)   | Answers HTTP requests from the web app. Fast, stateless, never does slow work itself. |
+| `apps/worker`      | Node (BullMQ)    | Picks up slow jobs (transcribe, diarize, summarize) from a Redis queue and runs them. |
+| `services/whisper` | Python (FastAPI) | A tiny HTTP wrapper around Whisper + pyannote. Worker calls it over HTTP.             |
+| PostgreSQL         | Managed          | Source of truth for everything.                                                       |
+| Redis              | Managed          | Job queue (BullMQ) + ephemeral caches.                                                |
+| S3                 | Managed          | Large binary blobs (audio, video). The DB stores only the key.                        |
 
 The **golden rule**: the API never does anything that can take longer than ~200ms. If a user action triggers slow work (transcription, AI calls), the API writes a row to the DB, enqueues a job, and immediately returns. The worker does the rest and updates the row.
 
@@ -48,17 +48,17 @@ The **golden rule**: the API never does anything that can take longer than ~200m
 
 ### 3.2 Critical gaps (must fix first)
 
-| # | Issue | Why it matters |
-|---|---|---|
-| **G1** | `schema.prisma` **only defines BetterAuth models**. Migrations created `Meeting`, `Upload`, `MeetingChunk`, `ProcessingEvent` — but those models are **not in `schema.prisma`**. | The Prisma client is blind to these tables. The next `prisma generate` will lose them. This is the single most urgent fix. |
-| **G2** | `apps/api/package.json` declares a dependency on **`@workspace/queue`** — but no such package exists. | Build will break the moment you import anything queue-related. |
-| **G3** | `apps/worker/` is **empty**. | No transcription pipeline is possible yet. |
-| **G4** | `apps/api/src/module/auth/auth.service.ts` still contains a **hard-coded `verified@example.com`** placeholder. | Dead code; delete once real session flow is verified. |
-| **G5** | `apps/api/src/types/fastify.d.ts` types `user`/`session` as `any`. | No intellisense, no safety on protected routes. |
-| **G6** | No `Workspace` / `WorkspaceMember` / `Task` / `Integration` / `CalendarEvent` tables — but the UI already expects them (see `packages/types/src/people.ts`, `task.ts`, `integrations.ts`). | All multi-tenant logic and the tasks/people pages cannot talk to a real DB yet. |
-| **G7** | CORS only allows `APP_URL`, but Better-Auth uses `FRONTEND_URL`. Methods whitelist excludes `PUT`/`PATCH`/`DELETE`. | Mutations from the frontend will be blocked. |
-| **G8** | No centralized **logger config**, no **request-id**, no **Sentry**. | You will not be able to debug production issues. |
-| **G9** | No tests, no CI. | Regressions will land silently. |
+| #      | Issue                                                                                                                                                                                      | Why it matters                                                                                                             |
+| ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------- |
+| **G1** | `schema.prisma` **only defines BetterAuth models**. Migrations created `Meeting`, `Upload`, `MeetingChunk`, `ProcessingEvent` — but those models are **not in `schema.prisma`**.           | The Prisma client is blind to these tables. The next `prisma generate` will lose them. This is the single most urgent fix. |
+| **G2** | `apps/api/package.json` declares a dependency on **`@workspace/queue`** — but no such package exists.                                                                                      | Build will break the moment you import anything queue-related.                                                             |
+| **G3** | `apps/worker/` is **empty**.                                                                                                                                                               | No transcription pipeline is possible yet.                                                                                 |
+| **G4** | `apps/api/src/module/auth/auth.service.ts` still contains a **hard-coded `verified@example.com`** placeholder.                                                                             | Dead code; delete once real session flow is verified.                                                                      |
+| **G5** | `apps/api/src/types/fastify.d.ts` types `user`/`session` as `any`.                                                                                                                         | No intellisense, no safety on protected routes.                                                                            |
+| **G6** | No `Workspace` / `WorkspaceMember` / `Task` / `Integration` / `CalendarEvent` tables — but the UI already expects them (see `packages/types/src/people.ts`, `task.ts`, `integrations.ts`). | All multi-tenant logic and the tasks/people pages cannot talk to a real DB yet.                                            |
+| **G7** | CORS only allows `APP_URL`, but Better-Auth uses `FRONTEND_URL`. Methods whitelist excludes `PUT`/`PATCH`/`DELETE`.                                                                        | Mutations from the frontend will be blocked.                                                                               |
+| **G8** | No centralized **logger config**, no **request-id**, no **Sentry**.                                                                                                                        | You will not be able to debug production issues.                                                                           |
+| **G9** | No tests, no CI.                                                                                                                                                                           | Regressions will land silently.                                                                                            |
 
 ### 3.3 Minor gaps
 
@@ -137,22 +137,22 @@ The final schema is larger than what's committed today. Below is the **target** 
 
 ### 5.2 Target Prisma models (summary)
 
-| Model | Purpose | Key fields |
-|---|---|---|
-| `User` (exists) | BetterAuth identity | `id`, `email`, `name`, `image` |
-| `Session`, `Account`, `Verification` (exist) | BetterAuth | — |
-| **`Workspace`** (new) | Tenant boundary | `id`, `name`, `slug`, `ownerId` |
-| **`WorkspaceMember`** (new) | Join table | `workspaceId`, `userId`, `role` (`OWNER`/`ADMIN`/`MEMBER`/`GUEST`), `joinedAt` |
-| **`Invitation`** (new) | Pending invites | `workspaceId`, `email`, `role`, `token`, `expiresAt` |
-| `Meeting` (exists, add to prisma) | Core entity | `id`, `workspaceId`, `userId`, `title`, `status`, `source` (`UPLOAD`/`BOT`), `audioKey`, `durationSeconds`, `language`, `summary JSONB` |
-| `Upload` (exists, add to prisma) | Tracks raw file upload | `id`, `userId`, `workspaceId`, `key`, `fileName`, `fileType`, `status`, `meetingId?` |
-| `MeetingChunk` (exists, add to prisma) | Semantic search | `id`, `meetingId`, `content`, `embedding vector(1536)`, `startMs`, `endMs` |
-| `ProcessingEvent` (exists, add to prisma) | Pipeline log | `id`, `meetingId`, `stage`, `message`, `metadata JSONB` |
-| **`TranscriptSegment`** (new) | Raw Whisper+speaker output | `meetingId`, `speaker`, `startMs`, `endMs`, `text`, `index` |
-| **`Task`** (new) | Action items extracted from meetings | `id`, `workspaceId`, `meetingId?`, `title`, `assigneeId?`, `isCompleted`, `dueAt?` |
-| **`Integration`** (new) | Per-workspace integration connection state | `workspaceId`, `provider`, `status`, `config JSONB` |
-| **`CalendarEvent`** (new) | Cached upcoming meetings from Google/MS | `userId`, `externalId`, `startAt`, `endAt`, `platform`, `joinUrl` |
-| **`UsageCounter`** (new) | Minutes/month metering | `workspaceId`, `period`, `minutesTranscribed` |
+| Model                                        | Purpose                                    | Key fields                                                                                                                              |
+| -------------------------------------------- | ------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------- |
+| `User` (exists)                              | BetterAuth identity                        | `id`, `email`, `name`, `image`                                                                                                          |
+| `Session`, `Account`, `Verification` (exist) | BetterAuth                                 | —                                                                                                                                       |
+| **`Workspace`** (new)                        | Tenant boundary                            | `id`, `name`, `slug`, `ownerId`                                                                                                         |
+| **`WorkspaceMember`** (new)                  | Join table                                 | `workspaceId`, `userId`, `role` (`OWNER`/`ADMIN`/`MEMBER`/`GUEST`), `joinedAt`                                                          |
+| **`Invitation`** (new)                       | Pending invites                            | `workspaceId`, `email`, `role`, `token`, `expiresAt`                                                                                    |
+| `Meeting` (exists, add to prisma)            | Core entity                                | `id`, `workspaceId`, `userId`, `title`, `status`, `source` (`UPLOAD`/`BOT`), `audioKey`, `durationSeconds`, `language`, `summary JSONB` |
+| `Upload` (exists, add to prisma)             | Tracks raw file upload                     | `id`, `userId`, `workspaceId`, `key`, `fileName`, `fileType`, `status`, `meetingId?`                                                    |
+| `MeetingChunk` (exists, add to prisma)       | Semantic search                            | `id`, `meetingId`, `content`, `embedding vector(1536)`, `startMs`, `endMs`                                                              |
+| `ProcessingEvent` (exists, add to prisma)    | Pipeline log                               | `id`, `meetingId`, `stage`, `message`, `metadata JSONB`                                                                                 |
+| **`TranscriptSegment`** (new)                | Raw Whisper+speaker output                 | `meetingId`, `speaker`, `startMs`, `endMs`, `text`, `index`                                                                             |
+| **`Task`** (new)                             | Action items extracted from meetings       | `id`, `workspaceId`, `meetingId?`, `title`, `assigneeId?`, `isCompleted`, `dueAt?`                                                      |
+| **`Integration`** (new)                      | Per-workspace integration connection state | `workspaceId`, `provider`, `status`, `config JSONB`                                                                                     |
+| **`CalendarEvent`** (new)                    | Cached upcoming meetings from Google/MS    | `userId`, `externalId`, `startAt`, `endAt`, `platform`, `joinUrl`                                                                       |
+| **`UsageCounter`** (new)                     | Minutes/month metering                     | `workspaceId`, `period`, `minutesTranscribed`                                                                                           |
 
 ### 5.3 Indices to remember
 
@@ -306,7 +306,7 @@ The timeline assumes 30h/week. Buffer is baked into the last phase.
    - `POST /uploads/presign` `{ fileName, fileType, fileSize }` → returns presigned URL + `uploadId`.
    - `POST /uploads/:id/complete` → marks upload `UPLOADED`, creates `Meeting`, enqueues `transcribe` job.
    - `GET /uploads` → list recent uploads in workspace (wire up `RecentUploads` page).
-2. Define `transcribe` queue + job payload type in `@workspace/queue`.
+2. Define `transcribe` queue + job payload type
 3. Worker: register a stub handler that logs `{ jobId, meetingId }` and marks `Meeting.status = TRANSCRIBED` after 3 seconds (mocked).
 4. Rate-limit `POST /uploads/presign` (e.g. 20/min/user) to prevent S3 abuse.
 5. Validate `fileType` against an allowlist (`audio/*`, `video/*`, `application/pdf`).
@@ -609,13 +609,13 @@ SENTRY_DSN_WORKER=
 
 ## 9. Testing strategy (beginner cheat-sheet)
 
-| Layer | Tool | What to test |
-|---|---|---|
-| Pure services (`*.service.ts`) | Vitest | Business rules, edge cases, authz logic. |
-| Repos (`*.repo.ts`) | Vitest + test DB | Prisma queries return the right shape. |
-| Routes (`*.route.ts`) | `fastify.inject` | Request/response contract + Zod validation. |
-| Worker handlers | Vitest with mocked queues | Correct stage transitions on success / failure. |
-| End-to-end critical flows | Playwright (from web app) | Signup, upload → summary, invite accept. |
+| Layer                          | Tool                      | What to test                                    |
+| ------------------------------ | ------------------------- | ----------------------------------------------- |
+| Pure services (`*.service.ts`) | Vitest                    | Business rules, edge cases, authz logic.        |
+| Repos (`*.repo.ts`)            | Vitest + test DB          | Prisma queries return the right shape.          |
+| Routes (`*.route.ts`)          | `fastify.inject`          | Request/response contract + Zod validation.     |
+| Worker handlers                | Vitest with mocked queues | Correct stage transitions on success / failure. |
+| End-to-end critical flows      | Playwright (from web app) | Signup, upload → summary, invite accept.        |
 
 **Rule:** do not chase 100% coverage. Do chase 100% coverage of **money paths** (uploads, billing, auth, task writes).
 
@@ -642,21 +642,21 @@ Pair each phase with ~30 min of reading on the relevant tool. Everything else is
 
 ## 11. Summary timeline
 
-| Week | Phase | Headline deliverable |
-|---|---|---|
-| 1 | 0 — Foundation cleanup | Codebase trustworthy; `prisma generate` matches DB. |
-| 2 | 1 — Workspaces | Multi-tenancy primitive; signup auto-creates workspace. |
-| 3 | 2 — Upload skeleton | Files uploaded via presigned URL, jobs queued. |
-| 4 | 3 — Whisper | Real transcripts in DB. |
-| 5 | 4 — Diarization | Speaker-tagged conversations. |
-| 6 | 5 — AI analysis | Summaries + action items + embeddings. |
-| 7 | 6 — Meetings & tasks APIs | Web app fully live (no mocks). |
-| 8 | 7 — Search | Hybrid semantic + keyword search. |
-| 9 | 8 — Recall.ai bot | Bot joins and transcribes calls. |
-| 10 | 9 — SSE live updates | Real-time progress without polling. |
-| 11 | 10 — Calendar | Upcoming meetings from Google/MS. |
-| 12 | 11 — Billing | Usage metering + Stripe checkout. |
-| 13–14 | 12 — Hardening & deploy | Tests, CI, observability, Railway deploy. |
+| Week  | Phase                     | Headline deliverable                                    |
+| ----- | ------------------------- | ------------------------------------------------------- |
+| 1     | 0 — Foundation cleanup    | Codebase trustworthy; `prisma generate` matches DB.     |
+| 2     | 1 — Workspaces            | Multi-tenancy primitive; signup auto-creates workspace. |
+| 3     | 2 — Upload skeleton       | Files uploaded via presigned URL, jobs queued.          |
+| 4     | 3 — Whisper               | Real transcripts in DB.                                 |
+| 5     | 4 — Diarization           | Speaker-tagged conversations.                           |
+| 6     | 5 — AI analysis           | Summaries + action items + embeddings.                  |
+| 7     | 6 — Meetings & tasks APIs | Web app fully live (no mocks).                          |
+| 8     | 7 — Search                | Hybrid semantic + keyword search.                       |
+| 9     | 8 — Recall.ai bot         | Bot joins and transcribes calls.                        |
+| 10    | 9 — SSE live updates      | Real-time progress without polling.                     |
+| 11    | 10 — Calendar             | Upcoming meetings from Google/MS.                       |
+| 12    | 11 — Billing              | Usage metering + Stripe checkout.                       |
+| 13–14 | 12 — Hardening & deploy   | Tests, CI, observability, Railway deploy.               |
 
 ---
 
@@ -672,4 +672,4 @@ These are choices I'd want you to make consciously, not by default, when you rea
 
 ---
 
-*Revise this doc at the end of each phase. Mark what shipped, what slipped, and why.*
+_Revise this doc at the end of each phase. Mark what shipped, what slipped, and why._
