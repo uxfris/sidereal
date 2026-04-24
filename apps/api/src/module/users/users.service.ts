@@ -8,7 +8,9 @@ type SessionUser = {
   image?: string | null
 }
 
-function resolveWorkspaceIdHeader(value: string | string[] | undefined): string | null {
+function resolveWorkspaceIdHeader(
+  value: string | string[] | undefined
+): string | null {
   if (!value) return null
   if (typeof value === "string") return value
   return value[0] ?? null
@@ -28,7 +30,8 @@ export async function getMe(input: {
   const requestedWorkspaceId = resolveWorkspaceIdHeader(input.workspaceIdHeader)
 
   const activeWorkspaceId =
-    memberships.find((item) => item.workspaceId === requestedWorkspaceId)?.workspaceId ??
+    memberships.find((item) => item.workspaceId === requestedWorkspaceId)
+      ?.workspaceId ??
     memberships[0]?.workspaceId ??
     null
 

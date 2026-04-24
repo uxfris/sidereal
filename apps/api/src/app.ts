@@ -8,11 +8,13 @@ import betterAuthPlugin from "./plugins/better-auth"
 import sessionPlugin from "./plugins/session"
 import workspaceAccessPlugin from "./plugins/workspace-access"
 import corsPlugin from "./plugins/cors"
+import requestIdPlugin, { genReqId } from "./plugins/request-id"
+import bullBoardPlugin from "./plugins/bull-board"
 import { registerZod } from "./lib/zod"
-import fastifySensible from "@fastify/sensible"
 
 export async function buildApp() {
   const app = Fastify({
+    genReqId,
     logger: {
       transport: {
         target: "pino-pretty",
@@ -20,7 +22,7 @@ export async function buildApp() {
     },
   })
 
-  await app.register(fastifySensible)
+  await app.register(requestIdPlugin)
   await app.register(betterAuthPlugin)
   await app.register(sessionPlugin)
   await app.register(workspaceAccessPlugin)
@@ -31,6 +33,7 @@ export async function buildApp() {
   registerZod(app)
   await registerErrorHandler(app)
   await app.register(swaggerPlugin)
+  await app.register(bullBoardPlugin)
   await registerRoute(app)
 
   return app

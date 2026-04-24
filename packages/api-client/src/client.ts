@@ -61,7 +61,7 @@ async function request<T>(
 ): Promise<T> {
   const { method = "GET", body, headers, params, cache = "no-store" } = options
 
-  const baseUrl = "/api" //Make it empty, already handled by proxy
+  const baseUrl = "/api" //No baseUrl, already handled by proxy (redirected)
 
   const fullUrl = buildUrl(`${baseUrl}${url}`, params)
   const activeWorkspaceId = getActiveWorkspaceId()
