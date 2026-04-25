@@ -51,9 +51,11 @@ export const WorkspacePeopleTableResponseSchema = z.object({
 export const WorkspaceMemberInvitationSchema = z.object({
   id: z.string(),
 
-  name: z.string(),
+  name: z.string().nullable(),
 
   email: z.email(),
+
+  avatarUrl: z.string().nullable(),
 
   avatarInitials: z.string().min(1).max(3),
 
@@ -77,3 +79,7 @@ export const WorkspacePeopleInvitationTableSchema = z.array(
 export type WorkspacePeopleInvitationTable = z.infer<
   typeof WorkspacePeopleInvitationTableSchema
 >
+
+export const WorkspacePeopleInvitationTableResponseSchema = z.object({
+  invitations: WorkspacePeopleInvitationTableSchema,
+})

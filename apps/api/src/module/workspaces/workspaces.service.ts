@@ -51,6 +51,15 @@ function getAvatarInitials(name: string): string {
   return `${parts[0]!.charAt(0)}${parts[1]!.charAt(0)}`.toUpperCase()
 }
 
+function invitationNameFromEmail(email: string): string {
+  const localPart = email.split("@")[0] ?? email
+  return localPart
+    .split(/[._-]+/)
+    .filter(Boolean)
+    .map((token) => token.charAt(0).toUpperCase() + token.slice(1))
+    .join(" ")
+}
+
 export async function listWorkspacesForUser(user: {
   id: string
   name?: string | null
@@ -80,6 +89,35 @@ export async function listWorkspacePeople(
     joinedAt: row.joinedAt.toISOString(),
     isCurrentUser: row.user.id === currentUserId,
   }))
+}
+
+export async function listWorkspaceInvitations(invitationId: string) {
+  const invitations = await workspacesRepo.listPendingInvitations(
+    invitationId,
+    new Date()
+  )
+  const usersByEmail = new Map(
+    (
+      await workspacesRepo.findUsersByEmails(
+        invitations.map((invitation) => invitation.email)
+      )
+    ).map((user) => [normalizeEmail(user.email), user] as const)
+  )
+  return invitations.map((invitation) => {
+    const matchedUser = usersByEmail.get(invitation.email)
+    const name = matchedUser?.name ?? null
+    const avatarUrl = matchedUser?.image ?? null
+    const initialSource = name ?? invitationNameFromEmail(invitation.email)
+    return {
+      id: invitation.id,
+      name,
+      email: invitation.email,
+      avatarUrl,
+      avatarInitials: getAvatarInitials(initialSource),
+      role: roleToPeopleRole(invitation.role),
+      invitedAt: invitation.createdAt.toISOString(),
+    }
+  })
 }
 
 export async function createWorkspace(

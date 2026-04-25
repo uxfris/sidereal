@@ -7,6 +7,7 @@ import {
   createWorkspaceBodySchema,
   errorResponseSchema,
   invitationTokenParamsSchema,
+  listWorkspaceInvitationsResponseSchema,
   listWorkspacePeopleResponseSchema,
   listWorkspacesResponseSchema,
   updateWorkspaceBodySchema,
@@ -92,6 +93,28 @@ export const workspacesRoutes: FastifyPluginAsyncZod = async (app) => {
         request.user!.id
       )
       return { people }
+    }
+  )
+
+  app.get(
+    "/:id/invitations",
+    {
+      preHandler: [app.verifySession, app.requireWorkspaceFromParams],
+      schema: {
+        tags: ["Workspaces"],
+        summary: "",
+        params: workspaceParamsSchema,
+        response: {
+          200: listWorkspaceInvitationsResponseSchema,
+          404: errorResponseSchema,
+        },
+      },
+    },
+    async (request) => {
+      const invitations = await workspacesService.listWorkspaceInvitations(
+        request.params.id
+      )
+      return { invitations }
     }
   )
 

@@ -30,7 +30,21 @@ export const workspacesRepo = {
           },
         },
       },
-      orderBy: [{ role: "asc", joinedAt: "asc" }],
+      orderBy: [{ role: "asc" }, { joinedAt: "asc" }],
+    })
+  },
+
+  listPendingInvitations(workspaceId: string, now: Date) {
+    return prisma.invitation.findMany({
+      where: {
+        workspaceId,
+        acceptedAt: null,
+        revokedAt: null,
+        expiresAt: {
+          gte: now,
+        },
+      },
+      orderBy: { createdAt: "asc" },
     })
   },
 
@@ -67,6 +81,21 @@ export const workspacesRepo = {
     return prisma.user.findUnique({
       where: { email },
       select: { id: true },
+    })
+  },
+
+  findUsersByEmails(emails: string[]) {
+    return prisma.user.findMany({
+      where: {
+        email: {
+          in: emails,
+        },
+      },
+      select: {
+        name: true,
+        email: true,
+        image: true,
+      },
     })
   },
 

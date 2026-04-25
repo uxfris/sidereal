@@ -4,6 +4,7 @@ import {
   ApiInviteRoleSchema,
   CreateInvitationResponseSchema,
   ListWorkspacesResponseSchema,
+  WorkspacePeopleInvitationTableResponseSchema,
   WorkspacePeopleTableResponseSchema,
   WorkspaceSummarySchema,
 } from "@workspace/types"
@@ -43,3 +44,6 @@ export const acceptInvitationResponseSchema = AcceptInvitationResponseSchema
 
 export const listWorkspacePeopleResponseSchema =
   WorkspacePeopleTableResponseSchema
+
+export const listWorkspaceInvitationsResponseSchema =
+  WorkspacePeopleInvitationTableResponseSchema
