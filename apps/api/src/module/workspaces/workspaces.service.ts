@@ -37,6 +37,20 @@ function normalizeEmail(email: string): string {
   return email.trim().toLowerCase()
 }
 
+function roleToPeopleRole(
+  role: WorkspaceRole
+): "owner" | "admin" | "member" | "guest" {
+  return role.toLocaleLowerCase() as "owner" | "admin" | "member" | "guest"
+}
+
+function getAvatarInitials(name: string): string {
+  const parts = name.trim().split(/\s+/).filter(Boolean).slice(0, 2)
+
+  if (parts.length === 0) return "?"
+  if (parts.length === 1) return parts[0]!.charAt(0).toUpperCase()
+  return `${parts[0]!.charAt(0)}${parts[1]!.charAt(0)}`.toUpperCase()
+}
+
 export async function listWorkspacesForUser(user: {
   id: string
   name?: string | null
@@ -49,6 +63,23 @@ export async function listWorkspacesForUser(user: {
   })
 
   return workspacesRepo.listMembershipsForUser(user.id)
+}
+
+export async function listWorkspacePeople(
+  workspaceId: string,
+  currentUserId: string
+) {
+  const members = await workspacesRepo.listWorkspaceMembers(workspaceId)
+  return members.map((row) => ({
+    id: row.id,
+    name: row.user.name,
+    email: row.user.email,
+    avatarUrl: row.user.image,
+    avatarInitials: getAvatarInitials(row.user.name),
+    role: roleToPeopleRole(row.role),
+    joinedAt: row.joinedAt.toISOString(),
+    isCurrentUser: row.user.id === currentUserId,
+  }))
 }
 
 export async function createWorkspace(

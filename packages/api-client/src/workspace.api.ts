@@ -5,6 +5,8 @@ import {
   type GetMeResponse,
   type WorkspaceMembership,
   type WorkspaceSummary,
+  WorkspacePeopleTableResponseSchema,
+  WorkspaceMember,
 } from "@workspace/types"
 import { client } from "./client"
 
@@ -18,6 +20,12 @@ export const workspaceApi = {
     const data = await client.get<unknown>("/workspaces")
     const parsed = ListWorkspacesResponseSchema.parse(data)
     return parsed.workspaces
+  },
+
+  async listPeople(workspaceId: string): Promise<WorkspaceMember[]> {
+    const data = await client.get<unknown>(`/workspaces/${workspaceId}/people`)
+    const parsed = WorkspacePeopleTableResponseSchema.parse(data)
+    return parsed.people
   },
 
   async create(name: string): Promise<WorkspaceSummary> {

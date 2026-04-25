@@ -4,6 +4,7 @@ import {
   ApiInviteRoleSchema,
   CreateInvitationResponseSchema,
   ListWorkspacesResponseSchema,
+  WorkspacePeopleTableResponseSchema,
   WorkspaceSummarySchema,
 } from "@workspace/types"
 
@@ -39,3 +40,6 @@ export const invitationTokenParamsSchema = z.object({
 })
 
 export const acceptInvitationResponseSchema = AcceptInvitationResponseSchema
+
+export const listWorkspacePeopleResponseSchema =
+  WorkspacePeopleTableResponseSchema

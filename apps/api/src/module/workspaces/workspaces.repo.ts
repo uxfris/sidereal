@@ -17,7 +17,28 @@ export const workspacesRepo = {
     })
   },
 
-  createWorkspaceWithOwner(userId: string, name: string, slug: string): Promise<Workspace> {
+  listWorkspaceMembers(workspaceId: string) {
+    return prisma.workspaceMember.findMany({
+      where: { workspaceId },
+      include: {
+        user: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+            image: true,
+          },
+        },
+      },
+      orderBy: [{ role: "asc", joinedAt: "asc" }],
+    })
+  },
+
+  createWorkspaceWithOwner(
+    userId: string,
+    name: string,
+    slug: string
+  ): Promise<Workspace> {
     return prisma.$transaction(async (tx) => {
       const workspace = await tx.workspace.create({
         data: { name, slug },
@@ -76,7 +97,8 @@ export const workspacesRepo = {
     invitedByUserId: string
     expiresAt: Date
   }) {
-    const { workspaceId, email, role, tokenHash, invitedByUserId, expiresAt } = input
+    const { workspaceId, email, role, tokenHash, invitedByUserId, expiresAt } =
+      input
     return prisma.invitation.upsert({
       where: {
         workspaceId_email: { workspaceId, email },
