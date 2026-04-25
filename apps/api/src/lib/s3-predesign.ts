@@ -1,31 +1,50 @@
-import { PutObjectCommand } from "@aws-sdk/client-s3"
+import { HeadObjectCommand, PutObjectCommand } from "@aws-sdk/client-s3"
+import { getSignedUrl } from "@aws-sdk/s3-request-presigner"
 import { env } from "../config/env"
-import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
-import { s3 } from "./s3";
+import { s3 } from "./s3"
 
-export async function createPresignedUpload(params: {
-    userId: string
-    fileType: string
+const PRESIGN_TTL_SECONDS = 60 * 10
+
+/**
+ * Build the canonical S3 key for a meeting's source audio. Meeting-centric so
+ * deletes/scans can be done by meeting id and objects outlive any workspace
+ * rename.
+ */
+export function buildMeetingAudioKey(meetingId: string): string {
+  return `meetings/${meetingId}/audio`
+}
+
+export async function createPresignedAudioUpload(params: {
+  meetingId: string
+  fileType: string
 }) {
+  const key = buildMeetingAudioKey(params.meetingId)
 
-    const uploadId = crypto.randomUUID()
+  const command = new PutObjectCommand({
+    Bucket: env.S3_BUCKET,
+    Key: key,
+    ContentType: params.fileType,
+  })
 
-    const key = `uploads/${params.userId}/${uploadId}`
+  const url = await getSignedUrl(s3, command, { expiresIn: PRESIGN_TTL_SECONDS })
 
-    const command = new PutObjectCommand({
-        Bucket: env.S3_BUCKET,
-        Key: key,
-        ContentType: params.fileType
-    })
+  return {
+    key,
+    url,
+    expiresInSeconds: PRESIGN_TTL_SECONDS,
+  }
+}
 
-    const url = await getSignedUrl(s3, command, {
-        expiresIn: 60 * 10
-    })
-
-    return {
-        uploadId,
-        key,
-        url
-    }
-
+/**
+ * Returns the authoritative size + content type from S3 for an uploaded
+ * object. Use this in `/uploads/:id/complete` to avoid trusting
+ * client-supplied size for metering or storage limits.
+ */
+export async function headUploadedObject(key: string) {
+  const command = new HeadObjectCommand({ Bucket: env.S3_BUCKET, Key: key })
+  const result = await s3.send(command)
+  return {
+    contentLength: result.ContentLength ?? null,
+    contentType: result.ContentType ?? null,
+  }
 }

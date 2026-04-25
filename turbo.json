@@ -2,7 +2,10 @@
   "$schema": "https://turbo.build/schema.json",
   "ui": "tui",
   "globalEnv": [
-    "DATABASE_URL"
+    "DATABASE_URL",
+    "REDIS_URL",
+    "NODE_ENV",
+    "LOG_LEVEL"
   ],
   "tasks": {
     "build": {

@@ -1,12 +1,19 @@
-import { FastifyError, FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
+import {
+  FastifyError,
+  FastifyInstance,
+  FastifyReply,
+  FastifyRequest,
+} from "fastify"
 
 export async function registerErrorHandler(app: FastifyInstance) {
-    app.setErrorHandler((error: FastifyError, request: FastifyRequest, reply: FastifyReply) => {
-        request.log.error(error)
+  app.setErrorHandler(
+    (error: FastifyError, request: FastifyRequest, reply: FastifyReply) => {
+      request.log.error(error)
 
-        return reply.status(error.statusCode || 500).send({
-            error: error.name,
-            message: error.message
-        })
-    })
+      return reply.status(error.statusCode || 500).send({
+        error: error.name,
+        message: error.message,
+      })
+    }
+  )
 }

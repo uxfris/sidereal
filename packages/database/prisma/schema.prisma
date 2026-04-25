@@ -30,6 +30,7 @@ model User {
   accounts    Account[]
   memberships WorkspaceMember[]
   invitesSent Invitation[]      @relation("InvitedBy")
+  meetings    Meeting[]
 
   @@unique([email])
   @@index([id])
@@ -103,6 +104,7 @@ model Workspace {
 
   members     WorkspaceMember[]
   invitations Invitation[]
+  meetings    Meeting[]
 
   @@map("workspace")
 }
@@ -144,4 +146,74 @@ model Invitation {
   @@unique([workspaceId, email])
   @@index([workspaceId])
   @@map("invitation")
+}
+
+// ─────────────────────────────────────────────
+// Meetings
+// ─────────────────────────────────────────────
+
+enum MeetingSource {
+  UPLOAD
+  BOT
+}
+
+enum MeetingStatus {
+  PENDING_UPLOAD
+  UPLOADED
+  TRANSCRIBING
+  TRANSCRIBED
+  ANALYZING
+  SUMMARIZED
+  FAILED
+}
+
+model Meeting {
+  id          String        @id @default(cuid())
+  workspaceId String
+  userId      String
+  title       String
+  source      MeetingSource @default(UPLOAD)
+  status      MeetingStatus @default(PENDING_UPLOAD)
+  audioKey    String?       @unique
+  fileName    String?
+  fileType    String?
+  fileSize    Int?
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  workspace        Workspace         @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  user             User              @relation(fields: [userId], references: [id], onDelete: Restrict)
+  processingEvents ProcessingEvent[]
+
+  @@index([workspaceId, createdAt(sort: Desc)])
+  @@index([userId])
+  @@map("meeting")
+}
+
+enum ProcessingStage {
+  TRANSCRIBE
+  DIARIZE
+  ANALYZE
+  EMBED
+}
+
+enum ProcessingEventStatus {
+  STARTED
+  SUCCEEDED
+  FAILED
+}
+
+model ProcessingEvent {
+  id        String                @id @default(cuid())
+  meetingId String
+  stage     ProcessingStage
+  status    ProcessingEventStatus
+  message   String?
+  metadata  Json?
+  createdAt DateTime              @default(now())
+
+  meeting Meeting @relation(fields: [meetingId], references: [id], onDelete: Cascade)
+
+  @@index([meetingId, createdAt])
+  @@map("processing_event")
 }
