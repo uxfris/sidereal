@@ -51,14 +51,21 @@ export async function listWorkspacesForUser(user: {
   return workspacesRepo.listMembershipsForUser(user.id)
 }
 
-export async function createWorkspace(userId: string, name: string): Promise<Workspace> {
+export async function createWorkspace(
+  userId: string,
+  name: string
+): Promise<Workspace> {
   const trimmed = name.trim()
   const baseSlug = slugify(trimmed)
 
   for (let attempt = 0; attempt < MAX_SLUG_ATTEMPTS; attempt++) {
     const slug = `${baseSlug}-${randomSuffix(6)}`
     try {
-      return await workspacesRepo.createWorkspaceWithOwner(userId, trimmed, slug)
+      return await workspacesRepo.createWorkspaceWithOwner(
+        userId,
+        trimmed,
+        slug
+      )
     } catch (err) {
       const code = (err as { code?: string }).code
       if (code === PRISMA_UNIQUE && attempt < MAX_SLUG_ATTEMPTS - 1) continue
@@ -72,16 +79,25 @@ export async function createWorkspace(userId: string, name: string): Promise<Wor
 export async function updateWorkspaceName(
   workspaceId: string,
   userId: string,
-  name: string,
-): Promise<{ ok: true; workspace: Workspace } | { ok: false; error: "NOT_FOUND" | "FORBIDDEN" }> {
-  const membership = await workspacesRepo.findMembershipWithWorkspace(workspaceId, userId)
+  name: string
+): Promise<
+  | { ok: true; workspace: Workspace }
+  | { ok: false; error: "NOT_FOUND" | "FORBIDDEN" }
+> {
+  const membership = await workspacesRepo.findMembershipWithWorkspace(
+    workspaceId,
+    userId
+  )
 
   if (!membership) return { ok: false, error: "NOT_FOUND" }
   if (membership.role !== "OWNER" && membership.role !== "ADMIN") {
     return { ok: false, error: "FORBIDDEN" }
   }
 
-  const workspace = await workspacesRepo.updateWorkspaceName(workspaceId, name.trim())
+  const workspace = await workspacesRepo.updateWorkspaceName(
+    workspaceId,
+    name.trim()
+  )
 
   return { ok: true, workspace }
 }
@@ -91,7 +107,7 @@ export async function createOrRefreshInvitation(
   inviterUserId: string,
   inviterEmail: string,
   emailRaw: string,
-  role: InviteRole,
+  role: InviteRole
 ): Promise<
   | { ok: true; token: string; invitationId: string; expiresAt: Date }
   | {
@@ -106,7 +122,7 @@ export async function createOrRefreshInvitation(
 > {
   const membership = await workspacesRepo.findMembershipWithWorkspace(
     workspaceId,
-    inviterUserId,
+    inviterUserId
   )
 
   if (!membership) return { ok: false, error: "NOT_FOUND" }
@@ -125,12 +141,15 @@ export async function createOrRefreshInvitation(
   if (existingUser) {
     const alreadyMember = await workspacesRepo.findMemberByWorkspaceAndUser(
       workspaceId,
-      existingUser.id,
+      existingUser.id
     )
     if (alreadyMember) return { ok: false, error: "ALREADY_MEMBER" }
   }
 
-  const prior = await workspacesRepo.findInvitationByWorkspaceAndEmail(workspaceId, email)
+  const prior = await workspacesRepo.findInvitationByWorkspaceAndEmail(
+    workspaceId,
+    email
+  )
 
   if (prior?.acceptedAt) {
     return { ok: false, error: "INVITE_ALREADY_ACCEPTED" }
@@ -160,7 +179,7 @@ export async function createOrRefreshInvitation(
 export async function acceptInvitation(
   userId: string,
   userEmail: string,
-  rawToken: string,
+  rawToken: string
 ): Promise<
   | { ok: true; workspaceId: string; role: WorkspaceRole }
   | {
@@ -188,7 +207,7 @@ export async function acceptInvitation(
 
   const existingMember = await workspacesRepo.findMemberByWorkspaceAndUser(
     invitation.workspaceId,
-    userId,
+    userId
   )
 
   if (existingMember) {
