@@ -5,7 +5,6 @@ export const workspacesRepo = {
   findMembershipWithWorkspace(workspaceId: string, userId: string) {
     return prisma.workspaceMember.findFirst({
       where: { workspaceId, userId },
-      include: { workspace: true },
     })
   },
 
@@ -17,7 +16,42 @@ export const workspacesRepo = {
     })
   },
 
-  createWorkspaceWithOwner(userId: string, name: string, slug: string): Promise<Workspace> {
+  listWorkspaceMembers(workspaceId: string) {
+    return prisma.workspaceMember.findMany({
+      where: { workspaceId },
+      include: {
+        user: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+            image: true,
+          },
+        },
+      },
+      orderBy: [{ role: "asc" }, { joinedAt: "asc" }],
+    })
+  },
+
+  listPendingInvitations(workspaceId: string, now: Date) {
+    return prisma.invitation.findMany({
+      where: {
+        workspaceId,
+        acceptedAt: null,
+        revokedAt: null,
+        expiresAt: {
+          gte: now,
+        },
+      },
+      orderBy: { createdAt: "asc" },
+    })
+  },
+
+  createWorkspaceWithOwner(
+    userId: string,
+    name: string,
+    slug: string
+  ): Promise<Workspace> {
     return prisma.$transaction(async (tx) => {
       const workspace = await tx.workspace.create({
         data: { name, slug },
@@ -49,6 +83,21 @@ export const workspacesRepo = {
     })
   },
 
+  findUsersByEmails(emails: string[]) {
+    return prisma.user.findMany({
+      where: {
+        email: {
+          in: emails,
+        },
+      },
+      select: {
+        name: true,
+        email: true,
+        image: true,
+      },
+    })
+  },
+
   findMemberByWorkspaceAndUser(workspaceId: string, userId: string) {
     return prisma.workspaceMember.findUnique({
       where: {
@@ -68,6 +117,12 @@ export const workspacesRepo = {
     })
   },
 
+  findInvitationById(invitationId: string) {
+    return prisma.invitation.findUnique({
+      where: { id: invitationId },
+    })
+  },
+
   upsertInvitation(input: {
     workspaceId: string
     email: string
@@ -76,7 +131,8 @@ export const workspacesRepo = {
     invitedByUserId: string
     expiresAt: Date
   }) {
-    const { workspaceId, email, role, tokenHash, invitedByUserId, expiresAt } = input
+    const { workspaceId, email, role, tokenHash, invitedByUserId, expiresAt } =
+      input
     return prisma.invitation.upsert({
       where: {
         workspaceId_email: { workspaceId, email },
@@ -110,6 +166,13 @@ export const workspacesRepo = {
     return prisma.invitation.update({
       where: { id },
       data: { acceptedAt },
+    })
+  },
+
+  markInvitationRevoked(id: string, revokedAt: Date) {
+    return prisma.invitation.update({
+      where: { id },
+      data: { revokedAt },
     })
   },
 

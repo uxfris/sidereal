@@ -37,6 +37,29 @@ function normalizeEmail(email: string): string {
   return email.trim().toLowerCase()
 }
 
+function roleToPeopleRole(
+  role: WorkspaceRole
+): "owner" | "admin" | "member" | "guest" {
+  return role.toLocaleLowerCase() as "owner" | "admin" | "member" | "guest"
+}
+
+function getAvatarInitials(name: string): string {
+  const parts = name.trim().split(/\s+/).filter(Boolean).slice(0, 2)
+
+  if (parts.length === 0) return "?"
+  if (parts.length === 1) return parts[0]!.charAt(0).toUpperCase()
+  return `${parts[0]!.charAt(0)}${parts[1]!.charAt(0)}`.toUpperCase()
+}
+
+function invitationNameFromEmail(email: string): string {
+  const localPart = email.split("@")[0] ?? email
+  return localPart
+    .split(/[._-]+/)
+    .filter(Boolean)
+    .map((token) => token.charAt(0).toUpperCase() + token.slice(1))
+    .join(" ")
+}
+
 export async function listWorkspacesForUser(user: {
   id: string
   name?: string | null
@@ -49,6 +72,52 @@ export async function listWorkspacesForUser(user: {
   })
 
   return workspacesRepo.listMembershipsForUser(user.id)
+}
+
+export async function listWorkspacePeople(
+  workspaceId: string,
+  currentUserId: string
+) {
+  const members = await workspacesRepo.listWorkspaceMembers(workspaceId)
+  return members.map((row) => ({
+    id: row.id,
+    name: row.user.name,
+    email: row.user.email,
+    avatarUrl: row.user.image,
+    avatarInitials: getAvatarInitials(row.user.name),
+    role: roleToPeopleRole(row.role),
+    joinedAt: row.joinedAt.toISOString(),
+    isCurrentUser: row.user.id === currentUserId,
+  }))
+}
+
+export async function listWorkspaceInvitations(invitationId: string) {
+  const invitations = await workspacesRepo.listPendingInvitations(
+    invitationId,
+    new Date()
+  )
+  const usersByEmail = new Map(
+    (
+      await workspacesRepo.findUsersByEmails(
+        invitations.map((invitation) => invitation.email)
+      )
+    ).map((user) => [normalizeEmail(user.email), user] as const)
+  )
+  return invitations.map((invitation) => {
+    const matchedUser = usersByEmail.get(invitation.email)
+    const name = matchedUser?.name ?? null
+    const avatarUrl = matchedUser?.image ?? null
+    const initialSource = name ?? invitationNameFromEmail(invitation.email)
+    return {
+      id: invitation.id,
+      name,
+      email: invitation.email,
+      avatarUrl,
+      avatarInitials: getAvatarInitials(initialSource),
+      role: roleToPeopleRole(invitation.role),
+      invitedAt: invitation.createdAt.toISOString(),
+    }
+  })
 }
 
 export async function createWorkspace(
@@ -174,6 +243,49 @@ export async function createOrRefreshInvitation(
     invitationId: invitation.id,
     expiresAt,
   }
+}
+
+export async function revokeInvitation(
+  workspaceId: string,
+  inviterUserId: string,
+  invitationId: string
+): Promise<
+  | { ok: true }
+  | {
+      ok: false
+      error:
+        | "NOT_FOUND"
+        | "FORBIDDEN"
+        | "INVITE_NOT_FOUND"
+        | "INVITE_ALREADY_ACCEPTED"
+        | "INVITE_ALREADY_REVOKED"
+    }
+> {
+  const membership = await workspacesRepo.findMembershipWithWorkspace(
+    workspaceId,
+    inviterUserId
+  )
+
+  if (!membership) return { ok: false, error: "NOT_FOUND" }
+  if (membership.role !== "OWNER" && membership.role !== "ADMIN") {
+    return { ok: false, error: "FORBIDDEN" }
+  }
+
+  const invitation = await workspacesRepo.findInvitationById(invitationId)
+  if (!invitation || invitation.workspaceId !== workspaceId) {
+    return { ok: false, error: "INVITE_NOT_FOUND" }
+  }
+
+  if (invitation.acceptedAt) {
+    return { ok: false, error: "INVITE_ALREADY_ACCEPTED" }
+  }
+
+  if (invitation.revokedAt) {
+    return { ok: false, error: "INVITE_ALREADY_REVOKED" }
+  }
+
+  await workspacesRepo.markInvitationRevoked(invitationId, new Date())
+  return { ok: true }
 }
 
 export async function acceptInvitation(
