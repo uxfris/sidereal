@@ -245,6 +245,49 @@ export async function createOrRefreshInvitation(
   }
 }
 
+export async function revokeInvitation(
+  workspaceId: string,
+  inviterUserId: string,
+  invitationId: string
+): Promise<
+  | { ok: true }
+  | {
+      ok: false
+      error:
+        | "NOT_FOUND"
+        | "FORBIDDEN"
+        | "INVITE_NOT_FOUND"
+        | "INVITE_ALREADY_ACCEPTED"
+        | "INVITE_ALREADY_REVOKED"
+    }
+> {
+  const membership = await workspacesRepo.findMembershipWithWorkspace(
+    workspaceId,
+    inviterUserId
+  )
+
+  if (!membership) return { ok: false, error: "NOT_FOUND" }
+  if (membership.role !== "OWNER" && membership.role !== "ADMIN") {
+    return { ok: false, error: "FORBIDDEN" }
+  }
+
+  const invitation = await workspacesRepo.findInvitationById(invitationId)
+  if (!invitation || invitation.workspaceId !== workspaceId) {
+    return { ok: false, error: "INVITE_NOT_FOUND" }
+  }
+
+  if (invitation.acceptedAt) {
+    return { ok: false, error: "INVITE_ALREADY_ACCEPTED" }
+  }
+
+  if (invitation.revokedAt) {
+    return { ok: false, error: "INVITE_ALREADY_REVOKED" }
+  }
+
+  await workspacesRepo.markInvitationRevoked(invitationId, new Date())
+  return { ok: true }
+}
+
 export async function acceptInvitation(
   userId: string,
   userEmail: string,

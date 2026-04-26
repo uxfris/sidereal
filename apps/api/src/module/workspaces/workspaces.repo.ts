@@ -5,7 +5,6 @@ export const workspacesRepo = {
   findMembershipWithWorkspace(workspaceId: string, userId: string) {
     return prisma.workspaceMember.findFirst({
       where: { workspaceId, userId },
-      include: { workspace: true },
     })
   },
 
@@ -118,6 +117,12 @@ export const workspacesRepo = {
     })
   },
 
+  findInvitationById(invitationId: string) {
+    return prisma.invitation.findUnique({
+      where: { id: invitationId },
+    })
+  },
+
   upsertInvitation(input: {
     workspaceId: string
     email: string
@@ -161,6 +166,13 @@ export const workspacesRepo = {
     return prisma.invitation.update({
       where: { id },
       data: { acceptedAt },
+    })
+  },
+
+  markInvitationRevoked(id: string, revokedAt: Date) {
+    return prisma.invitation.update({
+      where: { id },
+      data: { revokedAt },
     })
   },
 

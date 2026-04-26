@@ -10,6 +10,8 @@ import {
   listWorkspaceInvitationsResponseSchema,
   listWorkspacePeopleResponseSchema,
   listWorkspacesResponseSchema,
+  noContentResponseSchema,
+  revokeInvitationParamsSchema,
   updateWorkspaceBodySchema,
   workspaceParamsSchema,
   workspaceSummarySchema,
@@ -209,6 +211,48 @@ export const workspacesRoutes: FastifyPluginAsyncZod = async (app) => {
         token: result.token,
         expiresAt: result.expiresAt.toISOString(),
       })
+    }
+  )
+
+  app.delete(
+    "/:id/invitations/:invitationId",
+    {
+      preHandler: [
+        app.verifySession,
+        app.requireWorkspaceFromParams,
+        app.requireRole(["OWNER", "ADMIN"]),
+      ],
+      schema: {
+        tags: ["Workspaces"],
+        summary: "Revoke a workspace invitation",
+        params: revokeInvitationParamsSchema,
+        response: {
+          204: noContentResponseSchema,
+          403: errorResponseSchema,
+          404: errorResponseSchema,
+          409: errorResponseSchema,
+        },
+      },
+    },
+    async (request, reply) => {
+      const result = await workspacesService.revokeInvitation(
+        request.params.id,
+        request.user!.id,
+        request.params.invitationId
+      )
+
+      if (!result.ok) {
+        const status =
+          result.error === "NOT_FOUND" || result.error === "INVITE_NOT_FOUND"
+            ? 404
+            : result.error === "FORBIDDEN"
+              ? 403
+              : 409
+
+        return reply.status(status).send({ error: result.error })
+      }
+
+      return reply.status(204).send(null)
     }
   )
 }

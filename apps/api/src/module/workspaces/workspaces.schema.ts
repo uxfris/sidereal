@@ -36,11 +36,18 @@ export const errorResponseSchema = z.object({
   error: z.string(),
 })
 
+export const noContentResponseSchema = z.null()
+
 export const invitationTokenParamsSchema = z.object({
   token: z.string().min(1),
 })
 
 export const acceptInvitationResponseSchema = AcceptInvitationResponseSchema
+
+export const revokeInvitationParamsSchema = z.object({
+  id: z.string().min(1),
+  invitationId: z.string().min(1),
+})
 
 export const listWorkspacePeopleResponseSchema =
   WorkspacePeopleTableResponseSchema
