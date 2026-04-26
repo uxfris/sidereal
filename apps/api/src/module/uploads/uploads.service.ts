@@ -5,6 +5,7 @@ import {
   headUploadedObject,
 } from "../../lib/s3-predesign"
 import { uploadsRepo } from "./uploads.repo"
+import path from "node:path"
 
 export type CompleteUploadResult =
   | { ok: true; meetingId: string; status: string }
@@ -19,7 +20,7 @@ export type CompleteUploadResult =
     }
 
 function deriveTitleFromFileName(fileName: string): string {
-  const withoutExt = fileName.replace(/\.[^/.]+$/, "").trim()
+  const withoutExt = path.parse(fileName).name
   return withoutExt.length > 0 ? withoutExt.slice(0, 200) : "Untitled meeting"
 }
 

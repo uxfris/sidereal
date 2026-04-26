@@ -1,30 +1,27 @@
 import type { Job } from "bullmq"
 import { prisma } from "@workspace/database"
-import type { TranscribeJobPayload } from "@workspace/queue"
+import { QueueName, getQueue, type TranscribeJobPayload } from "@workspace/queue"
 import { logger } from "../logger"
+import { createPresignedAudioDownload, saveRawTranscriptJson } from "../lib/s3-presign"
+import { transcribeAudio } from "../lib/whisper"
 
-/**
- * Phase 2 stub. Real Whisper integration lands in phase 3.
- *
- * State transitions:
- *   UPLOADED → TRANSCRIBING → TRANSCRIBED
- *   On any failure: → FAILED (via compare-and-swap) and emit FAILED event.
- *
- * On error we SWALLOW (return rather than throw) so BullMQ doesn't retry the
- * (future) expensive Whisper call automatically. Retries, when we want them,
- * should be explicit via re-enqueue.
- */
 export async function transcribeHandler(
   job: Job<TranscribeJobPayload>
 ): Promise<{ meetingId: string }> {
-  const { meetingId, audioKey, traceId } = job.data
-  const log = logger.child({ jobId: job.id, meetingId, audioKey, traceId })
+  const { meetingId, workspaceId, userId, audioKey, traceId } = job.data
+  const log = logger.child({
+    queue: QueueName.Transcribe,
+    jobId: job.id,
+    meetingId,
+    workspaceId,
+    userId,
+    audioKey,
+    traceId,
+  })
 
   log.info("transcribe job received")
 
   try {
-    // CAS: only start if the meeting is actually UPLOADED. Prevents picking up
-    // duplicate/retry jobs that got past the queue-level dedupe.
     const startResult = await prisma.meeting.updateMany({
       where: { id: meetingId, status: "UPLOADED" },
       data: { status: "TRANSCRIBING" },
@@ -44,12 +41,39 @@ export async function transcribeHandler(
     })
 
     const startedAt = Date.now()
-    await new Promise((resolve) => setTimeout(resolve, 3000))
+    const audioUrl = await createPresignedAudioDownload(audioKey)
+    const whisper = await transcribeAudio(audioUrl)
     const durationMs = Date.now() - startedAt
+
+    const transcriptBackupKey = await saveRawTranscriptJson({
+      meetingId,
+      payload: whisper,
+    })
+
+    // Keep writes idempotent for retried runs that got past CAS in edge cases.
+    await prisma.transcriptSegment.deleteMany({ where: { meetingId } })
+    if (whisper.segments.length > 0) {
+      await prisma.transcriptSegment.createMany({
+        data: whisper.segments.map((segment, index) => ({
+          meetingId,
+          index,
+          startMs: Math.max(0, Math.round(segment.startMs)),
+          endMs: Math.max(0, Math.round(segment.endMs)),
+          text: segment.text?.trim() ?? "",
+        })),
+      })
+    }
 
     await prisma.meeting.update({
       where: { id: meetingId },
-      data: { status: "TRANSCRIBED" },
+      data: {
+        status: "TRANSCRIBED",
+        durationSeconds:
+          whisper.durationSeconds != null
+            ? Math.max(0, Math.round(whisper.durationSeconds))
+            : null,
+        language: whisper.language ?? null,
+      },
     })
 
     await prisma.processingEvent.create({
@@ -57,10 +81,20 @@ export async function transcribeHandler(
         meetingId,
         stage: "TRANSCRIBE",
         status: "SUCCEEDED",
-        message: "stubbed transcription completed",
-        metadata: { durationMs, stub: true },
+        message: `done in ${Math.round(durationMs / 1000)}s`,
+        metadata: {
+          durationMs,
+          transcriptBackupKey,
+          segmentCount: whisper.segments.length,
+        },
       },
     })
+
+    await getQueue(QueueName.Diarize).add(
+      "diarize",
+      { meetingId, workspaceId, userId, audioKey, traceId },
+      { jobId: `diarize-${meetingId}` }
+    )
 
     log.info({ durationMs }, "transcribe job completed")
     return { meetingId }
@@ -83,6 +117,7 @@ export async function transcribeHandler(
       })
       .catch(() => {})
 
+    // Swallow errors to avoid automatic expensive retry loops.
     return { meetingId }
   }
 }
