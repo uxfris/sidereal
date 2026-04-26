@@ -9,6 +9,7 @@
  */
 export const QueueName = {
   Transcribe: "transcribe",
+  Diarize: "diarize",
 } as const
 
 export type QueueName = (typeof QueueName)[keyof typeof QueueName]
@@ -22,9 +23,22 @@ export interface TranscribeJobPayload {
   traceId?: string
 }
 
+export interface DiarizeJobPayload {
+  meetingId: string
+  workspaceId: string
+  userId: string
+  audioKey: string
+  traceId?: string
+}
+
 export interface JobPayloadMap {
   [QueueName.Transcribe]: TranscribeJobPayload
+  [QueueName.Diarize]: DiarizeJobPayload
 }
 
 export type JobNameFor<Q extends QueueName> =
-  Q extends typeof QueueName.Transcribe ? "transcribe" : never
+  Q extends typeof QueueName.Transcribe
+    ? "transcribe"
+    : Q extends typeof QueueName.Diarize
+      ? "diarize"
+      : never

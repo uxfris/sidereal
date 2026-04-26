@@ -178,16 +178,37 @@ model Meeting {
   fileName    String?
   fileType    String?
   fileSize    Int?
+  durationSeconds Int?
+  language    String?
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @updatedAt
 
   workspace        Workspace         @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
   user             User              @relation(fields: [userId], references: [id], onDelete: Restrict)
   processingEvents ProcessingEvent[]
+  transcriptSegments TranscriptSegment[]
 
   @@index([workspaceId, createdAt(sort: Desc)])
   @@index([userId])
   @@map("meeting")
+}
+
+model TranscriptSegment {
+  id        String   @id @default(cuid())
+  meetingId String
+  speaker   String?
+  startMs   Int
+  endMs     Int
+  text      String
+  index     Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  meeting Meeting @relation(fields: [meetingId], references: [id], onDelete: Cascade)
+
+  @@unique([meetingId, index])
+  @@index([meetingId, startMs])
+  @@map("transcript_segment")
 }
 
 enum ProcessingStage {

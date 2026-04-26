@@ -10,5 +10,6 @@ export type {
   ProcessingEvent,
   ProcessingStage,
   ProcessingEventStatus,
+  TranscriptSegment,
 } from "@prisma/client";
 export { Prisma } from "@prisma/client";
