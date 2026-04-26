@@ -106,7 +106,7 @@ export async function completeUpload(input: {
       audioKey,
       traceId,
     },
-    { jobId: `transcribe:${meeting.id}` }
+    { jobId: `transcribe-${meeting.id}` }
   )
 
   return {

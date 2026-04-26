@@ -26,7 +26,9 @@ export async function createPresignedAudioUpload(params: {
     ContentType: params.fileType,
   })
 
-  const url = await getSignedUrl(s3, command, { expiresIn: PRESIGN_TTL_SECONDS })
+  const url = await getSignedUrl(s3, command, {
+    expiresIn: PRESIGN_TTL_SECONDS,
+  })
 
   return {
     key,
