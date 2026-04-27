@@ -12,6 +12,7 @@ const envSchema = z.object({
   AWS_SECRET_ACCESS_KEY: z.string(),
   S3_BUCKET: z.string(),
   WHISPER_URL: z.url(),
+  PYANNOTE_URL: z.url(),
 })
 
 export const env = envSchema.parse(process.env)
