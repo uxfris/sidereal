@@ -10,7 +10,8 @@ function inferSpeakerFromWindows(
   windows: DiarizeWindow[]
 ): string | null {
   const matching = windows.find(
-    (window) => segmentMidpointMs >= window.startMs && segmentMidpointMs <= window.endMs
+    (window) =>
+      segmentMidpointMs >= window.startMs && segmentMidpointMs <= window.endMs
   )
   return matching?.speaker ?? null
 }
@@ -61,14 +62,29 @@ export async function diarizeHandler(
     })
     const fallbackSpeaker = buildUnknownSpeakerAllocator()
 
-    for (const segment of segments) {
+    // for (const segment of segments) {
+    //   const midpoint = Math.round((segment.startMs + segment.endMs) / 2)
+    //   const inferred = inferSpeakerFromWindows(midpoint, windows)
+    //   await prisma.transcriptSegment.update({
+    //     where: { id: segment.id },
+    //     data: { speaker: inferred ?? fallbackSpeaker(segment.index) },
+    //   })
+    // }
+
+    const updates = segments.map((segment) => {
       const midpoint = Math.round((segment.startMs + segment.endMs) / 2)
       const inferred = inferSpeakerFromWindows(midpoint, windows)
-      await prisma.transcriptSegment.update({
+
+      return prisma.transcriptSegment.update({
         where: { id: segment.id },
-        data: { speaker: inferred ?? fallbackSpeaker(segment.index) },
+        data: {
+          speaker: inferred ?? fallbackSpeaker(segment.index),
+        },
       })
-    }
+    })
+
+    // Execute all updates in a single transaction
+    await prisma.$transaction(updates)
 
     await prisma.processingEvent.create({
       data: {
