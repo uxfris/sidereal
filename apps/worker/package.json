@@ -16,6 +16,8 @@
     "@workspace/queue": "workspace:*",
     "bullmq": "^5.76.1",
     "dotenv": "^16.0.0",
+    "openai": "^4.77.0",
+    "p-limit": "^6.1.0",
     "zod": "^4.1.12"
   },
   "devDependencies": {

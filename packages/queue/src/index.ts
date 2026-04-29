@@ -1,6 +1,7 @@
 export { getRedisConnection, closeRedisConnection } from "./connection"
 export {
   type AnalyzeJobPayload,
+  type EmbedJobPayload,
   QueueName,
   type DiarizeJobPayload,
   type JobNameFor,

@@ -9,15 +9,25 @@ import {
 import { logger } from "./logger"
 import { transcribeHandler } from "./handlers/transcribe"
 import { diarizeHandler } from "./handlers/diarize"
+import { analyzeHandler } from "./handlers/analyze"
+import { embedHandler } from "./handlers/embed"
 
 const transcribeWorker = createWorker(QueueName.Transcribe, transcribeHandler)
 const diarizeWorker = createWorker(QueueName.Diarize, diarizeHandler)
+const analyzeWorker = createWorker(QueueName.Analyze, analyzeHandler)
+const embedWorker = createWorker(QueueName.Embed, embedHandler)
 
 transcribeWorker.on("ready", () => {
   logger.info({ queue: QueueName.Transcribe }, "worker ready")
 })
 diarizeWorker.on("ready", () => {
   logger.info({ queue: QueueName.Diarize }, "worker ready")
+})
+analyzeWorker.on("ready", () => {
+  logger.info({ queue: QueueName.Analyze }, "worker ready")
+})
+embedWorker.on("ready", () => {
+  logger.info({ queue: QueueName.Embed }, "worker ready")
 })
 
 transcribeWorker.on("failed", (job, err) => {
@@ -32,6 +42,18 @@ diarizeWorker.on("failed", (job, err) => {
     "job failed after retries"
   )
 })
+analyzeWorker.on("failed", (job, err) => {
+  logger.error(
+    { queue: QueueName.Analyze, jobId: job?.id, err },
+    "job failed after retries"
+  )
+})
+embedWorker.on("failed", (job, err) => {
+  logger.error(
+    { queue: QueueName.Embed, jobId: job?.id, err },
+    "job failed after retries"
+  )
+})
 
 logger.info("worker online")
 
@@ -40,6 +62,8 @@ async function shutdown(signal: string) {
   try {
     await transcribeWorker.close()
     await diarizeWorker.close()
+    await analyzeWorker.close()
+    await embedWorker.close()
     await closeAllQueues()
     await closeRedisConnection()
   } catch (err) {
