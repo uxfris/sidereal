@@ -31,6 +31,7 @@ model User {
   memberships WorkspaceMember[]
   invitesSent Invitation[]      @relation("InvitedBy")
   meetings    Meeting[]
+  assignedTasks Task[]
 
   @@unique([email])
   @@index([id])
@@ -105,6 +106,7 @@ model Workspace {
   members     WorkspaceMember[]
   invitations Invitation[]
   meetings    Meeting[]
+  tasks       Task[]
 
   @@map("workspace")
 }
@@ -180,6 +182,7 @@ model Meeting {
   fileSize    Int?
   durationSeconds Int?
   language    String?
+  summary     Json?
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @updatedAt
 
@@ -187,10 +190,48 @@ model Meeting {
   user             User              @relation(fields: [userId], references: [id], onDelete: Restrict)
   processingEvents ProcessingEvent[]
   transcriptSegments TranscriptSegment[]
+  chunks           MeetingChunk[]
+  tasks            Task[]
 
   @@index([workspaceId, createdAt(sort: Desc)])
   @@index([userId])
   @@map("meeting")
+}
+
+model Task {
+  id          String    @id @default(cuid())
+  workspaceId String
+  meetingId   String?
+  title       String
+  assigneeId  String?
+  isCompleted Boolean   @default(false)
+  dueAt       DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  workspace Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  meeting   Meeting?  @relation(fields: [meetingId], references: [id], onDelete: Cascade)
+  assignee  User?     @relation(fields: [assigneeId], references: [id], onDelete: SetNull)
+
+  @@index([workspaceId, isCompleted, createdAt(sort: Desc)])
+  @@index([meetingId])
+  @@map("task")
+}
+
+model MeetingChunk {
+  id        String                @id @default(cuid())
+  meetingId String
+  content   String
+  startMs   Int
+  endMs     Int
+  embedding Unsupported("vector(1536)")
+  createdAt DateTime              @default(now())
+  updatedAt DateTime              @updatedAt
+
+  meeting Meeting @relation(fields: [meetingId], references: [id], onDelete: Cascade)
+
+  @@index([meetingId])
+  @@map("meeting_chunk")
 }
 
 model TranscriptSegment {

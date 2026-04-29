@@ -13,6 +13,7 @@ const envSchema = z.object({
   S3_BUCKET: z.string(),
   WHISPER_URL: z.url(),
   PYANNOTE_URL: z.url(),
+  OPENAI_API_KEY: z.string().min(1),
 })
 
 export const env = envSchema.parse(process.env)

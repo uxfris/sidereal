@@ -7,9 +7,11 @@ export type {
   Meeting,
   MeetingSource,
   MeetingStatus,
+  MeetingChunk,
   ProcessingEvent,
   ProcessingStage,
   ProcessingEventStatus,
+  Task,
   TranscriptSegment,
 } from "@prisma/client";
 export { Prisma } from "@prisma/client";
