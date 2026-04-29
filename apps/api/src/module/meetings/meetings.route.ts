@@ -5,6 +5,7 @@ import {
   getConversationResponseSchema,
   meetingErrorSchema,
 } from "./meetings.schema"
+import { toConversationDTO } from "./meetings.presenter"
 
 export const meetingsRoutes: FastifyPluginAsyncZod = async (app) => {
   app.get(
@@ -33,7 +34,7 @@ export const meetingsRoutes: FastifyPluginAsyncZod = async (app) => {
         })
       }
 
-      return reply.status(200).send(conversation)
+      return reply.status(200).send(toConversationDTO(conversation))
     }
   )
 }
