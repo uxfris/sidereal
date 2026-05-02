@@ -1,0 +1,89 @@
+import {
+  GetMeResponseSchema,
+  ListWorkspacesResponseSchema,
+  WorkspaceSummarySchema,
+  type GetMeResponse,
+  type WorkspaceMembership,
+  type WorkspaceSummary,
+  WorkspacePeopleTableResponseSchema,
+  WorkspaceMember,
+  CreateInvitationResponseSchema,
+  CreateInvitationResponse,
+  AcceptInvitationResponse,
+  AcceptInvitationResponseSchema,
+  WorkspaceMemberInvitation,
+  WorkspacePeopleInvitationTableResponseSchema,
+} from "@workspace/types"
+import { client } from "./client"
+
+export const workspaceApi = {
+  async getMe(): Promise<GetMeResponse> {
+    const data = await client.get<unknown>("/users/me")
+    return GetMeResponseSchema.parse(data)
+  },
+
+  async list(): Promise<WorkspaceMembership[]> {
+    const data = await client.get<unknown>("/workspaces")
+    const parsed = ListWorkspacesResponseSchema.parse(data)
+    return parsed.workspaces
+  },
+
+  async listPeople(workspaceId: string): Promise<WorkspaceMember[]> {
+    const data = await client.get<unknown>(`/workspaces/${workspaceId}/people`)
+    const parsed = WorkspacePeopleTableResponseSchema.parse(data)
+    return parsed.people
+  },
+
+  async listInvitations(
+    workspaceId: string
+  ): Promise<WorkspaceMemberInvitation[]> {
+    const data = await client.get<unknown>(
+      `/workspaces/${workspaceId}/invitations`
+    )
+    const parsed =
+      WorkspacePeopleInvitationTableResponseSchema.parse(data).invitations
+
+    return parsed
+  },
+
+  async create(name: string): Promise<WorkspaceSummary> {
+    const data = await client.post<unknown>("/workspaces", { name })
+    return WorkspaceSummarySchema.parse(data)
+  },
+
+  async update(name: string, workspaceId: string): Promise<WorkspaceSummary> {
+    const data = await client.patch<unknown>(`/workspaces/${workspaceId}`, {
+      name,
+    })
+    return WorkspaceSummarySchema.parse(data)
+  },
+
+  async invite(
+    email: string,
+    role: string,
+    workspaceId: string
+  ): Promise<CreateInvitationResponse> {
+    const data = await client.post<unknown>(
+      `/workspaces/${workspaceId}/invitations`,
+      {
+        email,
+        role,
+      }
+    )
+    return CreateInvitationResponseSchema.parse(data)
+  },
+
+  async acceptInvitation(token: string): Promise<AcceptInvitationResponse> {
+    const data = await client.post<unknown>(`/invitations/${token}/accept`)
+    return AcceptInvitationResponseSchema.parse(data)
+  },
+
+  async revokeInvitation(
+    workspaceId: string,
+    invitationId: string
+  ): Promise<void> {
+    await client.delete<unknown>(
+      `/workspaces/${workspaceId}/invitations/${invitationId}`
+    )
+  },
+}

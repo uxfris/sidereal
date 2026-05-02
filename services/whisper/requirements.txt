@@ -1,0 +1,4 @@
+fastapi==0.120.0
+uvicorn[standard]==0.38.0
+faster-whisper==1.2.1
+pyannote.audio==3.3.2

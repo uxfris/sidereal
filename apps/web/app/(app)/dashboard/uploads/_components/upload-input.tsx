@@ -1,32 +1,66 @@
-import { Upload } from "@solar-icons/react/ssr";
-import { Button } from "@workspace/ui/components/button";
-import { Card, CardContent } from "@workspace/ui/components/card";
+"use client"
 
-export function UploadInput() {
-    return (
-        <Card className="md:flex-5">
-            <CardContent className="flex flex-col flex-5 items-center justify-center gap-8 text-center py-8">
-                <div className="w-20 h-20 bg-secondary rounded-md flex items-center justify-center">
-                    <Upload weight="Bold" size={32} />
-                </div>
-                <div className="space-y-2 px-8">
-                    <h1 className="text-xl md:text-2xl font-semibold">
-                        Upload a file to generate a transcript
-                    </h1>
-                    <div className="space-y-1">
-                        <p className="text-xs md:text-sm text-muted-foreground">
-                            Browse or drag and drop MP3, M4A, WAV, MP4 or WEBM files
-                        </p>
-                        <p className="text-xs md:text-sm text-muted-foreground">
-                            (Max video size 100 MB, Max audio size: 500MB)
-                        </p>
-                    </div>
-                </div>
-                <Button size="xl">
-                    Browse Files
-                </Button>
+import { Upload } from "@solar-icons/react/ssr"
+import { Button } from "@workspace/ui/components/button"
+import { Card, CardContent } from "@workspace/ui/components/card"
+import { useRef, useState } from "react"
 
-            </CardContent>
-        </Card>
-    )
+export function UploadInput({
+  onUploadFile,
+}: {
+  onUploadFile: (file: File) => Promise<void>
+}) {
+  const inputRef = useRef<HTMLInputElement>(null)
+  const [isUploading, setIsUploading] = useState(false)
+
+  const handleSelectFile = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0]
+    event.currentTarget.value = ""
+    if (!file) return
+
+    try {
+      setIsUploading(true)
+      await onUploadFile(file)
+    } finally {
+      setIsUploading(false)
+    }
+  }
+
+  return (
+    <Card className="md:flex-5">
+      <CardContent className="flex flex-5 flex-col items-center justify-center gap-8 py-8 text-center">
+        <div className="flex h-20 w-20 items-center justify-center rounded-md bg-secondary">
+          <Upload weight="Bold" size={32} />
+        </div>
+        <div className="space-y-2 px-8">
+          <h1 className="text-xl font-semibold md:text-2xl">
+            Upload a file to generate a transcript
+          </h1>
+          <div className="space-y-1">
+            <p className="text-xs text-muted-foreground md:text-sm">
+              Browse MP3, M4A, WAV, MP4, WEBM, or PDF files
+            </p>
+            <p className="text-xs text-muted-foreground md:text-sm">
+              Upload runs directly to storage, then queues processing
+            </p>
+          </div>
+        </div>
+
+        <input
+          ref={inputRef}
+          type="file"
+          className="hidden"
+          accept="audio/*,video/*,application/pdf"
+          onChange={handleSelectFile}
+        />
+        <Button
+          size="xl"
+          disabled={isUploading}
+          onClick={() => inputRef.current?.click()}
+        >
+          {isUploading ? "Uploading..." : "Browse Files"}
+        </Button>
+      </CardContent>
+    </Card>
+  )
 }

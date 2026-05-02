@@ -1,40 +1,77 @@
-import { Worker } from "bullmq";
-import { processIngestionJob } from "./jobs/process-ingestion.job";
-import { INGESTION_QUEUE_NAME, createRedisConnection, createIngestionQueue } from "@workspace/queue";
+import "dotenv/config"
+import "./config/env"
+import {
+  QueueName,
+  closeAllQueues,
+  closeRedisConnection,
+  createWorker,
+} from "@workspace/queue"
+import { logger } from "./logger"
+import { transcribeHandler } from "./handlers/transcribe"
+import { diarizeHandler } from "./handlers/diarize"
+import { analyzeHandler } from "./handlers/analyze"
+import { embedHandler } from "./handlers/embed"
 
-const connection = createRedisConnection(process.env.REDIS_URL!);
-const queue = createIngestionQueue(process.env.REDIS_URL!);
+const transcribeWorker = createWorker(QueueName.Transcribe, transcribeHandler)
+const diarizeWorker = createWorker(QueueName.Diarize, diarizeHandler)
+const analyzeWorker = createWorker(QueueName.Analyze, analyzeHandler)
+const embedWorker = createWorker(QueueName.Embed, embedHandler)
 
+transcribeWorker.on("ready", () => {
+  logger.info({ queue: QueueName.Transcribe }, "worker ready")
+})
+diarizeWorker.on("ready", () => {
+  logger.info({ queue: QueueName.Diarize }, "worker ready")
+})
+analyzeWorker.on("ready", () => {
+  logger.info({ queue: QueueName.Analyze }, "worker ready")
+})
+embedWorker.on("ready", () => {
+  logger.info({ queue: QueueName.Embed }, "worker ready")
+})
 
-async function bootstrap() {
-    const worker = new Worker(
-        INGESTION_QUEUE_NAME,
-        async (job) => {
-            await processIngestionJob(job.data);
-        },
-        {
-            connection,
-            concurrency: 2,
-        }
-    );
+transcribeWorker.on("failed", (job, err) => {
+  logger.error(
+    { queue: QueueName.Transcribe, jobId: job?.id, err },
+    "job failed after retries"
+  )
+})
+diarizeWorker.on("failed", (job, err) => {
+  logger.error(
+    { queue: QueueName.Diarize, jobId: job?.id, err },
+    "job failed after retries"
+  )
+})
+analyzeWorker.on("failed", (job, err) => {
+  logger.error(
+    { queue: QueueName.Analyze, jobId: job?.id, err },
+    "job failed after retries"
+  )
+})
+embedWorker.on("failed", (job, err) => {
+  logger.error(
+    { queue: QueueName.Embed, jobId: job?.id, err },
+    "job failed after retries"
+  )
+})
 
-    worker.on("completed", (job) => {
-        console.log(`Job completed: ${job.id}`);
-    });
+logger.info("worker online")
 
-    worker.on("failed", (job, err) => {
-        console.error(`Job failed: ${job?.id}`, err);
-    });
-
-    process.on("SIGINT", async () => {
-        await worker.close();
-        await queue.close();
-        await connection.quit();
-        process.exit(0);
-    });
+async function shutdown(signal: string) {
+  logger.info({ signal }, "shutting down worker")
+  try {
+    await transcribeWorker.close()
+    await diarizeWorker.close()
+    await analyzeWorker.close()
+    await embedWorker.close()
+    await closeAllQueues()
+    await closeRedisConnection()
+  } catch (err) {
+    logger.error({ err }, "error during shutdown")
+  } finally {
+    process.exit(0)
+  }
 }
 
-bootstrap().catch((err) => {
-    console.error(err);
-    process.exit(1);
-});
+process.on("SIGINT", () => void shutdown("SIGINT"))
+process.on("SIGTERM", () => void shutdown("SIGTERM"))
