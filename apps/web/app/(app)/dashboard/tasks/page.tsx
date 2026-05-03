@@ -4,13 +4,15 @@ import { TaskAIInsight } from "./_components/task-ai-insight"
 import { TaskProductivityStats } from "./_components/task-productivity"
 import { EmptyState } from "@/components/empty-state";
 import { taskApi } from "@workspace/api-client";
+import { getServerApiFetchOptions } from "@/lib/server-api";
 import { AssigneesProvider } from "./_hooks/use-task-assigness";
 
 
 export default async function Tasks() {
+    const fetchOpts = await getServerApiFetchOptions();
     const [groups, assignees] = await Promise.all([
-        taskApi.fetchTasksGroup(),
-        taskApi.fetchAssignees()
+        taskApi.fetchTasksGroup(fetchOpts),
+        taskApi.fetchAssignees(fetchOpts)
     ])
     return (
         <div className="flex flex-col overflow-hidden gap-4 md:gap-8 pt-4 md:pt-10">

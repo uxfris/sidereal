@@ -6,6 +6,7 @@ import { MeetingDocumentActionItem } from "./_components/meeting-document-action
 import { MeetingDocumentTranscript } from "./_components/meeting-document-transcript";
 import { MeetingMediaPlayerBar } from "./_components/meeting-media-player-bar";
 import { meetingApi } from "@workspace/api-client";
+import { getServerApiFetchOptions } from "@/lib/server-api";
 import { notFound } from "next/navigation";
 
 type PageProps = {
@@ -14,10 +15,11 @@ type PageProps = {
 
 export default async function MeetingDetailPage({ params }: PageProps) {
     const { id } = await params;
+    const { cookie, workspaceId } = await getServerApiFetchOptions();
 
     let meeting;
     try {
-        meeting = await meetingApi.getMeeting(id);
+        meeting = await meetingApi.getMeeting(id, { cookie, workspaceId });
     } catch {
         notFound();
     }
