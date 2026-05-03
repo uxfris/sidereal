@@ -7,7 +7,7 @@ import { meetingApi } from "@workspace/api-client"
 
 export async function RecentMeetings() {
 
-    const meetings = await meetingApi.getMeetings()
+    const meetings = await meetingApi.getMeetingsList({ limit: 50 })
 
     return (
         <div className="space-y-6">

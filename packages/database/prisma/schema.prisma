@@ -183,6 +183,10 @@ model Meeting {
   durationSeconds Int?
   language    String?
   summary     Json?
+  /** Soft delete — processed list endpoints exclude rows where this is set. */
+  deletedAt   DateTime?
+  /** When true, meeting link sharing / visibility flags are enabled (UI). */
+  isShared    Boolean       @default(false)
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @updatedAt
 
@@ -194,6 +198,7 @@ model Meeting {
   tasks            Task[]
 
   @@index([workspaceId, createdAt(sort: Desc)])
+  @@index([workspaceId, deletedAt, createdAt(sort: Desc)])
   @@index([userId])
   @@map("meeting")
 }

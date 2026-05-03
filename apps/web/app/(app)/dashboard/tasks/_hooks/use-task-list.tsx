@@ -33,8 +33,9 @@ export function useTaskList(
     }
 
     async function addTask(title: string, assignee: UserSummary | null, isCompleted: boolean) {
+        const optimisticId = crypto.randomUUID()
         const optimisticTask: ActionItem = {
-            id: crypto.randomUUID(),
+            id: optimisticId,
             title,
             isCompleted,
             assignee,
@@ -43,9 +44,18 @@ export function useTaskList(
         setTasks((curr) => [...curr, optimisticTask])
 
         try {
-            await taskApi.add(optimisticTask)
+            const created = await taskApi.add({
+                title,
+                assignee,
+                isCompleted,
+                meetingId:
+                    tasksGroup.id === "workspace" ? null : tasksGroup.id,
+            })
+            setTasks((curr) =>
+                curr.map((t) => (t.id === optimisticId ? created : t))
+            )
         } catch {
-            setTasks((curr) => curr.filter((t) => t.id !== optimisticTask.id))
+            setTasks((curr) => curr.filter((t) => t.id !== optimisticId))
             toast.error("Failed to add task. Please try again.")
         }
     }

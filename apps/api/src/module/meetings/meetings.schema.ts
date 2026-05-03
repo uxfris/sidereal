@@ -1,13 +1,38 @@
 import { z } from "zod"
-import { ConversationSchema } from "@workspace/types"
+import { ConversationSchema, MeetingSchema } from "@workspace/types"
 
 export const getConversationParamsSchema = z.object({
   id: z.string().min(1),
 })
 
-export const getConversationResponseSchema = ConversationSchema
+export const listMeetingsQuerySchema = z.object({
+  cursor: z.string().optional(),
+  limit: z.coerce.number().int().min(1).max(100).default(20),
+})
+
+export const listMeetingsResponseSchema = z.object({
+  meetings: z.array(MeetingSchema),
+  nextCursor: z.string().nullable(),
+})
+
+export const getMeetingParamsSchema = z.object({
+  id: z.string().min(1),
+})
+
+export const patchMeetingParamsSchema = z.object({
+  id: z.string().min(1),
+})
+
+export const patchMeetingBodySchema = z.object({
+  title: z.string().min(1).max(500).optional(),
+  isShared: z.boolean().optional(),
+})
+
+export const meetingSchema = MeetingSchema
 
 export const meetingErrorSchema = z.object({
   error: z.string(),
   message: z.string().optional(),
 })
+
+export const getConversationResponseSchema = ConversationSchema

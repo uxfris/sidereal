@@ -22,6 +22,8 @@ export const MeetingSchema = z.object({
   duration: z.string(), // e.g. "28m"
   attendees: z.array(AttendeeSchema),
   extraAttendees: z.number().optional(),
+  /** Present when returned from meeting detail API (AI analysis). */
+  keyPoints: z.array(z.string()).optional(),
 })
 export type Meeting = z.infer<typeof MeetingSchema>
 
