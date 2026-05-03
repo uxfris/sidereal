@@ -1,6 +1,8 @@
 import { Stars } from "@solar-icons/react/ssr";
+import type { Meeting } from "@workspace/types";
+import { SanitizedHtml } from "@/lib/sanitized-html";
 
-export function MeetingDocumentOverview() {
+export function MeetingDocumentOverview({ meeting }: { meeting: Meeting }) {
     return (
         <section className="bg-secondary rounded-md p-6">
             <div className="flex gap-4 items-start">
@@ -8,8 +10,7 @@ export function MeetingDocumentOverview() {
                 <div className="space-y-3">
                     <p className="text-sm text-primary font-semibold uppercase">Overview</p>
                     <p className="text-base font-medium">
-                        The session focused on recalibrating the Q4 roadmap to prioritize internal efficiency
-                        over aggressive market expansion, responding to recent Antarctic supply chain shifts.
+                        <SanitizedHtml html={meeting.summary} />
                     </p>
                 </div>
             </div>

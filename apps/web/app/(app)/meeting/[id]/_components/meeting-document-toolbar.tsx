@@ -35,7 +35,7 @@ export function MeetingDocumentToolbar({ meeting }: { meeting: Meeting }) {
                 <div className="flex items-center justify-between pt-2 px-5 gap-5">
                     <DropdownMenu>
                         <DropdownMenuTrigger className="flex items-center gap-2 cursor-pointer py-2">
-                            <span className="text-sm font-medium text-start line-clamp-1">Q4 Strategy Planning</span>
+                            <span className="text-sm font-medium text-start line-clamp-1">{meeting.title}</span>
                             <AltArrowDown />
                         </DropdownMenuTrigger>
                         <DropdownMenuContent className="sm:min-w-56 space-y-2">

@@ -5,41 +5,36 @@ import { MeetingDocumentTakeaway } from "./_components/meeting-document-takeaway
 import { MeetingDocumentActionItem } from "./_components/meeting-document-action-item";
 import { MeetingDocumentTranscript } from "./_components/meeting-document-transcript";
 import { MeetingMediaPlayerBar } from "./_components/meeting-media-player-bar";
-import { Meeting } from "@workspace/types";
+import { meetingApi } from "@workspace/api-client";
+import { notFound } from "next/navigation";
 
-const MOCK_MEETING: Meeting =
-{
-    id: "1",
-    title: "Client Onboarding: Helios",
-    summary: "Initial walkthrough of the API documentation and environment setup for...",
-    status: "analyzing",
-    timestamp: "10:30",
-    duration: "28m",
-    attendees: [
-        { id: "a", initials: "A" },
-        { id: "b", initials: "B" },
-    ],
-    extraAttendees: 3,
-}
+type PageProps = {
+    params: Promise<{ id: string }>;
+};
 
-export default function MeetingDetail() {
+export default async function MeetingDetailPage({ params }: PageProps) {
+    const { id } = await params;
+
+    let meeting;
+    try {
+        meeting = await meetingApi.getMeeting(id);
+    } catch {
+        notFound();
+    }
+
     return (
         <main className="pt-24 px-4 md:px-6 bg-card">
             <div className="mx-auto max-w-[700px] space-y-12 ">
                 <header>
-                    <MeetingDocumentToolbar meeting={MOCK_MEETING} />
-                    <MeetingDocumentHeader />
+                    <MeetingDocumentToolbar meeting={meeting} />
+                    <MeetingDocumentHeader meeting={meeting} />
                 </header>
-                {/* Content */}
-                <MeetingDocumentOverview />
-                <MeetingDocumentTakeaway />
+                <MeetingDocumentOverview meeting={meeting} />
+                <MeetingDocumentTakeaway meeting={meeting} />
                 <MeetingDocumentActionItem />
                 <MeetingDocumentTranscript />
                 <MeetingMediaPlayerBar />
             </div>
         </main>
-    )
+    );
 }
-
-
-
