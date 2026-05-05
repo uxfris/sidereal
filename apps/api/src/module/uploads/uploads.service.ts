@@ -69,36 +69,35 @@ export async function completeUpload(input: {
     return { ok: false, error: "MEETING_FORBIDDEN" }
   }
 
-  //Bypass for testing
-  // if (meeting.status !== "PENDING_UPLOAD") {
-  //   return { ok: false, error: "MEETING_NOT_PENDING" }
-  // }
+  if (meeting.status !== "PENDING_UPLOAD") {
+    return { ok: false, error: "MEETING_NOT_PENDING" }
+  }
 
   const audioKey = meeting.audioKey ?? buildMeetingAudioKey(meeting.id)
 
-  // // Trust S3 for size, not the client (guards billing/metering).
-  // let actualSize: number | null = null
-  // try {
-  //   const head = await headUploadedObject(audioKey)
-  //   actualSize = head.contentLength
-  // } catch (err) {
-  //   return {
-  //     ok: false,
-  //     error: "OBJECT_NOT_IN_S3",
-  //     message: (err as Error).message,
-  //   }
-  // }
+  // Trust S3 for size, not the client (guards billing/metering).
+  let actualSize: number | null = null
+  try {
+    const head = await headUploadedObject(audioKey)
+    actualSize = head.contentLength
+  } catch (err) {
+    return {
+      ok: false,
+      error: "OBJECT_NOT_IN_S3",
+      message: (err as Error).message,
+    }
+  }
 
-  // const { updated } = await uploadsRepo.markUploaded({
-  //   meetingId: meeting.id,
-  //   workspaceId,
-  //   fileSize: actualSize,
-  // })
+  const { updated } = await uploadsRepo.markUploaded({
+    meetingId: meeting.id,
+    workspaceId,
+    fileSize: actualSize,
+  })
 
-  // if (updated === 0) {
-  //   // Another request got there first (double-click, retry).
-  //   return { ok: false, error: "MEETING_NOT_PENDING" }
-  // }
+  if (updated === 0) {
+    // Another request got there first (double-click, retry).
+    return { ok: false, error: "MEETING_NOT_PENDING" }
+  }
 
   await getQueue(QueueName.Transcribe).add(
     "transcribe",

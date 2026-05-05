@@ -1,10 +1,8 @@
 import { NextResponse } from "next/server"
 import type { NextRequest } from "next/server"
 
-export function middleware(req: NextRequest) {
+export function proxy(req: NextRequest) {
   const hasSession = req.cookies.get("better-auth.session_token")
-
-  console.log(hasSession)
 
   if (!hasSession) {
     return NextResponse.redirect(new URL("/", req.url))
