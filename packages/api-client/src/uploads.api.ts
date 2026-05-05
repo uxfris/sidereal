@@ -28,7 +28,10 @@ export const uploadsApi = {
   },
 
   async complete(meetingId: string): Promise<CompleteUploadResponse> {
-    const data = await client.post<unknown>(`/uploads/${meetingId}/complete`)
+    const data = await client.post<unknown>(
+      `/uploads/${meetingId}/complete`,
+      {}
+    )
     return CompleteUploadResponseSchema.parse(data)
   },
 

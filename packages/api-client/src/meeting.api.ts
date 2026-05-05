@@ -1,5 +1,5 @@
 import type { Meeting, UpcomingMeetingGroup } from "@workspace/types"
-import { client } from "./client"
+import { client, type RequestOptions } from "./client"
 
 type ListMeetingsResponse = {
   meetings: Meeting[]
@@ -10,22 +10,30 @@ export const meetingApi = {
   /**
    * Cursor-paginated list; defaults match the API (`limit` 20).
    */
-  async getMeetings(options?: {
-    cursor?: string
-    limit?: number
-  }): Promise<ListMeetingsResponse> {
+  async getMeetings(
+    options?: {
+      cursor?: string
+      limit?: number
+    } & RequestOptions
+  ): Promise<ListMeetingsResponse> {
+    const { cursor, limit, ...fetchOpts } = options ?? {}
     return client.get<ListMeetingsResponse>("/meetings", {
       params: {
-        cursor: options?.cursor,
-        limit: options?.limit,
+        cursor,
+        limit,
       },
+      ...fetchOpts,
     })
   },
 
   /** Convenience for views that only need the first page as an array. */
-  async getMeetingsList(options?: { limit?: number }): Promise<Meeting[]> {
+  async getMeetingsList(
+    options?: { limit?: number } & RequestOptions
+  ): Promise<Meeting[]> {
+    const { limit, ...fetchOpts } = options ?? {}
     const res = await meetingApi.getMeetings({
-      limit: options?.limit ?? 50,
+      limit: limit ?? 50,
+      ...fetchOpts,
     })
     return res.meetings
   },
@@ -38,18 +46,19 @@ export const meetingApi = {
     return []
   },
 
-  async getMeeting(id: string): Promise<Meeting> {
-    return client.get<Meeting>(`/meetings/${id}`)
+  async getMeeting(id: string, options?: RequestOptions): Promise<Meeting> {
+    return client.get<Meeting>(`/meetings/${id}`, options)
   },
 
   async updateMeeting(
     id: string,
-    body: { title?: string; isShared?: boolean }
+    body: { title?: string; isShared?: boolean },
+    options?: RequestOptions
   ): Promise<void> {
-    await client.patch(`/meetings/${id}`, body)
+    await client.patch(`/meetings/${id}`, body, options)
   },
 
-  async deleteMeeting(id: string): Promise<void> {
-    await client.delete(`/meetings/${id}`)
+  async deleteMeeting(id: string, options?: RequestOptions): Promise<void> {
+    await client.delete(`/meetings/${id}`, options)
   },
 }
