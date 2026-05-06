@@ -1,72 +1,115 @@
-// meeting.service.ts
-
+import type { Prisma } from "@workspace/database"
+import type { Conversation, Meeting as MeetingDTO } from "@workspace/types"
+import {
+  decodeMeetingListCursor,
+  encodeMeetingListCursor,
+} from "./meetings.cursor"
 import { meetingsRepo } from "./meetings.repo"
+import {
+  toConversationResponse,
+  toMeetingDTO,
+} from "./meetings.presenter"
 
-type Segment = {
-  id: string
-  text: string
-  startMs: number
-  endMs: number
-  speaker: string | null
-  index: number
+function clampPageSize(limit: number): number {
+  return Math.min(Math.max(limit, 1), 100)
 }
 
-function buildConversation(meetingId: string, segments: Segment[]) {
-  const messages: Array<{
-    id: string
-    timestampMs: number
-    speaker: string
-    sentences: Array<{
-      id: string
-      text: string
-      startTimeMs: number
-      endTimeMs: number
-    }>
-  }> = []
-
-  for (const segment of segments) {
-    const speaker = segment.speaker ?? "Speaker A"
-
-    const sentence = {
-      id: segment.id,
-      text: segment.text,
-      startTimeMs: segment.startMs,
-      endTimeMs: segment.endMs,
+export async function listMeetings(input: {
+  workspaceId: string
+  cursor?: string
+  limit: number
+}): Promise<{ meetings: MeetingDTO[]; nextCursor: string | null }> {
+  let decoded: { createdAt: Date; id: string } | undefined
+  if (input.cursor) {
+    try {
+      decoded = decodeMeetingListCursor(input.cursor)
+    } catch {
+      throw new Error("INVALID_CURSOR")
     }
-
-    const last = messages[messages.length - 1]
-
-    if (!last || last.speaker !== speaker) {
-      messages.push({
-        id: `${meetingId}-${segment.index}`,
-        timestampMs: segment.startMs,
-        speaker,
-        sentences: [sentence],
-      })
-      continue
-    }
-
-    last.sentences.push(sentence)
   }
 
-  return messages
+  const pageSize = clampPageSize(input.limit)
+  const rows = await meetingsRepo.listByWorkspace({
+    workspaceId: input.workspaceId,
+    take: pageSize + 1,
+    cursor: decoded,
+  })
+
+  const hasMore = rows.length > pageSize
+  const page = hasMore ? rows.slice(0, pageSize) : rows
+  const last = page[page.length - 1]
+
+  const nextCursor =
+    hasMore && last
+      ? encodeMeetingListCursor({
+          c: last.createdAt.toISOString(),
+          i: last.id,
+        })
+      : null
+
+  return {
+    meetings: page.map((row) => toMeetingDTO(row)),
+    nextCursor,
+  }
+}
+
+export async function getMeetingById(input: {
+  meetingId: string
+  workspaceId: string
+}): Promise<MeetingDTO | null> {
+  const row = await meetingsRepo.findByIdForWorkspace(
+    input.meetingId,
+    input.workspaceId
+  )
+  return row ? toMeetingDTO(row, "detail") : null
+}
+
+export async function patchMeeting(input: {
+  meetingId: string
+  workspaceId: string
+  title?: string
+  isShared?: boolean
+}): Promise<{ ok: true } | { ok: false; reason: "NOT_FOUND" }> {
+  const data: Prisma.MeetingUpdateInput = {}
+  if (input.title !== undefined) data.title = input.title
+  if (input.isShared !== undefined) data.isShared = input.isShared
+
+  if (Object.keys(data).length === 0) {
+    const exists = await meetingsRepo.findByIdForWorkspace(
+      input.meetingId,
+      input.workspaceId
+    )
+    return exists ? { ok: true } : { ok: false, reason: "NOT_FOUND" }
+  }
+
+  const { updated } = await meetingsRepo.updateByWorkspace({
+    meetingId: input.meetingId,
+    workspaceId: input.workspaceId,
+    data,
+  })
+
+  return updated > 0 ? { ok: true } : { ok: false, reason: "NOT_FOUND" }
+}
+
+export async function deleteMeeting(input: {
+  meetingId: string
+  workspaceId: string
+}): Promise<{ ok: true } | { ok: false; reason: "NOT_FOUND" }> {
+  const n = await meetingsRepo.softDelete(input.meetingId, input.workspaceId)
+  return n > 0 ? { ok: true } : { ok: false, reason: "NOT_FOUND" }
 }
 
 export async function getConversation(input: {
   meetingId: string
   workspaceId: string
-}) {
-  const data = await meetingsRepo.getMeetingWithSegments(
+}): Promise<Conversation | null> {
+  const meeting = await meetingsRepo.findMeetingIdInWorkspace(
     input.meetingId,
     input.workspaceId
   )
 
-  if (!data) return null
+  if (!meeting) return null
 
-  const messages = buildConversation(data.meeting.id, data.segments)
-
-  return {
-    id: data.meeting.id,
-    messages,
-  }
+  const segments = await meetingsRepo.listTranscriptSegments(meeting.id)
+  return toConversationResponse(meeting.id, segments)
 }

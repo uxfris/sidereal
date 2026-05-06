@@ -3,7 +3,7 @@
 import { Upload } from "@solar-icons/react/ssr"
 import { Button } from "@workspace/ui/components/button"
 import { Card, CardContent } from "@workspace/ui/components/card"
-import { useRef, useState } from "react"
+import { useRef } from "react"
 
 export function UploadInput({
   onUploadFile,
@@ -11,19 +11,13 @@ export function UploadInput({
   onUploadFile: (file: File) => Promise<void>
 }) {
   const inputRef = useRef<HTMLInputElement>(null)
-  const [isUploading, setIsUploading] = useState(false)
 
-  const handleSelectFile = async (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleSelectFile = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0]
     event.currentTarget.value = ""
     if (!file) return
 
-    try {
-      setIsUploading(true)
-      await onUploadFile(file)
-    } finally {
-      setIsUploading(false)
-    }
+    onUploadFile(file)
   }
 
   return (
@@ -53,12 +47,8 @@ export function UploadInput({
           accept="audio/*,video/*,application/pdf"
           onChange={handleSelectFile}
         />
-        <Button
-          size="xl"
-          disabled={isUploading}
-          onClick={() => inputRef.current?.click()}
-        >
-          {isUploading ? "Uploading..." : "Browse Files"}
+        <Button size="xl" onClick={() => inputRef.current?.click()}>
+          Browse Files
         </Button>
       </CardContent>
     </Card>

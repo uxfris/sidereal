@@ -6,6 +6,7 @@ export function getRedisConnection(): IORedis {
   if (sharedConnection) return sharedConnection
 
   const url = process.env.REDIS_URL
+
   if (!url) {
     throw new Error(
       "REDIS_URL is not set. Queue connections require a Redis instance."

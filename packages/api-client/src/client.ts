@@ -11,8 +11,21 @@ export const ApiErrorSchema = z.object({
 })
 export type ApiError = z.infer<typeof ApiErrorSchema>
 
-const ACTIVE_WORKSPACE_STORAGE_KEY = "active_workspace_id"
+/** Same value for localStorage, document.cookie name, and Next.js `cookies().get(...)`. */
+export const ACTIVE_WORKSPACE_ID_KEY = "active_workspace_id"
+
+const ACTIVE_WORKSPACE_STORAGE_KEY = ACTIVE_WORKSPACE_ID_KEY
+const WORKSPACE_COOKIE_MAX_AGE_SEC = 60 * 60 * 24 * 365
+
 let inMemoryActiveWorkspaceId: string | null = null
+
+function setWorkspaceCookie(workspaceId: string | null) {
+  if (!workspaceId) {
+    document.cookie = `${ACTIVE_WORKSPACE_ID_KEY}=; Path=/; Max-Age=0; SameSite=Lax`
+    return
+  }
+  document.cookie = `${ACTIVE_WORKSPACE_ID_KEY}=${encodeURIComponent(workspaceId)}; Path=/; Max-Age=${WORKSPACE_COOKIE_MAX_AGE_SEC}; SameSite=Lax`
+}
 
 export function setActiveWorkspaceId(workspaceId: string | null) {
   inMemoryActiveWorkspaceId = workspaceId
@@ -22,6 +35,7 @@ export function setActiveWorkspaceId(workspaceId: string | null) {
     } else {
       window.localStorage.removeItem(ACTIVE_WORKSPACE_STORAGE_KEY)
     }
+    setWorkspaceCookie(workspaceId)
   }
 }
 
@@ -31,15 +45,28 @@ export function getActiveWorkspaceId(): string | null {
 
   const persisted = window.localStorage.getItem(ACTIVE_WORKSPACE_STORAGE_KEY)
   inMemoryActiveWorkspaceId = persisted
+  if (persisted) {
+    setWorkspaceCookie(persisted)
+  }
   return persisted
 }
 
-type RequestOptions = {
+export type RequestOptions = {
   method?: "GET" | "POST" | "PUT" | "PATCH" | "DELETE"
   body?: unknown
   headers?: HeadersInit
   params?: Record<string, string | number | boolean | undefined>
   cache?: RequestCache
+  /**
+   * Raw `Cookie` header for server-side `fetch` (e.g. Next.js Server Components).
+   * Browser requests should omit this; `credentials: "include"` sends cookies automatically.
+   */
+  cookie?: string
+  /**
+   * Overrides `x-workspace-id` (and in-memory / localStorage resolution).
+   * Pass from `cookies().get(ACTIVE_WORKSPACE_ID_KEY)` when calling from the server.
+   */
+  workspaceId?: string | null
 }
 
 function buildUrl(url: string, params?: RequestOptions["params"]) {
@@ -59,12 +86,29 @@ async function request<T>(
   url: string,
   options: RequestOptions = {}
 ): Promise<T> {
-  const { method = "GET", body, headers, params, cache = "no-store" } = options
+  const {
+    method = "GET",
+    body,
+    headers,
+    params,
+    cache = "no-store",
+    cookie,
+    workspaceId: workspaceIdOption,
+  } = options
 
-  const baseUrl = "/api" //No baseUrl, already handled by proxy (redirected)
+  const serverBase =
+    (typeof process !== "undefined" &&
+      process.env.NEXT_PUBLIC_API_URL?.replace(/\/$/, "")) ||
+    "http://localhost:3001"
+
+  const baseUrl =
+    typeof window === "undefined" ? serverBase : "/api"
 
   const fullUrl = buildUrl(`${baseUrl}${url}`, params)
-  const activeWorkspaceId = getActiveWorkspaceId()
+  const activeWorkspaceId =
+    workspaceIdOption !== undefined
+      ? workspaceIdOption
+      : getActiveWorkspaceId()
 
   const res = await fetch(fullUrl, {
     method,
@@ -72,8 +116,9 @@ async function request<T>(
       "Content-Type": "application/json",
       ...(activeWorkspaceId ? { "x-workspace-id": activeWorkspaceId } : {}),
       ...headers,
+      ...(cookie ? { Cookie: cookie } : {}),
     },
-    credentials: "include", // IMPORTANT for cookie auth
+    credentials: typeof window === "undefined" ? "omit" : "include",
     body: body ? JSON.stringify(body) : undefined,
     cache,
   })

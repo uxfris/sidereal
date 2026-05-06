@@ -68,6 +68,7 @@ export async function completeUpload(input: {
   if (meeting.workspaceId !== workspaceId) {
     return { ok: false, error: "MEETING_FORBIDDEN" }
   }
+
   if (meeting.status !== "PENDING_UPLOAD") {
     return { ok: false, error: "MEETING_NOT_PENDING" }
   }

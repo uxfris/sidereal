@@ -19,6 +19,7 @@
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
     "@solar-icons/react": "^1.1.0",
+    "@tanstack/react-query": "^5.100.8",
     "@tanstack/react-table": "^8.21.3",
     "@workspace/api-client": "workspace:*",
     "@workspace/types": "workspace:*",
